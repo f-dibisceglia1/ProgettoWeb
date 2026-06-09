@@ -1,0 +1,49 @@
+.header__searchbar{
+    width: auto;
+
+    display:flex;
+
+    justify-content: space-between;
+    gap: 0.3rem;
+    
+    padding: 3px;
+
+    align-items: center;
+
+    height: 27px;
+    
+    border: 1px solid black;
+
+    border-radius: 15px;
+}
+
+#search-input{ 
+    border: none;
+
+    border-radius: 15px;
+}
+
+#search-input:focus{
+    outline: none;
+    /*rimuove il contorno giallo*/
+}
+
+@media screen and (min-width: 800px) {
+    .header__searchbar{
+        grid-area: search;
+
+        height: 35px;
+
+        border-radius: 15px;
+
+        padding: 6px;
+    }
+
+    #search-input{
+        width: 100%;
+
+        border-radius: 15px;
+
+        border: none;
+    }
+}

@@ -1,0 +1,31 @@
+.main__banner{
+    height: 200px;
+    background-image: url('../public/assets/banner_mobile.jpg');
+}
+
+.main__banner-text{
+    margin: 0;
+
+    background-color: rgba(0, 0, 0, 0.607);
+
+    color: white;
+
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+
+    text-align: center;
+
+    line-height: 200px;
+}
+
+
+@media screen and (min-width: 800px) {
+    .main__banner{
+        height: 400px;
+
+        background-image: url('../public/assets/ed-robertson-eeSdJfLfx1A-unsplash\ \(2\).jpg');
+    }
+
+    .main__banner-text{
+        line-height: 400px;
+    }
+}

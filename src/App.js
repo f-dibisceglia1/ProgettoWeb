@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import {useState} from 'react';
 import './App.css';
+import MyHeader from './MyHeader';
+import MyFooter from './MyFooter';
+import MyMain from './MyMain';
 
 function App() {
+   const [basketOpen, setBasketOpen] = useState(false);
+   //creato una variabile basketOpen con valore iniziale false (useState(false)), 
+   //setBasketOpen è la funzione per cambiarla
+   //deve essere creata qui in App.js per poter passare basketOpen a main dove si trova il 
+   //carrello
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MyHeader onBasketClick ={() => setBasketOpen(!basketOpen)} />
+        {/*passo a MyHeader la funzione per cambiare basketOpen, in questo modo si aggiorna
+        qui la variabile che passo a MyMain */}
+      <MyMain basketOpen={basketOpen} onBasketClick ={() => setBasketOpen(!basketOpen)}/>
+      {/*passo basketOpen a MyMain */}
+      <MyFooter />
     </div>
   );
 }
