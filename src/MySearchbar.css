@@ -1,26 +1,33 @@
+/*MOBILE FIRST, stile della pagina in modalità mobile, a singola colonna*/
 .header__searchbar{
     width: auto;
-
+    /*larghezza automatica*/
     display:flex;
-
+    /*modificato la visualizzazione interna: lo rende un flexbox
+    elementi in riga:
+    icona lente di ingrandimento, input search*/
     justify-content: space-between;
+    /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
     gap: 0.3rem;
-    
+    /*aggiunge spazio tra gli elementi del flexbox*/    
     padding: 3px;
-
+    /*aggiunto spazio intorno*/
     align-items: center;
-
+    /*allinea gli elementi al centro del box*/
     height: 27px;
-    
+    /*assegnata altezza*/    
     border: 1px solid black;
-
+    /*aggiunto bordo*/
     border-radius: 15px;
+    /*reso bordi più tondi*/
 }
 
 #search-input{ 
     border: none;
-
+    /*nessun bordo*/
     border-radius: 15px;
+    /*reso bordi più tondi anche se non visibili, in modo da non andare a sovrapporsi a quelli del
+    genitore altrimenti si vedono delle linee spezzate*/
 }
 
 #search-input:focus{
@@ -28,22 +35,28 @@
     /*rimuove il contorno giallo*/
 }
 
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px) {
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
     .header__searchbar{
         grid-area: search;
-
+        /*posto la searchbar nella colonna search*/
         height: 35px;
-
+        /*assegnata altezza maggiore*/
         border-radius: 15px;
-
+        /*reso bordi più tondi*/
         padding: 6px;
+        /*aggiunto più spazio intorno*/
     }
 
     #search-input{
         width: 100%;
-
+        /*si prende tutta la larghezza disponibile*/
         border-radius: 15px;
-
+        /*reso bordi più tondi anche se non visibili, in modo da non andare a sovrapporsi a quelli del
+        genitore altrimenti si vedono delle linee spezzate*/
         border: none;
+        /*nessun bordo*/
     }
 }

@@ -1,35 +1,48 @@
+/*MOBILE FIRST, stile della pagina in modalità mobile, a singola colonna*/
 .menu{
     position: absolute;
+    /*position: absolute porta l'elemento fuori dal flusso normale e lo ancora al primo antenato con 
+    posizione non statica, in questo caso: header*/
     top: 100%;
+    /*posizionato sotto header*/
     left: 0;
-    
+    /*eliminato spazio a sinistra*/    
     width: 100%;
-
+    /*si prende tutta la larghezza disponibile*/
     height: 40px; 
-
+    /*assegnata altezza*/
     background-color: rgb(232, 231, 231);
-
+    /*assegnato colore background grigio per contrasto*/
     display: flex;
-
+    /*modificato la visualizzazione interna: lo rende un flexbox
+    elementi in riga:
+    login, carrello;*/
     justify-content: space-around;
-
+    /*spazia gli elementi all'interno del flexbox in modo da lasciare 
+    dello spazio vuoto intorno ad ognuno*/
     align-items: center;
-
+    /*allinea gli elementi del flexbox al centro*/
     border-bottom: 1px solid black;
-
+    /*aggiunto bordo in basso*/
     border-top: 1px solid black;
+    /*aggiunto bordo in alto*/
 }
 
 .menu__basket-btn{
         background-color: transparent;
-
+        /*nessun colore di background*/
         cursor: pointer;
-
+        /*quando il cursore ci passa sopra diventa una manina*/
         border: none;
+        /*nessun bordo*/
     }
 
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px) {
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
     .menu{
         display: none;
+        /*reso il menù a scomparsa invisibile*/
     }
 }

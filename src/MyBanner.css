@@ -1,31 +1,39 @@
 .main__banner{
     height: 200px;
+    /*assegnata altezza*/  
     background-image: url('../public/assets/banner_mobile.jpg');
+    /*messo immagine di background*/
 }
 
 .main__banner-text{
     margin: 0;
-
+    /*eliminati margini*/
     background-color: rgba(0, 0, 0, 0.607);
-
+    /*assegnato colore background scuro per rendere testo più leggibile
+    ma trasparente in modo da poter ancora vedere l'immagine*/
     color: white;
-
+    /*colore testo bianco per aumentare contrasto*/
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-
+    /*aggiunto ombra al testo per aumentare contrasto*/
     text-align: center;
-
+    /*pone il testo al centro*/
     line-height: 200px;
+    /*ponte il testo al centro anche verticalmente*/
 }
 
-
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px) {
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
     .main__banner{
         height: 400px;
-
+        /*assegnata altezza maggiore*/ 
         background-image: url('../public/assets/ed-robertson-eeSdJfLfx1A-unsplash\ \(2\).jpg');
+        /*messo immagine di background più grande*/
     }
 
     .main__banner-text{
         line-height: 400px;
+        /*ponte il testo al centro anche verticalmente*/
     }
 }

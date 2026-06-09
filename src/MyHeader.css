@@ -1,100 +1,120 @@
+/*MOBILE FIRST, stile della pagina in modalità mobile, a singola colonna*/
+
 .header{
     position: fixed;
     top: 0;
     left: 0;
-    
-    width: 100%;
+    /*porto header fuori dal flusso normale e lo fisso in cima alla pagina, in questo modo è 
+    sempre visibile in alto*/
+    width: 100%; /*prende tutta la larghezza disponibile*/
     height: 80px; 
-
+    
     background-color: white;
 
     display: flex;
+    /*visualizzazione interna: flexbox*/
     flex-direction: column;
+    /*gli elementi vengono disposti in colonna: 
+    header__container (logo, barra di ricerca)
+    menù*/
 }
 
 .header__container{
     display:flex;
+    /*visualizzazione interna: flexbox
+    flex-direction non specificata, di default gli elementi vengono disposti in riga: 
+    logo, barra di ricerca*/
     flex: 1;
-
+    /*prende tutto lo spazio disponibile*/
     align-items: center;
-
+    /*allinea gli elementi al centro del box*/
     justify-content: space-between;
-
+    /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
     padding: 6px;
-
+    /*spazio tra border e content*/
     border-bottom: 1px solid black;
+    /*bordo solo in basso*/
 }
 
 .header__login, .header__basket-btn{
     display: none;
+    /*in modalità mobile il bottone login e il bottone carrello non sono mostrati nell'header 
+    ma nel menù*/
 }
 
 .header__menu{
     background-color: transparent;
-
+    /*nessun colore di background*/
     border: none;
-
+    /*nessun bordo*/
     font-size: 1.2rem;
-
+    /*dimensione icona hamburger per il menù*/
     cursor: pointer;
+    /*quando il cursore ci passa sopra diventa una manina*/
 }
 
-@media screen and (min-width: 800px) {
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
+@media screen and (min-width: 800px) { 
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
      .header__menu{
         display: none;
     }
-    
+    /*il menù sparisce*/
     .header__login, .header__basket-btn{
         display: inline;
     }
-
+    /*diventano visibili i bottoni login e carrello nell'header al posto del menù*/
     .header__container{
         display: grid;
+        /*diviso l'header in 4 colonne con layout grid*/
         grid-template-areas: "logo search login basket";
-        /*assegna a ogni area/colonna un nome*/
-
+        /*assegnato a ogni area/colonna un nome*/
         grid-template-columns: 1fr 6fr 1fr 1fr;
-        /*divide la griglia in 4 colonne, dove la seconda è la più grande*/
-
+        /*diviso la griglia in 4 colonne, dove la seconda è la più grande per la barra*/
         gap: 2rem;
         /*spazio fra colonne*/
-
         align-items: center;
-
+        /*allinea gli elementi al centro*/
         padding-left: 20px;
+        /*aggiunto spazio a sinistra per portare il logo più dentro*/
     }
 
       .header__logo{
         grid-area: logo;
+        /*posto il logo nella colonna logo*/
     }
 
     .header__login{
         grid-area: login;
-
+        /*posto il bottone login nella colonna login*/
         padding-left: 20px;
+        /*aggiunto spazio a sinistra tra barra e login*/
     }
 
     .header__login-btn{
         border: 1px solid black;
-        
+        /*aggiunto bordo al bottone*/
         padding: 15px;
-
+        /*aggiunto dello spazio tra bordo e contenuto(scritta Login)*/
         border-radius: 15px;
-
+        /*reso bordi più tondi*/
         background-color: rgb(232, 231, 231);
+        /*colore di background grigio per dare contrasto*/
     }
 
     .header__basket-btn{
         grid-area: basket;
-
+        /*posto il bottone carrello nella colonna basket */
         background-color: transparent;
-
+        /*nessun colore di background*/
         border: 1px solid black;
-        
+        /*aggiunto bordo*/
         padding: 15px;
-
+        /*aggiunto dello spazio tra bordo e contenuto(scritta Carrello)*/
         border-radius: 15px;
-
+        /*reso bordi più tondi*/
         cursor: pointer;
+        /*quando il cursore ci passa sopra diventa una manina*/
     }
 }

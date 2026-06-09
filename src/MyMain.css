@@ -1,95 +1,118 @@
+/*MOBILE FIRST, stile della pagina in modalità mobile, a singola colonna*/
 
 .main{
     margin-top: 12px;
+    /*aggiunto spazio in alto tra main e header*/
 }
 
 .main__basket-desktop{
     display: none;
+    /*reso la sidebar invisibile*/
 }
 
 .main__basket-mobile{
     position: fixed;
-    
+    /*fissato la posizione dell'overlay il che lo porta fuori dal flusso normale*/
     width: 100%;
+    /*si prende tutta la larghezza disponibile*/
     height: 100vh;
-
+    /*occupa tutta l'altezza visibile*/
     top: 80px;
-
-    background-color: rgb(232, 231, 231);;
+    /*posizionato sotto l'header*/
+    background-color: rgb(232, 231, 231);
+    /*colore di background grigio per contrasto*/
 }
 
 .main__basket-close-btn{
     position: fixed;
-
+    /*fissato la posizione del bottone X il che lo porta fuori dal flusso normale*/
     top: 80px;
+    /*posizionato sotto l'header*/
     right:0;
-
+    /*posizionato tutto a destra*/
     background-color: transparent;
-
+    /*nessun colore di background*/
     border: none;
-
+    /*nessun bordo*/
     font-size: 1.5rem;
-
+    /*dimensione icona X*/
     cursor: pointer;
+    /*quando il cursore ci passa sopra diventa una manina*/
 }
 
 .main__categories{
     display: flex;
-
+    /*modificato la visualizzazione interna: lo rende un flexbox*/
     flex-direction: column;
+    /*gli elementi del flexbox sono posizionati in colonna, perché
+    siamo in modalità mobile e vogliamo una singola colonna*/
 }
 
 .main__categories-title{
     padding: 6px;
+    /*aggiunto spazio intorno*/
 }
 
 .main__categories-sections{
     display: flex;
-
+    /*modificato la visualizzazione interna: lo rende un flexbox*/
     flex-direction: column;
+    /*gli elementi del flexbox sono posizionati in colonna, perché
+    siamo in modalità mobile e vogliamo una singola colonna*/
 }
 
 .main__categories-courses{
     height: 80px;
-
+    /*impostato un'altezza*/
     border: 1px solid black;
-
+    /*aggiunto bordo*/
     text-align: center;
-
+    /*allinea il testo all'interno al centro del box*/
     line-height: 80px;
+    /*porta il testo al centro anche verticalmente*/
 }
 
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px){
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
     .main{
         display: grid;
-
+        /*aggiunto layout a griglia al main perché in modalità desktop possiamo avere più colonne*/
         grid-template-areas: "content sidebar";
+        /*diviso il main in due colonne, denominate content e sidebar*/
         grid-template-columns: 1fr auto;
+        /*per content riservato tutto lo spazio disponibile*/
     }
 
     .main__basket-mobile, .main__basket-close-btn{
         display:none;
+        /*reso l'overlay e il bottone X invisibili*/
     }
 
     .main__basket-desktop{
         display: block;
-
+        /*reso visibile la sidebar*/        
         grid-area: sidebar;
-
+        /*posta la sidebar nella colonna sidebar*/
         min-width: 400px;
+        /*assegnata larghezza a sidebar*/
     }
 
     .main__categories-sections{
         flex-direction: row;
-
+        /*cambiato direzione elementi flexbox da colonna a riga perché in modalità desktop abbiamo
+        più spazio*/
         justify-content: space-evenly;
+        /*dispone elementi flexbox in modo da riempire bene lo spazio*/
     }
 
     .main__categories-courses{
         flex: 1;
-
+        /*elementi flexbox occupano tutto lo spazio disponibile*/
         height: 120px;
-
+        /*aumentato altezza*/
         line-height: 120px;
+        /*aggiustato altezza testo*/
     }
 }

@@ -1,15 +1,21 @@
 .App{
     display: grid;
+    /*diviso l'app in 2 righe per main e footer (l'header è fuori dal flusso normale
+    e fissato in cima) con layout grid*/
     grid-template-rows: 1fr auto;
+    /*assegnato ad ogni righe una larghezza: il main prende tutto lo
+    spazio disponibile, footer ha larghezza automatica*/
     min-height: 100vh;
+    /*si prende tutta la pagina visibile*/
     margin-top: 80px;
+    /*posizionato sotto l'header*/
 }
 
 a{
     text-decoration: none;
     /*rimuove la sottolineatura*/
-
-    color:inherit;
-    /*i link non sono più blu: ereditano il colore del genitore*/
+    color: inherit;
+    /*i link non sono più blu: ereditano il colore del genitore (le proprietà del testo 
+    sono ereditabili*/
 }
 
