@@ -18,7 +18,7 @@
     text-align: center;
     /*pone il testo al centro*/
     line-height: 200px;
-    /*ponte il testo al centro anche verticalmente*/
+    /*pone il testo al centro anche verticalmente*/
 }
 
 /*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
@@ -34,6 +34,6 @@
 
     .main__banner-text{
         line-height: 400px;
-        /*ponte il testo al centro anche verticalmente*/
+        /*pone il testo al centro anche verticalmente*/
     }
 }

@@ -16,7 +16,7 @@ function App() {
 
   return (
     <div className="App">
-      <MyHeader onBasketClick ={() => setBasketOpen(!basketOpen)} />
+      <MyHeader onBasketClick={() => setBasketOpen(!basketOpen)} />
         {/*passo a MyHeader, dove c'è il primo bottone Carrello, la funzione per cambiare basketOpen, 
         in questo modo si aggiorna qui la variabile che poi passo a MyMain per creare la sidebar*/}
       <MyMain basketOpen={basketOpen} onBasketClick ={() => setBasketOpen(!basketOpen)}/>

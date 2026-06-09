@@ -37,7 +37,7 @@ function MyHeader({onBasketClick}){
                <button className="header__menu" onClick = {() => setMenuOpen(!menuOpen)}>
                <i className="fa-solid fa-bars"></i> {/*icona hamburger per menù*/}
                </button>    
-               {/*6.Menù (modalità desktop)
+               {/*6.Menù (modalità mobile)
                {menuOpen ? <MyMenu onBasketClick = {onBasketClick}/> : null } => ternario: se menuOpen 
                 è true allora l'header renderizza il menu altrimenti no.
                 passato anche onBasketClick a MyMenù per il secondo bottone Carrello*/}
