@@ -97,6 +97,8 @@
         /*posta la sidebar nella colonna sidebar*/
         min-width: 400px;
         /*assegnata larghezza a sidebar*/
+        border-left: 1px solid black;
+        /*aggiunto bordo a sinistra*/
     }
 
     .main__categories-sections{
