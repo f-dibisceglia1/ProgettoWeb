@@ -16,7 +16,7 @@
     /*allinea gli elementi al centro del box*/
     height: 27px;
     /*assegnata altezza*/    
-    border: 1px solid black;
+    border: 1px solid var(--secondary-color);
     /*aggiunto bordo*/
     border-radius: 15px;
     /*reso bordi più tondi*/
@@ -28,6 +28,12 @@
     border-radius: 15px;
     /*reso bordi più tondi anche se non visibili, in modo da non andare a sovrapporsi a quelli del
     genitore altrimenti si vedono delle linee spezzate*/
+    background-color: var(--background-color);
+    /*cambiato colore di background*/
+}
+
+.header__searchbar-icon{
+    color: var(--secondary-color);
 }
 
 #search-input:focus{

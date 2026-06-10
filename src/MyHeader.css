@@ -7,9 +7,9 @@
     /*porto header fuori dal flusso normale e lo fisso in cima alla pagina, in questo modo è 
     sempre visibile in alto*/
     width: 100%; /*prende tutta la larghezza disponibile*/
-    height: 80px; 
+    height: 95px; 
     
-    background-color: white;
+    background-color: var(--background-color);
 
     display: flex;
     /*visualizzazione interna: flexbox*/
@@ -32,8 +32,13 @@
     /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
     padding: 6px;
     /*spazio tra border e content*/
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--secondary-color);
     /*bordo solo in basso*/
+}
+
+.header__logo{
+    font-family: var(--title-font);
+    color: var(--primary-color);
 }
 
 .header__login, .header__basket-btn{
@@ -51,6 +56,7 @@
     /*dimensione icona hamburger per il menù*/
     cursor: pointer;
     /*quando il cursore ci passa sopra diventa una manina*/
+    color: var(--primary-color);
 }
 
 /*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
@@ -93,14 +99,15 @@
     }
 
     .header__login-btn{
-        border: 1px solid black;
+        border: 1px solid var(--secondary-color);
         /*aggiunto bordo al bottone*/
         padding: 15px;
         /*aggiunto dello spazio tra bordo e contenuto(scritta Login)*/
         border-radius: 15px;
         /*reso bordi più tondi*/
-        background-color: rgb(232, 231, 231);
-        /*colore di background grigio per dare contrasto*/
+        background-color: var(--secondary-color);
+        /*colore di background per dare contrasto*/
+        color: white;
     }
 
     .header__basket-btn{
@@ -108,13 +115,12 @@
         /*posto il bottone carrello nella colonna basket */
         background-color: transparent;
         /*nessun colore di background*/
-        border: 1px solid black;
-        /*aggiunto bordo*/
+        border: none;
+        /*nessun bordo*/
         padding: 15px;
         /*aggiunto dello spazio tra bordo e contenuto(scritta Carrello)*/
-        border-radius: 15px;
-        /*reso bordi più tondi*/
         cursor: pointer;
         /*quando il cursore ci passa sopra diventa una manina*/
+        font-size: 1.05rem;
     }
 }

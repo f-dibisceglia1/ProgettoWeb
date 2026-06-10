@@ -1,6 +1,6 @@
 
 .footer{
-    border-top: 1px solid black;
+    border-top: 1px solid var(--secondary-color);
 }
 
 .footer__container{

@@ -7,8 +7,6 @@
     spazio disponibile, footer ha larghezza automatica*/
     min-height: 100vh;
     /*si prende tutta la pagina visibile*/
-    margin-top: 80px;
-    /*posizionato sotto l'header*/
 }
 
 a{

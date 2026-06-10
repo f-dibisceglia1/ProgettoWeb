@@ -1,7 +1,22 @@
+:root{
+    --primary-color: #2D6A4F;
+    --secondary-color: #52B788;
+    --tertiary-color: #B7E4C7;
+    --background-color: #F5F0E8;
+    --details-color: #D4A574;
+    --font-color: #2C2C2C;
+
+    --title-font: 'Lora', serif;
+    --body-font: 'Inter', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    background-color: var(--background-color);
+    font-family: var(--body-font);
+    color: var(--font-color);
 }
 
 #root {

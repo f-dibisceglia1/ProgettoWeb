@@ -3,6 +3,8 @@
     /*assegnata altezza*/  
     background-image: url('../public/assets/banner_mobile.jpg');
     /*messo immagine di background*/
+    background-position: center;
+    /*centra l'immagine*/
 }
 
 .main__banner-text{

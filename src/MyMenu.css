@@ -11,8 +11,8 @@
     /*si prende tutta la larghezza disponibile*/
     height: 40px; 
     /*assegnata altezza*/
-    background-color: rgb(232, 231, 231);
-    /*assegnato colore background grigio per contrasto*/
+    background-color: var(--tertiary-color);
+    /*assegnato colore background per contrasto*/
     display: flex;
     /*modificato la visualizzazione interna: lo rende un flexbox
     elementi in riga:
@@ -22,9 +22,9 @@
     dello spazio vuoto intorno ad ognuno*/
     align-items: center;
     /*allinea gli elementi del flexbox al centro*/
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--secondary-color);
     /*aggiunto bordo in basso*/
-    border-top: 1px solid black;
+    border-top: 1px solid var(--secondary-color);
     /*aggiunto bordo in alto*/
 }
 
@@ -35,6 +35,7 @@
         /*quando il cursore ci passa sopra diventa una manina*/
         border: none;
         /*nessun bordo*/
+        font-size: 1rem;
     }
 
 /*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
