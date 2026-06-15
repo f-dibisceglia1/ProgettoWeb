@@ -1,0 +1,288 @@
+:root{
+    /*variabili colori*/
+    --primary-color: #2D6A4F;
+    --secondary-color: #52B788;
+    --tertiary-color: #B7E4C7;
+    --background-color: #F5F0E8;
+    --details-color: #D4A574;
+    --font-color: #2C2C2C;
+
+    /*variabili font*/
+    --title-font: 'Lora', serif;
+    --body-font: 'Inter', sans-serif;
+     
+    /*variabili dimensioni*/
+    --header-height: 80px;
+}
+
+/*seleziona tutti gli elementi e tutti gli pseudoelementi*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    /*box-sizing: border-box è un box model alternativo che
+    permette di definire le dimensioni del box in maniera non 
+    additiva sulle parti scelte del box*/
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: var(--background-color);
+    font-family: var(--body-font);
+    color: var(--font-color);   
+    /*impostato il colore di background della pagina, il font e il 
+    colore del font*/ 
+}
+
+a{
+    text-decoration: none;
+    /*rimuove la sottolineatura*/
+    color: inherit;
+    /*i link non sono più blu: ereditano il colore del genitore (le proprietà del testo 
+    sono ereditabili*/
+}
+
+ul{
+    list-style: none;
+    /*toglie il pallino*/
+}
+
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /*porto header fuori dal flusso normale e lo fisso in cima alla pagina, in questo modo è 
+    sempre visibile in alto*/
+    width: 100%; /*prende tutta la larghezza disponibile*/
+    height: var(--header-height); 
+    
+    border-bottom: 1px solid var(--secondary-color);
+    /*bordo solo in basso*/
+
+    z-index: 100;
+    background-color: var(--background-color);
+}
+
+.header__container{
+    max-height: var(--header-height);
+
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: 4%;
+
+    display:flex;
+    /*visualizzazione interna: flexbox
+    flex-direction non specificata, di default gli elementi vengono disposti in riga: 
+    logo, barra di ricerca, nav*/
+    align-items: center;
+    /*allinea gli elementi al centro del box*/
+    justify-content: space-between;
+    /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
+}
+
+.header__logo{
+    font-family: var(--title-font);
+    color: var(--primary-color);
+
+    font-size: 1.6rem;
+
+    letter-spacing: 1px;
+}
+
+.header__searchbar{
+    display:flex;
+    /*modificato la visualizzazione interna: lo rende un flexbox
+    elementi in riga:
+    icona lente di ingrandimento, input search*/
+    justify-content: space-between;
+    /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
+    gap: 0.3rem;
+    /*aggiunge spazio tra gli elementi del flexbox*/   
+    align-items: center;
+    /*allinea gli elementi al centro del box*/
+    height: 27px;
+    /*assegnata altezza*/    
+    border: 1px solid var(--secondary-color);
+    /*aggiunto bordo*/
+    border-radius: 15px;
+    /*reso bordi più tondi*/
+    padding: 3px;
+    /*aggiunto spazio intorno*/
+}
+
+.header__searchbar-icon{
+    color: var(--secondary-color);
+}
+
+#search-input{ 
+    border: none;
+    /*nessun bordo*/
+    border-radius: 15px;
+    /*reso bordi più tondi anche se non visibili, in modo da non andare a sovrapporsi a quelli del
+    genitore altrimenti si vedono delle linee spezzate*/
+    background-color: var(--background-color);
+    /*cambiato colore di background*/
+}
+
+#search-input:focus{
+    outline: none;
+    /*rimuove il contorno giallo*/
+}
+
+.menu{
+    position: absolute;
+    /*position: absolute porta l'elemento fuori dal flusso normale e lo ancora al primo antenato con 
+    posizione non statica, in questo caso: header*/
+    top: var(--header-height);
+
+    width: 100%;
+    /*si prende tutta la larghezza disponibile*/
+    height: 40px; 
+    /*assegnata altezza*/
+    background-color: var(--tertiary-color);
+    /*assegnato colore background per contrasto*/
+    display: flex;
+    /*modificato la visualizzazione interna: lo rende un flexbox
+    elementi in riga:
+    login, carrello;*/
+    justify-content: space-around;
+    /*spazia gli elementi all'interno del flexbox in modo da lasciare 
+    dello spazio vuoto intorno ad ognuno*/
+    align-items: center;
+    /*allinea gli elementi del flexbox al centro*/
+    border-bottom: 1px solid var(--secondary-color);
+    /*aggiunto bordo in basso*/
+}
+
+#header__login, #header__cart{
+    display: none;
+}
+
+.header__menu-btn{
+    background-color: transparent;
+    /*nessun colore di background*/
+    border: none;
+    /*nessun bordo*/
+    font-size: 1.2rem;
+    /*dimensione icona hamburger per il menù*/
+    cursor: pointer;
+    /*quando il cursore ci passa sopra diventa una manina*/
+    color: var(--primary-color);
+}
+
+.header__menu-btn:focus{
+    outline: none;
+}
+
+.main{
+    min-height: 100vh;
+    padding-top: var(--header-height);
+}
+
+.main__banner{
+    height: 200px;
+    /*assegnata altezza*/  
+    background-image: url('../public/banner_mobile.jpg');
+    /*messo immagine di background*/
+    background-position: center;
+    /*centra l'immagine*/
+}
+
+.main__banner-text{
+    margin: 0;
+    /*eliminati margini*/
+    background-color: rgba(0, 0, 0, 0.607);
+    /*assegnato colore background scuro per rendere testo più leggibile
+    ma trasparente in modo da poter ancora vedere l'immagine*/
+    color: white;
+    /*colore testo bianco per aumentare contrasto*/
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    /*aggiunto ombra al testo per aumentare contrasto*/
+    text-align: center;
+    /*pone il testo al centro*/
+    line-height: 200px;
+    /*pone il testo al centro anche verticalmente*/
+}
+
+/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
+@media screen and (min-width: 800px) { 
+    /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
+    di 800px vengono applicate queste regole*/
+     #header__menu{
+        display: none;
+    }
+
+    .menu{
+        display: none;
+    }
+    /*il menù sparisce*/
+
+    #header__login, #header__cart{
+        display: inline;
+    }
+    /*diventano visibili i bottoni login e carrello nell'header al posto del menù*/
+    
+    .header__searchbar{
+        width: 50%;
+
+        height: 35px;
+    }
+
+    #search-input{
+        width: 100%;
+    }
+
+    .nav__list{
+        display: flex;
+        /*visualizzazione interna: flexbox
+        flex-direction non specificata, di default gli elementi vengono disposti in riga: 
+        logo, barra di ricerca, nav*/
+        align-items: center;
+        /*allinea gli elementi al centro del box*/
+        justify-content: space-between;
+        /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
+        gap: 6rem;
+    }
+
+    .header__login-btn{
+        border: 1px solid var(--secondary-color);
+        /*aggiunto bordo al bottone*/
+        border-radius: 15px;
+        /*reso bordi più tondi*/
+        padding: 9px;
+        /*aggiunto dello spazio tra bordo e contenuto(scritta Login)*/
+        background-color: var(--secondary-color);
+        /*colore di background per dare contrasto*/
+        color: white;
+        /*cambiato colore per renderlo più leggibile*/
+        font-size: 1.05rem;
+        /*cambiato dimensione*/
+    }
+
+    .header__cart-btn{
+        background-color: transparent;
+        /*nessun colore di background*/
+        border: none;
+        /*nessun bordo*/
+        padding: 15px;
+        /*aggiunto dello spazio tra bordo e contenuto(scritta Carrello)*/
+        font-size: 1.05rem;
+        /*cambiato dimensione*/
+    }
+
+    .main__banner{
+        height: 400px;
+        /*assegnata altezza maggiore*/ 
+        background-image: url('../public/ed-robertson-eeSdJfLfx1A-unsplash\ \(2\).jpg');
+        /*messo immagine di background più grande*/
+    }
+
+    .main__banner-text{
+        line-height: 400px;
+        /*pone il testo al centro anche verticalmente*/
+    }
+
+
+}
