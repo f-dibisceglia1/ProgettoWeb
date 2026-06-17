@@ -48,6 +48,8 @@ ul{
     /*toglie il pallino*/
 }
 
+/*----------------------------------MOBILE FIRST-------------------------------------------*/
+
 .header{
     position: fixed;
     top: 0;
@@ -62,6 +64,7 @@ ul{
     /*bordo solo in basso*/
 
     z-index: 100;
+    /*porta in primo piano sugli altri elementi*/
     background-color: var(--background-color);
 }
 
@@ -71,6 +74,7 @@ ul{
     margin-top: auto;
     margin-bottom: auto;
     padding: 4%;
+    /*per centrarlo nell'header*/
 
     display:flex;
     /*visualizzazione interna: flexbox
@@ -89,6 +93,7 @@ ul{
     font-size: 1.6rem;
 
     letter-spacing: 1px;
+    /*aggiunge dello spazio tra le lettere*/
 }
 
 .header__searchbar{
@@ -148,7 +153,7 @@ ul{
     elementi in riga:
     login, carrello;*/
     justify-content: space-around;
-    /*spazia gli elementi all'interno del flexbox in modo da lasciare 
+    /*posiziona gli elementi all'interno del flexbox in modo da lasciare 
     dello spazio vuoto intorno ad ognuno*/
     align-items: center;
     /*allinea gli elementi del flexbox al centro*/
@@ -158,6 +163,8 @@ ul{
 
 #header__login, #header__cart{
     display: none;
+    /*in modalità mobile c'è l'icona hamburger per il menù al
+    posto di login e carrello*/
 }
 
 .header__menu-btn{
@@ -206,18 +213,15 @@ ul{
     /*pone il testo al centro anche verticalmente*/
 }
 
-/*MODALITA' DESKTOP, stile della pagina in modalità desktop realizzato tramite media query*/
+/*----------------------------------MODALITA' DESKTOP-------------------------------------------
+ stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px) { 
     /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
     di 800px vengono applicate queste regole*/
-     #header__menu{
+    .menu, #header__menu {
         display: none;
     }
-
-    .menu{
-        display: none;
-    }
-    /*il menù sparisce*/
+    /*il menù e il tasto menù spariscono*/
 
     #header__login, #header__cart{
         display: inline;
@@ -229,6 +233,7 @@ ul{
 
         height: 35px;
     }
+    /*la barra di ricerca diventa più grande*/
 
     #search-input{
         width: 100%;
@@ -283,6 +288,4 @@ ul{
         line-height: 400px;
         /*pone il testo al centro anche verticalmente*/
     }
-
-
 }

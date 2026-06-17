@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 
 import {BrowserRouter} from "react-router-dom";
 //serve per gestire la navigazione tra le pagine direttamente nel browser
-//senza ricaricare l'intera pagina (SPA)
+//senza ricaricare l'intera pagina (SPA, Single Page Application)
 
 import App from './App';
 import './App.css';
