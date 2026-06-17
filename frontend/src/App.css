@@ -4,7 +4,7 @@
     --secondary-color: #52B788;
     --tertiary-color: #B7E4C7;
     --background-color: #F5F0E8;
-    --details-color: #D4A574;
+    --details-color: #FFB740;
     --font-color: #2C2C2C;
 
     /*variabili font*/
@@ -50,6 +50,8 @@ ul{
 
 /*----------------------------------MOBILE FIRST-------------------------------------------*/
 
+
+/*---------Header-------------*/
 .header{
     position: fixed;
     top: 0;
@@ -136,6 +138,7 @@ ul{
     /*rimuove il contorno giallo*/
 }
 
+/*---------Menu-------------*/
 .menu{
     position: absolute;
     /*position: absolute porta l'elemento fuori dal flusso normale e lo ancora al primo antenato con 
@@ -183,11 +186,15 @@ ul{
     outline: none;
 }
 
+
+/*---------main-------------*/
 .main{
     min-height: 100vh;
     padding-top: var(--header-height);
 }
 
+
+/*---------HomePage-------------*/
 .main__banner{
     height: 200px;
     /*assegnata altezza*/  
@@ -211,6 +218,91 @@ ul{
     /*pone il testo al centro*/
     line-height: 200px;
     /*pone il testo al centro anche verticalmente*/
+}
+
+
+/*---------LoginPage-------------*/
+.form__container{
+    max-width: 350px;
+    /*assegna massima larghezza al contenitore*/
+    margin: 10rem auto;
+    /*centra il contenitore nella pagina*/
+    padding: 20px;
+    
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+
+    background-color: var(--secondary-color);
+    color: white;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    /*aggiunge un'ombra al contenitore per farlo risaltare*/
+
+    text-align: center;
+    /*allinea il testo al centro del contenitore*/
+}
+
+.form__field{
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    /*modificata la visualizzazione interna dei div .form__field
+    in modo da disporre i label e gli input uno sotto l'altro*/
+    justify-content: space-around;
+    /*posiziona gli elementi del flex box in modo da lasciare
+    dello spazio intorno*/
+    gap: 0.5em;
+    /*aggiunge spazio tra gli elementi*/
+    align-items: center;
+    /*allinea gli elementi al centro del flex box*/
+}
+
+.form__field > input{
+    width: 50%;
+    height: 22px;
+
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+}
+
+.form__field > input:focus{
+    outline: none;
+    /*toglie il contorno giallo*/
+}
+
+#form__action-btn{
+    padding: 5px;
+
+    background-color: var(--details-color);
+    border: none;
+    border-radius: 5px;
+
+    color: white;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.form__switch{
+    margin-top: 10px;
+
+    font-size: small;
+}
+
+#form__switch-btn{
+    margin: 5px;
+
+    border: none;
+
+    background-color: transparent;
+
+    color: var(--details-color);
+    font-weight: 700;
+
+    box-shadow:rgba(0, 0, 0, 0.3);
+
+    cursor: pointer;
 }
 
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------
@@ -287,5 +379,9 @@ ul{
     .main__banner-text{
         line-height: 400px;
         /*pone il testo al centro anche verticalmente*/
+    }
+
+    .form__container{
+        margin: 5rem auto;
     }
 }
