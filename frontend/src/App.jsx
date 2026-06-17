@@ -40,7 +40,7 @@ export default function App(){
             </Routes>
         </main>
         <footer className="footer">
-            &copy; 2025-26 PoliFlix — Fondamenti del Web, Politecnico di Bari
+            &copy; 2025-26 UniShelf — Fondamenti del Web, Politecnico di Bari
         </footer>
         </>
     )
