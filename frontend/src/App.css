@@ -140,10 +140,11 @@ ul{
 
 /*---------Menu-------------*/
 .menu{
-    position: absolute;
-    /*position: absolute porta l'elemento fuori dal flusso normale e lo ancora al primo antenato con 
-    posizione non statica, in questo caso: header*/
+    position: sticky;
     top: var(--header-height);
+    z-index: 200;
+    /*si attacca all'header in modo che sia visibile anche quando
+    si scorre*/
 
     width: 100%;
     /*si prende tutta la larghezza disponibile*/
@@ -220,6 +221,42 @@ ul{
     /*pone il testo al centro anche verticalmente*/
 }
 
+.products__container{
+    min-height: 100vh;
+
+    padding: 2%;
+
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+.product-card{
+    margin: 5px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+    max-width: auto;
+    min-height: auto;
+}
+
+.product-card__img{
+    border: 1px solid black;
+    
+    min-height: 5em;
+}
+
+.product-card__info{
+    padding-left: 3%;
+
+    font-size: small;
+}
+
+#product-card__cart-btn{
+    margin-top: auto;
+    cursor: pointer;
+}
 
 /*---------LoginPage-------------*/
 .form__container{
@@ -305,6 +342,36 @@ ul{
     cursor: pointer;
 }
 
+/*---------CartPage-------------*/
+.cart-products__container{
+    border: 1px solid black;
+    margin-top: 40px;
+}
+
+.cart__product-card {
+    display: flex;
+}
+
+.cart__product-card .product-card__img{
+    min-width: 30%;
+}
+
+.cart__product-card .product-card__info{
+    border: 1px solid black;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart__product-card #product-card__cart-btn{
+    max-width: fit-content;
+}
+
+
+
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------
  stile della pagina in modalità desktop realizzato tramite media query*/
 @media screen and (min-width: 800px) { 
@@ -383,5 +450,14 @@ ul{
 
     .form__container{
         margin: 5rem auto;
+    }
+
+    .products__container{
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+
+    .cart__container{
+        display: grid;
+        grid-template-columns: 1fr auto;
     }
 }
