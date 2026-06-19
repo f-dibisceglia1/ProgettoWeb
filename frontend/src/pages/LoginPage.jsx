@@ -4,13 +4,18 @@ import { useState } from "react";
 
 export default function LoginPage(){
     const [isRegister, setIsRegister] = useState(false);
+    //variabile di stato per passare dal form Accedi al form Registrati e viceversa
+
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    //variabili di stato per i campi del form: in react il valore dei form viene mantenuto 
+    //all'interno di uno stato => Single Source of Truth.
     
     return (
         <div className="form__container">
             <h1>{isRegister ? "Registrati" : "Accedi"} </h1>
+            {/*se isRegister = true il titolo sarà "Registrati" altrimenti "Accedi"*/}
             <form>
                 {isRegister &&
                   <div className="form__field">
@@ -18,6 +23,7 @@ export default function LoginPage(){
                       <input type="text" id="username-input" value={username} required onChange={(e) => setUsername(e.target.value)}/>
                   </div>
                 }
+                {/*se isRegister = true si triggerà il rendering del campo username*/}
                 <div className="form__field">
                     <label htmlFor="email-input">Email</label>
                     <input type="email" id="email-input" value={email} required onChange={(e) => setEmail(e.target.value)}/>
@@ -35,8 +41,11 @@ export default function LoginPage(){
 
             <p className="form__switch">
                 {isRegister ? "Hai già un account?" : "Non hai un account?"}
+                {/*se isRegister = true apparirà la scritta "Hai già un account?" altrimenti "Non hai un account?"*/}
                 <button type="button" id="form__switch-btn" onClick={() => setIsRegister(!isRegister)}>
-                    {isRegister ? "Accedi" : "Registrati"}
+                    {/*cliccando su Accedi/Registrati (cambia in base al valore di isRegister) si cambia 
+                    il valore di isRegister al suo opposto*/}
+                    {isRegister ? "Accedi" : "Registrati"}                    
                 </button>
             </p>
         </div>

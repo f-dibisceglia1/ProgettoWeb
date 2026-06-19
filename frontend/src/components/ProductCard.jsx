@@ -18,18 +18,19 @@ export default function ProductCard({product, onCartChange, isCart = false}){
         setInCart(prev => !prev);
         //aggiorna lo stato di inCart al suo opposto
         onCartChange?.();
+        //se passata come props viene chiamata
     }
     return(
         <article className={isCart ? "cart__product-card" :"product-card"}>
             {/*ProductCard deve essere visualizzato in un modo diverso nel carrello, quindi 
-            si passa come props il valore isCart che di default è false, quando nel carrello vengono renderizzati
-            i prodotti si passa isCart={true} che da una classe diversa in modo da poter definire delle regole diverse 
-            nel CSS*/}
+            si passa come props il valore isCart che di default è false, quando nel carrello 
+            vengono renderizzati i prodotti si passa isCart={true} che da una classe diversa 
+            in modo da poter definire delle regole diverse nel CSS*/}
             <img className="product-card__img" src={product.image} alt={product.name} />
             <div className="product-card__info">
                 <p className="product-card__name">{product.name}</p>
                 <div className="product-card__meta">{product.price} €</div>
-            <button type="button" id="product-card__cart-btn" onClick={handleCart}>{inCart ? "Rimuovi dal carrello" : "Aggiungi al carrello"}</button>
+            <button type="button" className="product-card__cart-btn" onClick={handleCart}>{inCart ? "Rimuovi dal carrello" : "Aggiungi al carrello"}</button>
             </div>
         </article>
     )

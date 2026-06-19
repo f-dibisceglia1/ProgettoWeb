@@ -15,6 +15,20 @@ export default function CartPage({mockProducts}){
     //(deve essere possibile eliminare i prodotti dal carrello anche dalla CartPage)
     //a useState è passata una callback che restituisce un array con i prodotti nel carrello
 
+    const[myForm, setMyForm] = useState({name:"", address: "", cap: "", payment: "cash", cardNumber: ""});
+    //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
+    //all'interno di uno stato => Single Source of Truth.
+
+    function handleChange(e){
+       setMyForm({...myForm, [e.target.name]: e.target.value})
+    }
+
+    const subtotal = cartProducts.reduce((sum, product) => sum + product.price, 0);
+    const shipmentCost = 4.90;
+    const total = subtotal + shipmentCost;
+    //subtotale e totale dei prodotti nel carrello
+    
+
     //funzione per aggiornare lo stato cartProducts quando si clicca il bottone
     const handleCartProducts = (productId) => {
         setCartProducts(prev => 
@@ -25,6 +39,8 @@ export default function CartPage({mockProducts}){
     };
 
     return (
+        <>
+        <h1 className="cart__title">Carrello</h1>
         <div className="cart__container">
              <div className="cart-products__container">
                  {cartProducts.map(product => (
@@ -38,6 +54,50 @@ export default function CartPage({mockProducts}){
                     //   che aggiorna lo stato cartProducts e quindi triggera il rerendering 
                 ))}            
             </div>
+            <div className="cart__shipment-info">
+                <form className="cart__form">
+                    <div className="cart__form-field">
+                        <label htmlFor="shipment-name">Nome e cognome</label>
+                        <input type="text" id="shipment-name" name="name" value={myForm.name} onChange={handleChange} required/>
+                    </div>
+                    <div className="cart__form-field">
+                        <label htmlFor="shipment-address">Indirizzo di spedizione</label>
+                        <input type="text" id="shipment-address" name="address" value={myForm.address} onChange={handleChange} required/>
+                    </div>
+                    <div className="cart__form-field">
+                        <label htmlFor="shipment-cap">CAP</label>
+                        <input type="text" id="shipment-cap" name="cap" pattern="[0-9]{5}" value={myForm.cap} onChange={handleChange} required/>
+                    </div>
+                    <div className="cart__form-field">
+                        <span>Metodo di pagamento:</span>
+                        <div>
+                             <input type="radio" id="payment-card" name="payment" value="card" checked={myForm.payment === "card"} onChange={handleChange}/>
+                             <label htmlFor="payment-card">Carta di credito</label>
+                        </div>
+                        {myForm.payment === "card" && (
+                            <>
+                             <label htmlFor="card-number">Numero della carta</label>
+                             <input type="text" id="card-number" name="cardNumber" minLength={16} maxLength={16} value={myForm.cardNumber} onChange={handleChange} required/>
+                            </>
+                        )}
+                        {/*se {myForm.payment === "card" cioè se viene selezionato "Carta di credito", 
+                        si triggera il rendering del campo per inserire il numero della carta di credito*/}
+                        <div>
+                             <input type="radio" id="payment-cash" name="payment" value="cash" checked={myForm.payment === "cash"} onChange={handleChange}/>
+                             <label htmlFor="payment-cash">Contanti alla consegna</label>
+                        </div>
+                    </div>
+                    <p className="cart__total">
+                        Subtotale:  {subtotal.toFixed(2)} €
+                        <br />
+                        Spedizione: {shipmentCost.toFixed(2)} €
+                        <br />
+                        Totale: {total.toFixed(2)} €
+                    </p>
+                <button type="submit" id="cart__form-btn">Acquista</button>
+                </form>
+            </div>
         </div>
+        </>
     )
 }

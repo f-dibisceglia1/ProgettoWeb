@@ -228,7 +228,7 @@ ul{
 
     display: grid;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 1fr 1fr 1fr;
+    /*non definendo un template per le righe si creano da sole*/
 }
 
 .product-card{
@@ -253,7 +253,7 @@ ul{
     font-size: small;
 }
 
-#product-card__cart-btn{
+.product-card__cart-btn{
     margin-top: auto;
     cursor: pointer;
 }
@@ -343,9 +343,14 @@ ul{
 }
 
 /*---------CartPage-------------*/
+.cart__title{
+    margin: 1%;
+
+    color: var(--primary-color)
+}
+
 .cart-products__container{
-    border: 1px solid black;
-    margin-top: 40px;
+    margin: 1%;
 }
 
 .cart__product-card {
@@ -366,10 +371,73 @@ ul{
     justify-content: space-between;
 }
 
-.cart__product-card #product-card__cart-btn{
+.cart__product-card .product-card__cart-btn{
     max-width: fit-content;
 }
 
+.cart__shipment-info{
+    margin: 1%;
+
+    max-height: fit-content;
+    
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+
+    background-color: var(--tertiary-color)
+}
+
+.cart__form-field{
+    margin: 10px;
+
+    display: flex;
+    flex-direction: column;
+    /*modificata la visualizzazione interna dei div .cart__form-field
+    in modo da disporre i label e gli input uno sotto l'altro*/
+    justify-content: space-around;
+    /*posiziona gli elementi del flex box in modo da lasciare
+    dello spazio intorno*/
+    gap: 0.5em;
+    /*aggiunge spazio tra gli elementi*/
+}
+
+.cart__form-field input{
+    height: 22px;
+}
+
+.cart__form-field input:focus{
+    outline: none;
+}
+
+.cart__form-field div{
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.cart__total{
+    margin: 10px; 
+}
+
+#cart__form-btn{
+    display: block;
+    margin: 0 auto;
+
+    margin-bottom: 10px;
+
+    padding: 10px;
+    
+    border: none;
+    border-radius: 20px;
+
+    font-size: medium;
+
+    background-color: var(--primary-color);
+    
+    color: white;
+    font-weight: 700;
+
+    cursor: pointer;
+}
 
 
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------
@@ -377,15 +445,17 @@ ul{
 @media screen and (min-width: 800px) { 
     /*(min-width: 800px) => breakpoint, quando la dimensione della pagina visibile è maggiore
     di 800px vengono applicate queste regole*/
-    .menu, #header__menu {
-        display: none;
-    }
-    /*il menù e il tasto menù spariscono*/
 
+    /*---------Header-------------*/
+    .header__logo{
+        font-size: xx-large;
+    } 
+    
     #header__login, #header__cart{
         display: inline;
     }
-    /*diventano visibili i bottoni login e carrello nell'header al posto del menù*/
+    /*diventano visibili i bottoni login e carrello 
+    nell'header al posto del menù*/
     
     .header__searchbar{
         width: 50%;
@@ -436,6 +506,13 @@ ul{
         /*cambiato dimensione*/
     }
 
+    /*---------Menu-------------*/
+    .menu, #header__menu {
+        display: none;
+    }
+    /*il menù e il tasto menù spariscono*/
+
+    /*---------main-------------*/
     .main__banner{
         height: 400px;
         /*assegnata altezza maggiore*/ 
@@ -448,6 +525,7 @@ ul{
         /*pone il testo al centro anche verticalmente*/
     }
 
+    /*---------LoginPage-------------*/
     .form__container{
         margin: 5rem auto;
     }
@@ -456,8 +534,10 @@ ul{
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 
+
+    /*---------CartPage-------------*/
     .cart__container{
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 2fr 1fr;
     }
 }
