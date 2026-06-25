@@ -4,21 +4,14 @@
 // tra la richiesta in arrivo e il gestore finale della rotta. Puo' leggere o
 // modificare req/res, bloccare la richiesta, oppure passare il controllo al
 // middleware successivo chiamando next().
-import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+const jwt = require('jsonwebtoken'); 
+const User = require('../models/User.js');
 
 // Verifica che la richiesta provenga da un utente autenticato.
-// Il token JWT viaggia in un cookie httpOnly chiamato "token".
-// In alternativa accettiamo anche l'header "Authorization: Bearer <token>".
-export async function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
   try {
-    const tokenFromCookie = req.cookies?.token;
-    const authHeader = req.headers.authorization || '';
-    const tokenFromHeader = authHeader.startsWith('Bearer ')
-      ? authHeader.slice(7)
-      : null;
+    const token = req.cookies?.token;
 
-    const token = tokenFromCookie || tokenFromHeader;
     if (!token) {
       return res.status(401).json({ message: 'Non autenticato: token mancante.' });
     }
@@ -40,9 +33,14 @@ export async function requireAuth(req, res, next) {
 }
 
 // Da usare DOPO requireAuth: consente l'accesso solo agli amministratori.
-export function requireAdmin(req, res, next) {
+function requireAdmin(req, res, next) {
   if (req.user?.role !== 'admin') {
     return res.status(403).json({ message: 'Accesso riservato agli amministratori.' });
   }
   next();
+}
+
+module.exports = {
+  requireAuth,
+  requireAdmin
 }

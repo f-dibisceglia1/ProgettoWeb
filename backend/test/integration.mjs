@@ -10,6 +10,7 @@ import { io } from 'socket.io-client';
 
 const PORT = 4055;
 const BASE = `http://localhost:${PORT}`;
+const API = `${BASE}/api/v1`;
 let pass = 0;
 let fail = 0;
 
@@ -33,7 +34,7 @@ function getCookie(res) {
 async function waitServer() {
   for (let i = 0; i < 50; i++) {
     try {
-      const r = await fetch(`${BASE}/api/health`);
+      const r = await fetch(`${API}/health`);
       if (r.ok) return true;
     } catch {
       // server non ancora pronto
@@ -67,7 +68,7 @@ try {
 
   console.log('\n[4] Test API REST:');
   // Catalogo pubblico
-  let res = await fetch(`${BASE}/api/products`);
+  let res = await fetch(`${API}/products`);
   const products = await res.json();
   check('GET /products restituisce il catalogo (8 prodotti)', res.status === 200 && products.length === 8);
 
@@ -75,7 +76,7 @@ try {
   const initialStock = product.stock;
 
   // Login admin
-  res = await fetch(`${BASE}/api/auth/login`, {
+  res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: 'admin@nexumshop.it', password: 'Admin#2026!' }),
@@ -86,16 +87,16 @@ try {
   check('Login admin imposta il cookie di sessione', adminCookie.length > 0);
 
   // /auth/me con cookie
-  res = await fetch(`${BASE}/api/auth/me`, { headers: { Cookie: adminCookie } });
+  res = await fetch(`${API}/auth/me`, { headers: { Cookie: adminCookie } });
   const meData = await res.json();
   check('GET /auth/me riconosce la sessione', res.status === 200 && meData.user.email === 'admin@nexumshop.it');
 
   // /auth/me senza cookie -> 401
-  res = await fetch(`${BASE}/api/auth/me`);
+  res = await fetch(`${API}/auth/me`);
   check('GET /auth/me senza sessione -> 401', res.status === 401);
 
   // Login cliente
-  res = await fetch(`${BASE}/api/auth/login`, {
+  res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email: 'cliente@nexumshop.it', password: 'Cliente#2026!' }),
@@ -104,7 +105,7 @@ try {
   check('Login cliente riuscito', res.status === 200);
 
   // Un cliente NON puo' creare prodotti -> 403
-  res = await fetch(`${BASE}/api/products`, {
+  res = await fetch(`${API}/products`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
     body: JSON.stringify({ name: 'X', category: 'Y', price: 1 }),
@@ -129,7 +130,7 @@ try {
   check('Socket admin e ospite connessi', adminSocket.connected && guestSocket.connected);
 
   console.log('\n[6] Test creazione ordine + effetti real-time:');
-  res = await fetch(`${BASE}/api/orders`, {
+  res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
     body: JSON.stringify({
@@ -142,7 +143,7 @@ try {
   check('Totale ordine corretto', Math.abs(order.total - product.price * 2) < 0.001);
 
   // Verifica stock decrementato
-  res = await fetch(`${BASE}/api/products/${product._id}`);
+  res = await fetch(`${API}/products/${product._id}`);
   const updated = await res.json();
   check(`Stock decrementato (${initialStock} -> ${updated.stock})`, updated.stock === initialStock - 2);
 
@@ -151,7 +152,7 @@ try {
   check('Evento order:new ricevuto dall admin', gotOrderNew && gotOrderNew.total === order.total);
 
   // Stock insufficiente -> 409
-  res = await fetch(`${BASE}/api/orders`, {
+  res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
     body: JSON.stringify({ items: [{ productId: product._id, size: product.sizes[0], quantity: 99999 }] }),
@@ -159,16 +160,16 @@ try {
   check('Ordine con stock insufficiente -> 409', res.status === 409);
 
   console.log('\n[7] Test ordini lato cliente e admin:');
-  res = await fetch(`${BASE}/api/orders/mine`, { headers: { Cookie: customerCookie } });
+  res = await fetch(`${API}/orders/mine`, { headers: { Cookie: customerCookie } });
   const mine = await res.json();
   check('GET /orders/mine -> 1 ordine del cliente', res.status === 200 && mine.length === 1);
 
-  res = await fetch(`${BASE}/api/orders`, { headers: { Cookie: adminCookie } });
+  res = await fetch(`${API}/orders`, { headers: { Cookie: adminCookie } });
   const all = await res.json();
   check('GET /orders (admin) -> 1 ordine totale', res.status === 200 && all.length === 1);
 
   // Aggiornamento stato ordine
-  res = await fetch(`${BASE}/api/orders/${order._id}/status`, {
+  res = await fetch(`${API}/orders/${order._id}/status`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', Cookie: adminCookie },
     body: JSON.stringify({ status: 'spedito' }),

@@ -9,10 +9,10 @@
 //
 // Nota: il token e' in un cookie httpOnly, quindi il JavaScript del browser
 // NON puo' leggerlo per inviarlo. Lo recuperiamo lato server dall'handshake.
-import jwt from 'jsonwebtoken';
-import { parse as parseCookie } from 'cookie';
+const jwt = require('jsonwebtoken');
+const { parse:parseCookie } = require('cookie');
 
-export function registerSocketHandlers(io) {
+function registerSocketHandlers(io) {
   io.on('connection', (socket) => {
     console.log('[socket] client connesso:', socket.id);
 
@@ -39,3 +39,5 @@ export function registerSocketHandlers(io) {
     });
   });
 }
+
+module.exports = { registerSocketHandlers };

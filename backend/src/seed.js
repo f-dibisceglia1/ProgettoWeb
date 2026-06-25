@@ -3,12 +3,12 @@
 //
 // E' utile per avere subito dati con cui provare l'applicazione (e per la
 // commissione d'esame che testera' le funzionalita').
-import 'dotenv/config';
-import mongoose from 'mongoose';
-import { connectDB } from './config/db.js';
-import User from './models/User.js';
-import Product from './models/Product.js';
-import Order from './models/Order.js';
+require('dotenv').config();
+const mongoose = require ('mongoose');
+const { connectDB } = require ('./config/db.js');
+const User = require ('./models/User.js');
+const Product = require ('./models/Product.js');
+const Order = require ('./models/Order.js');
 
 // Le immagini sono file reali serviti dal frontend (cartella public/products).
 // Il percorso e' relativo: il frontend gli antepone il base path corretto.

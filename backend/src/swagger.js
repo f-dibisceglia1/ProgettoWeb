@@ -2,7 +2,7 @@
 // swagger-jsdoc legge i commenti @openapi sparsi nei file delle rotte e
 // costruisce la specifica; swagger-ui-express la espone come pagina web
 // interattiva su /api/docs, dove e' possibile provare le API dal browser.
-import swaggerJsdoc from 'swagger-jsdoc';
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const options = {
   definition: {
@@ -30,4 +30,6 @@ const options = {
   apis: ['./src/routes/*.js'],
 };
 
-export const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(options);
+
+module.exports = { swaggerSpec };

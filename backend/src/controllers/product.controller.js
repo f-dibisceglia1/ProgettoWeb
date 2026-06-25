@@ -5,10 +5,10 @@
 // Quando lo stock cambia, emettiamo un evento Socket.IO "stock:update" cosi'
 // che TUTTI i client connessi vedano la disponibilita' aggiornata in tempo
 // reale, senza ricaricare la pagina.
-import Product from '../models/Product.js';
+const Product = require('../models/Product.js');
 
 // GET /api/products  -> lista catalogo (con filtro opzionale per categoria/ricerca)
-export async function listProducts(req, res) {
+async function listProducts(req, res) {
   const { category, q } = req.query;
   const filter = {};
   if (category) filter.category = category;
@@ -19,7 +19,7 @@ export async function listProducts(req, res) {
 }
 
 // GET /api/products/:id -> dettaglio di un singolo prodotto
-export async function getProduct(req, res) {
+async function getProduct(req, res) {
   const product = await Product.findById(req.params.id);
   if (!product) {
     return res.status(404).json({ message: 'Prodotto non trovato.' });
@@ -28,7 +28,7 @@ export async function getProduct(req, res) {
 }
 
 // POST /api/products  (admin) -> crea un nuovo prodotto
-export async function createProduct(req, res) {
+async function createProduct(req, res) {
   const { name, description, category, price, sizes, stock, image } = req.body;
   if (!name || !category || price == null) {
     return res.status(400).json({ message: 'Nome, categoria e prezzo sono obbligatori.' });
@@ -46,7 +46,7 @@ export async function createProduct(req, res) {
 }
 
 // PUT /api/products/:id  (admin) -> modifica un prodotto esistente
-export async function updateProduct(req, res) {
+async function updateProduct(req, res) {
   const product = await Product.findById(req.params.id);
   if (!product) {
     return res.status(404).json({ message: 'Prodotto non trovato.' });
@@ -66,10 +66,19 @@ export async function updateProduct(req, res) {
 }
 
 // DELETE /api/products/:id  (admin) -> elimina un prodotto
-export async function deleteProduct(req, res) {
+async function deleteProduct(req, res) {
   const product = await Product.findByIdAndDelete(req.params.id);
   if (!product) {
     return res.status(404).json({ message: 'Prodotto non trovato.' });
   }
   res.json({ message: 'Prodotto eliminato.' });
 }
+
+module.exports = 
+{ 
+  listProducts, 
+  getProduct, 
+  createProduct, 
+  updateProduct, 
+  deleteProduct 
+};

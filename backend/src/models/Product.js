@@ -1,5 +1,5 @@
 // Modello "Product": un capo di abbigliamento in vendita.
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
@@ -27,4 +27,4 @@ productSchema.methods.toJSON = function () {
   return obj;
 };
 
-export default mongoose.model('Product', productSchema);
+module.exports = mongoose.model('Product', productSchema);

@@ -1,14 +1,13 @@
-import { Router } from 'express';
-import {
+const express = require('express');
+const router = express.Router();
+const {
   register,
   login,
   logout,
   me,
-  updateProfile,
-} from '../controllers/auth.controller.js';
-import { requireAuth } from '../middleware/auth.js';
-
-const router = Router();
+  updateProfile
+} = require('../controllers/auth.controller.js');
+const { requireAuth } = require('../middleware/auth.js');
 
 /**
  * @openapi
@@ -97,4 +96,4 @@ router.get('/me', requireAuth, me);
  */
 router.put('/profile', requireAuth, updateProfile);
 
-export default router;
+module.exports = router;

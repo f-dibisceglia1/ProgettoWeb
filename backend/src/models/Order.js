@@ -2,7 +2,7 @@
 // Ogni ordine contiene una "fotografia" dei prodotti acquistati (nome, prezzo,
 // taglia, quantita') cosi' che resti coerente anche se il prodotto cambia in
 // futuro.
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const orderItemSchema = new mongoose.Schema(
   {
@@ -40,4 +40,4 @@ orderSchema.methods.toJSON = function () {
   return obj;
 };
 
-export default mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('Order', orderSchema);

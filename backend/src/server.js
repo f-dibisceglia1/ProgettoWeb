@@ -1,20 +1,20 @@
 // Punto di ingresso del backend.
 // Qui mettiamo insieme tutti i pezzi: Express (API REST), il server HTTP,
 // Socket.IO (real-time), la connessione al database e Swagger.
-import 'dotenv/config';
-import express from 'express';
-import http from 'http';
-import cors from 'cors';
-import cookieParser from 'cookie-parser';
-import { Server as SocketIOServer } from 'socket.io';
-import swaggerUi from 'swagger-ui-express';
+require('dotenv').config();
+const express = require('express');
+const http = require('http');
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+const { Server:SocketIOServer } = require('socket.io');
+const swaggerUi = require('swagger-ui-express');
 
-import { connectDB } from './config/db.js';
-import { swaggerSpec } from './swagger.js';
-import { registerSocketHandlers } from './sockets/index.js';
-import authRoutes from './routes/auth.routes.js';
-import productRoutes from './routes/product.routes.js';
-import orderRoutes from './routes/order.routes.js';
+const { connectDB } = require('./config/db.js');
+const { swaggerSpec } = require('./swagger.js');
+const { registerSocketHandlers } = require('./sockets/index.js');
+const authRoutes = require('./routes/auth.routes.js');
+const productRoutes = require('./routes/product.routes.js');
+const orderRoutes = require('./routes/order.routes.js');
 
 const PORT = process.env.PORT || 4000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
@@ -43,15 +43,15 @@ registerSocketHandlers(io);
 app.set('io', io);
 
 // --- Rotte API ------------------------------------------------------------
-app.use('/api/auth', authRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
+app.use('/api/v1/auth', authRoutes);
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/orders', orderRoutes);
 
 // Documentazione Swagger interattiva.
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Endpoint di "salute" per verificare che il server risponda.
-app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
+app.get('/api/v1/health', (req, res) => res.json({ status: 'ok' }));
 
 // --- Gestione errori centralizzata ---------------------------------------
 // Se un controller (async) lancia un'eccezione, Express la passa qui.

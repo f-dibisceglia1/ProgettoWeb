@@ -1,13 +1,13 @@
-import { Router } from 'express';
-import {
+const express = require('express'); 
+const router = express.Router()
+const {
   createOrder,
   myOrders,
   listOrders,
   updateOrderStatus,
-} from '../controllers/order.controller.js';
-import { requireAuth, requireAdmin } from '../middleware/auth.js';
+} = require('../controllers/order.controller.js');
+const { requireAuth, requireAdmin } = require('../middleware/auth.js')
 
-const router = Router();
 
 /**
  * @openapi
@@ -102,4 +102,4 @@ router.get('/', requireAuth, requireAdmin, listOrders);
  */
 router.put('/:id/status', requireAuth, requireAdmin, updateOrderStatus);
 
-export default router;
+module.exports = router;

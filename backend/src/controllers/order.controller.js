@@ -7,12 +7,12 @@
 //  2. scaliamo lo stock;
 //  3. emettiamo "stock:update" (catalogo aggiornato per tutti)
 //     e "order:new" (notifica all'admin) via Socket.IO.
-import Product from '../models/Product.js';
-import Order from '../models/Order.js';
+const Product = require('../models/Product.js');
+const Order = require('../models/Order.js');
 
 // POST /api/orders  (cliente) -> crea un ordine a partire dal carrello.
 // Il corpo atteso e': { items: [{ productId, size, quantity }], shippingAddress }
-export async function createOrder(req, res) {
+async function createOrder(req, res) {
   const { items, shippingAddress } = req.body;
   if (!Array.isArray(items) || items.length === 0) {
     return res.status(400).json({ message: 'Il carrello e vuoto.' });
@@ -78,13 +78,13 @@ export async function createOrder(req, res) {
 }
 
 // GET /api/orders/mine  (cliente) -> gli ordini dell'utente loggato
-export async function myOrders(req, res) {
+async function myOrders(req, res) {
   const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
   res.json(orders);
 }
 
 // GET /api/orders  (admin) -> tutti gli ordini
-export async function listOrders(req, res) {
+async function listOrders(req, res) {
   const orders = await Order.find()
     .populate('user', 'name email')
     .sort({ createdAt: -1 });
@@ -92,7 +92,7 @@ export async function listOrders(req, res) {
 }
 
 // PUT /api/orders/:id/status  (admin) -> aggiorna lo stato di un ordine
-export async function updateOrderStatus(req, res) {
+async function updateOrderStatus(req, res) {
   const { status } = req.body;
   const order = await Order.findById(req.params.id);
   if (!order) {
@@ -102,3 +102,11 @@ export async function updateOrderStatus(req, res) {
   await order.save();
   res.json(order);
 }
+
+module.exports = 
+{ 
+  createOrder, 
+  myOrders, 
+  listOrders, 
+  updateOrderStatus 
+};

@@ -1,14 +1,15 @@
-import { Router } from 'express';
-import {
+const express = require('express'); 
+const router = express.Router();
+const {
   listProducts,
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
-} from '../controllers/product.controller.js';
-import { requireAuth, requireAdmin } from '../middleware/auth.js';
+} = require('../controllers/product.controller.js');
+const { requireAuth, requireAdmin } = require('../middleware/auth.js');
 
-const router = Router();
+
 
 /**
  * @openapi
@@ -103,4 +104,4 @@ router.put('/:id', requireAuth, requireAdmin, updateProduct);
  */
 router.delete('/:id', requireAuth, requireAdmin, deleteProduct);
 
-export default router;
+module.exports = router;
