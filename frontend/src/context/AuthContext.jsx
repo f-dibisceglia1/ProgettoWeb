@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-import { login as apiLogin, register as apiRegister, logout as apiLogout, me as apiMe} from "../services/api";
+import { login as apiLogin, register as apiRegister, logout as apiLogout, me as apiMe, updateProfile as apiUpdateProfile} from "../services/api";
 
 const AuthContext = createContext(null);
 //lo stato loggato/non loggato è condiviso da tutti i componenti 
@@ -44,16 +44,21 @@ export function AuthProvider({ children }){
          await apiRegister(username, email, password);
 
          await login(email, password);
-    }
+     }
 
      async function logout() {
          await apiLogout(); 
          // chiama POST /api/auth/logout
          setUser(null);
      }
+     
+     async function updateProfile(name, address) {
+        const data = await apiUpdateProfile(name, address);
+        setUser(data.user);
+     }
 
      return (
-        <AuthContext.Provider value={{ user, login, register, logout }}>
+        <AuthContext.Provider value={{ user, login, register, logout, updateProfile }}>
             {children}
         </AuthContext.Provider>
     );

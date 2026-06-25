@@ -69,3 +69,15 @@ export async function logout() {
 export async function me() {
     return request("/auth/me");
 }
+
+export async function updateProfile(name, address){
+    return request("/auth/profile",{
+        method: "PUT",
+        body: JSON.stringify(
+            {
+               name,
+               address
+            }
+        ),
+    });
+}

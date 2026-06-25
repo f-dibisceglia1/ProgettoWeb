@@ -1,6 +1,9 @@
 import {Link} from 'react-router-dom';
+import {useAuth} from "../context/AuthContext";
 
 export default function Header({search, handleSearch, handleMenu}){
+    const{user, logout} = useAuth();
+
     return(
         <header className="header">
             <div className="header__container">
@@ -29,8 +32,13 @@ export default function Header({search, handleSearch, handleMenu}){
                         </li>
                         <li id="header__login">
                              {/*cliccare su login porta alla LoginPage*/}
-                             <Link to="/login" className="header__login-btn">Login</Link>
+                             {
+                                 user 
+                                 ? <button onClick={logout} className="header__logout-btn">Logout</button> 
+                                 : <Link to="/login" className="header__login-btn">Login</Link>
+                             }
                         </li>
+                        {user && <li id="header__profile"><Link to="/profile">Profilo</Link></li>}
                         <li id="header__cart">
                             {/*cliccare su carrello porta alla CartPage*/}
                             <Link to="/cart" className="header__cart-btn">Carrello</Link> 

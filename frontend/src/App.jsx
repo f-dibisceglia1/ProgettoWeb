@@ -5,6 +5,7 @@ import Menu from './components/Menu';
 import LoginPage from './pages/LoginPage';
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
+import ProfilePage from "./pages/ProfilePage"
 
 
 export default function App(){
@@ -52,6 +53,9 @@ export default function App(){
                 <Route path="/cart" element={
                     <CartPage mockProducts={mockProducts}/>
                 } />
+                <Route path="/profile" element={
+                   <ProfilePage /> 
+                }></Route>
             </Routes>
         </main>
         <footer className="footer">
