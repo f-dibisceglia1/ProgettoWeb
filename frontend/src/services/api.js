@@ -33,6 +33,8 @@ async function request(endpoint, options = {}) {
     //se tutto è andato bene restituisce data
 }
 
+//---------------AUTENTICAZIONE-------------------
+
 export async function login(email, password){
     return request("/auth/login", {
     //manda credenziali all'endpoint /auth/login
@@ -79,5 +81,45 @@ export async function updateProfile(name, address){
                address
             }
         ),
+    });
+}
+
+//---------------LIBRI-------------------
+export async function listBooks(filters = {}){
+    const params = new URLSearchParams();
+
+    if (filters.category) params.set("category", filters.category);
+    if (filters.q) params.set("q", filters.q);
+
+    const query = params.toString() ? `?${params}` : "";
+
+    return request(`/books${query}`, {
+        method: "GET",
+    });
+}
+
+export async function getBook(id){
+    return request(`/books/${id}`, {
+        method: "GET",
+    });
+}
+
+export async function createBook(bookData){
+    return request("/books", {
+        method: "POST",
+        body: JSON.stringify(bookData),
+    });  
+}
+
+export async function updateBook(id, updateData){
+    return request(`/books/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(updateData),
+    });
+}
+
+export async function deleteBook(id){
+    return request(`/books/${id}`, {
+        method: "DELETE",
     });
 }

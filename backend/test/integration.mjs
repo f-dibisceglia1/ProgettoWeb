@@ -68,12 +68,12 @@ try {
 
   console.log('\n[4] Test API REST:');
   // Catalogo pubblico
-  let res = await fetch(`${API}/products`);
-  const products = await res.json();
-  check('GET /products restituisce il catalogo (8 prodotti)', res.status === 200 && products.length === 8);
+  let res = await fetch(`${API}/books`);
+  const books = await res.json();
+  check('GET /books restituisce il catalogo (8 libri)', res.status === 200 && books.length === 8);
 
-  const product = products[0];
-  const initialStock = product.stock;
+  const book = books[0];
+  check('Il libro iniziale e disponibile', book.available === true);
 
   // Login admin
   res = await fetch(`${API}/auth/login`, {
@@ -104,22 +104,22 @@ try {
   const customerCookie = getCookie(res);
   check('Login cliente riuscito', res.status === 200);
 
-  // Un cliente NON puo' creare prodotti -> 403
-  res = await fetch(`${API}/products`, {
+  // Un cliente NON puo' creare libri -> 403
+  res = await fetch(`${API}/books`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
-    body: JSON.stringify({ name: 'X', category: 'Y', price: 1 }),
+    body: JSON.stringify({ title: 'X', author: 'Y', category: 'Z', price: 1, condition: 'buono' }),
   });
-  check('Cliente non puo creare prodotti -> 403', res.status === 403);
+  check('Cliente non puo creare libri -> 403', res.status === 403);
 
   console.log('\n[5] Test real-time (Socket.IO):');
-  // Socket admin (riceve order:new) e socket cliente (riceve stock:update)
+  // Socket admin (riceve order:new) e socket cliente (riceve book:update)
   const adminSocket = io(BASE, { path: '/socket.io', extraHeaders: { Cookie: adminCookie } });
   const guestSocket = io(BASE, { path: '/socket.io' });
 
-  let gotStockUpdate = null;
+  let gotBookUpdate = null;
   let gotOrderNew = null;
-  guestSocket.on('stock:update', (d) => (gotStockUpdate = d));
+  guestSocket.on('book:update', (d) => (gotBookUpdate = d));
   adminSocket.on('order:new', (d) => (gotOrderNew = d));
 
   await Promise.all([
@@ -134,30 +134,30 @@ try {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
     body: JSON.stringify({
-      items: [{ productId: product._id, size: product.sizes[0], quantity: 2 }],
+      items: [{ bookId: book._id }],
       shippingAddress: { street: 'Via Roma 1', city: 'Bari', zip: '70100' },
     }),
   });
   const order = await res.json();
   check('POST /orders crea l ordine (201)', res.status === 201);
-  check('Totale ordine corretto', Math.abs(order.total - product.price * 2) < 0.001);
+  check('Totale ordine corretto', Math.abs(order.total - book.price) < 0.001);
 
-  // Verifica stock decrementato
-  res = await fetch(`${API}/products/${product._id}`);
+  // Verifica che il libro non sia piu disponibile
+  res = await fetch(`${API}/books/${book._id}`);
   const updated = await res.json();
-  check(`Stock decrementato (${initialStock} -> ${updated.stock})`, updated.stock === initialStock - 2);
+  check('Libro segnato come non disponibile dopo l acquisto', updated.available === false);
 
   await sleep(400); // tempo di propagazione degli eventi
-  check('Evento stock:update ricevuto dal client', gotStockUpdate && gotStockUpdate.productId === product._id);
+  check('Evento book:update ricevuto dal client', gotBookUpdate && gotBookUpdate.bookId === book._id && gotBookUpdate.available === false);
   check('Evento order:new ricevuto dall admin', gotOrderNew && gotOrderNew.total === order.total);
 
-  // Stock insufficiente -> 409
+  // Libro gia venduto -> 409
   res = await fetch(`${API}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Cookie: customerCookie },
-    body: JSON.stringify({ items: [{ productId: product._id, size: product.sizes[0], quantity: 99999 }] }),
+    body: JSON.stringify({ items: [{ bookId: book._id }] }),
   });
-  check('Ordine con stock insufficiente -> 409', res.status === 409);
+  check('Ordine su libro gia venduto -> 409', res.status === 409);
 
   console.log('\n[7] Test ordini lato cliente e admin:');
   res = await fetch(`${API}/orders/mine`, { headers: { Cookie: customerCookie } });

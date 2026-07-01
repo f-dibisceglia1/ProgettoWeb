@@ -8,13 +8,13 @@ const options = {
   definition: {
     openapi: '3.0.0',
     info: {
-      title: 'Nexum Shop API',
+      title: 'UniShelf API',
       version: '1.0.0',
       description:
-        'API REST dell\'e-commerce Nexum Shop. Progetto per il corso ' +
-        '"Fondamenti del Web" (Ingegneria Informatica e dell\'Automazione, UNIBA).',
+        'API REST dell\'e-commerce UniShelf. Progetto per il corso ' +
+        '"Fondamenti del Web" (Ingegneria Informatica e dell\'Automazione, Politecnico di Bari).',
     },
-    servers: [{ url: '/api', description: 'Base URL delle API' }],
+    servers: [{ url: '/api/v1', description: 'Base URL delle API' }],
     components: {
       securitySchemes: {
         // L'autenticazione avviene tramite cookie httpOnly "token".

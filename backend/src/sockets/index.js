@@ -31,7 +31,7 @@ function registerSocketHandlers(io) {
       }
     } catch {
       // Nessun token valido: il socket resta un semplice client anonimo,
-      // che comunque ricevera' gli eventi pubblici come "stock:update".
+      // che comunque ricevera' gli eventi pubblici come "book:update".
     }
 
     socket.on('disconnect', () => {

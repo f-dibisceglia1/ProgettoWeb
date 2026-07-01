@@ -35,9 +35,7 @@ const { requireAuth, requireAdmin } = require('../middleware/auth.js')
  *                 items:
  *                   type: object
  *                   properties:
- *                     productId: { type: string }
- *                     size: { type: string }
- *                     quantity: { type: integer }
+ *                     bookId: { type: string }
  *               shippingAddress:
  *                 type: object
  *                 properties:
@@ -46,7 +44,8 @@ const { requireAuth, requireAdmin } = require('../middleware/auth.js')
  *                   zip: { type: string }
  *     responses:
  *       201: { description: Ordine creato }
- *       409: { description: Disponibilita insufficiente }
+ *       404: { description: Libro non trovato }
+ *       409: { description: Libro non piu disponibile }
  */
 router.post('/', requireAuth, createOrder);
 

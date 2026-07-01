@@ -1,17 +1,17 @@
 import { useNavigate } from "react-router-dom";
-import ProductCard from "../components/ProductCard";
+import BookCard from "../components/BookCard";
 
 
 
-export default function HomePage({mockProducts}){
+export default function HomePage({books}){
     return (
         <>
              <div className="main__banner"> 
               <h2 className="main__banner-text">Il mercato dei libri universitari</h2>
              </div>
              <div className="products__container">
-                {mockProducts.map(product => (
-                    <ProductCard product={product} />
+                {books.map(book => (
+                    <BookCard book={book} />
                 ))}
              </div>
         </>

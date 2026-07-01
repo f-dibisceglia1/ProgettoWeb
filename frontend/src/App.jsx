@@ -1,21 +1,31 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
+
+
 import Header from './components/Header';
 import Menu from './components/Menu';
+
+
 import LoginPage from './pages/LoginPage';
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage"
+import { listBooks } from './services/api';
+
+
 
 
 export default function App(){
     const [menuOpen, setMenuOpen] = useState(false);
     //variabile di stato passata ad Header che serve per apertura/chiusura menù 
     //in modalità mobile. cambia ogni volta che si clicca sull'icona hamburger
-    const [search, setSearch] = useState("");
+    const [q, setQ] = useState("");
     //variabile di stato per la barra di ricerca: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth. search e setSearch sono passati ad Header
-    //dove si trova la barra di ricerca. 
+    //dove si trova la barra di ricerca.
+    const [error, setError] = useState("");
+    const[books, setBooks] = useState([]); 
     
 
     //!!array di prova per implementare CartPage in attesa di backend!!
@@ -38,14 +48,28 @@ export default function App(){
         //attuale
     }
 
+    useEffect(() => {
+        async function fetchBooks(){
+            setError("");            
+            try{
+                const trimmedQ = q.trim();
+                const data = await listBooks({q: trimmedQ});
+                setBooks(data);
+            }catch(err){
+                setError(err.message);
+            }
+        }
+        fetchBooks();
+    }, [q])
+
     return (
         <>
-        <Header handleMenu={handleMenu} search={search} handleSearch={setSearch}/>
+        <Header handleMenu={handleMenu} search={q} handleSearch={setQ}/>
         <main className="main">
             {menuOpen && <Menu />}
             <Routes>
                 <Route path="/" element={
-                    <HomePage mockProducts={mockProducts}/>
+                    <HomePage books={books}/>
                 } />
                 <Route path="/login" element={
                     <LoginPage />

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {getCart} from "../utils/cart.js";
-import ProductCard from "../components/ProductCard.jsx";
+import ProductCard from "../components/BookCard.jsx";
 
 
 export default function CartPage({mockProducts}){

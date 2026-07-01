@@ -13,7 +13,7 @@ const { connectDB } = require('./config/db.js');
 const { swaggerSpec } = require('./swagger.js');
 const { registerSocketHandlers } = require('./sockets/index.js');
 const authRoutes = require('./routes/auth.routes.js');
-const productRoutes = require('./routes/product.routes.js');
+const bookRoutes = require('./routes/book.routes.js');
 const orderRoutes = require('./routes/order.routes.js');
 
 const PORT = process.env.PORT || 4000;
@@ -44,7 +44,7 @@ app.set('io', io);
 
 // --- Rotte API ------------------------------------------------------------
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/books', bookRoutes);
 app.use('/api/v1/orders', orderRoutes);
 
 // Documentazione Swagger interattiva.
@@ -66,7 +66,7 @@ async function start() {
   await connectDB(process.env.MONGODB_URI);
   server.listen(PORT, () => {
     console.log(`[server] in ascolto su http://localhost:${PORT}`);
-    console.log(`[server] Swagger su http://localhost:${PORT}/api/docs`);
+    console.log(`[server] Swagger su http://localhost:${PORT}/api/v1/docs`);
   });
 }
 

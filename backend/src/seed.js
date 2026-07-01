@@ -1,5 +1,5 @@
 // Script di "seed": popola il database con un utente amministratore e un
-// catalogo di prodotti d'esempio. Si esegue con:  npm run seed
+// catalogo di libri usati d'esempio. Si esegue con:  npm run seed
 //
 // E' utile per avere subito dati con cui provare l'applicazione (e per la
 // commissione d'esame che testera' le funzionalita').
@@ -7,83 +7,99 @@ require('dotenv').config();
 const mongoose = require ('mongoose');
 const { connectDB } = require ('./config/db.js');
 const User = require ('./models/User.js');
-const Product = require ('./models/Product.js');
+const Book = require ('./models/Book.js');
 const Order = require ('./models/Order.js');
 
-// Le immagini sono file reali serviti dal frontend (cartella public/products).
+// Le immagini sono file reali serviti dal frontend (cartella public/books).
 // Il percorso e' relativo: il frontend gli antepone il base path corretto.
-const sampleProducts = [
+const sampleBooks = [
   {
-    name: 'Camicia a quadri uomo',
-    description: 'Camicia in flanella a quadri rosso e nero, vestibilita regular.',
-    category: 'Camicie',
-    price: 29.9,
-    sizes: ['S', 'M', 'L', 'XL'],
-    stock: 18,
-    image: 'products/camicia-quadri.webp',
+    title: 'Analisi Matematica 1',
+    author: 'Marco Bramanti, Carlo Pagani, Sandro Salsa',
+    description: 'Manuale di analisi 1, con esercizi svolti. Alcune sottolineature a matita.',
+    category: 'Ingegneria',
+    isbn: '9788808066361',
+    price: 22,
+    condition: 'buono',
+    available: true,
+    image: 'books/analisi-matematica-1.webp',
   },
   {
-    name: 'Camicia a maniche corte',
-    description: 'Camicia leggera a maniche corte, ideale per la mezza stagione.',
-    category: 'Camicie',
-    price: 24.9,
-    sizes: ['S', 'M', 'L', 'XL'],
-    stock: 22,
-    image: 'products/camicia-maniche-corte.webp',
+    title: 'Fisica Generale I - Meccanica e Termodinamica',
+    author: 'Paolo Mazzoldi, Massimo Nigro, Cesare Voci',
+    description: 'Manuale universitario, copertina un po\' rovinata ma pagine integre.',
+    category: 'Ingegneria',
+    isbn: '9788808187738',
+    price: 25,
+    condition: 'accettabile',
+    available: true,
+    image: 'books/fisica-generale-1.webp',
   },
   {
-    name: 'Sneakers Puma Future Rider',
-    description: 'Scarpe da ginnastica retro running, suola ammortizzata.',
-    category: 'Scarpe',
-    price: 79.9,
-    sizes: ['40', '41', '42', '43', '44'],
-    stock: 10,
-    image: 'products/sneakers-puma.webp',
+    title: 'Diritto Privato',
+    author: 'Andrea Torrente, Piero Schlesinger',
+    description: 'Edizione aggiornata, come nuovo, mai scritto sopra.',
+    category: 'Giurisprudenza',
+    isbn: '9788814232987',
+    price: 32,
+    condition: 'come nuovo',
+    available: true,
+    image: 'books/diritto-privato.webp',
   },
   {
-    name: 'Sneakers sportive bianco/rosso',
-    description: 'Sneakers sportive in tessuto traspirante, look dinamico.',
-    category: 'Scarpe',
-    price: 64.9,
-    sizes: ['40', '41', '42', '43', '44'],
-    stock: 12,
-    image: 'products/sneakers-sport.webp',
+    title: 'Principi di Economia',
+    author: 'N. Gregory Mankiw',
+    description: 'Testo base del corso di Economia Politica, con evidenziazioni.',
+    category: 'Economia',
+    isbn: '9788808920659',
+    price: 28,
+    condition: 'buono',
+    available: true,
+    image: 'books/principi-economia.webp',
   },
   {
-    name: 'Decollete con tacco',
-    description: 'Scarpe eleganti con tacco, perfette per le occasioni speciali.',
-    category: 'Scarpe',
-    price: 89.9,
-    sizes: ['36', '37', '38', '39', '40'],
-    stock: 7,
-    image: 'products/scarpe-tacco.webp',
+    title: 'Basi di Dati',
+    author: 'Paolo Atzeni, Stefano Ceri, Piero Fraternali',
+    description: 'Manuale per il corso di Basi di Dati, ottime condizioni.',
+    category: 'Informatica',
+    isbn: '9788838665667',
+    price: 24,
+    condition: 'come nuovo',
+    available: true,
+    image: 'books/basi-di-dati.webp',
   },
   {
-    name: 'Abito grigio elegante',
-    description: 'Abito grigio dal taglio sartoriale, tessuto morbido.',
-    category: 'Abiti',
-    price: 49.9,
-    sizes: ['XS', 'S', 'M', 'L'],
-    stock: 9,
-    image: 'products/abito-grigio.webp',
+    title: 'Chimica Generale e Inorganica',
+    author: 'Michael Silberberg',
+    description: 'Testo di chimica per corsi STEM, copertina rovinata sugli angoli.',
+    category: 'Scienze',
+    isbn: '9788838669238',
+    price: 20,
+    condition: 'accettabile',
+    available: true,
+    image: 'books/chimica-generale.webp',
   },
   {
-    name: 'Abito estivo',
-    description: 'Abito leggero estivo, fresco e versatile.',
-    category: 'Abiti',
-    price: 39.9,
-    sizes: ['XS', 'S', 'M', 'L'],
-    stock: 14,
-    image: 'products/abito-estivo.webp',
+    title: 'Anatomia Umana',
+    author: 'Frederic Martini',
+    description: 'Manuale per il corso di Anatomia, con atlante illustrato incluso.',
+    category: 'Medicina',
+    isbn: '9788829926879',
+    price: 45,
+    condition: 'buono',
+    available: true,
+    image: 'books/anatomia-umana.webp',
   },
   {
-    name: 'Occhiali da sole classici',
-    description: 'Occhiali da sole con montatura classica e lenti UV400.',
-    category: 'Accessori',
-    price: 19.9,
-    sizes: ['Unica'],
-    stock: 30,
-    image: 'products/occhiali-sole.webp',
+    title: 'Psicologia Generale',
+    author: 'David G. Myers',
+    description: 'Manuale introduttivo, alcune pagine con appunti a margine.',
+    category: 'Psicologia',
+    isbn: '9788808920123',
+    price: 18,
+    condition: 'accettabile',
+    available: true,
+    image: 'books/psicologia-generale.webp',
   },
 ];
 
@@ -91,7 +107,7 @@ async function run() {
   await connectDB(process.env.MONGODB_URI);
 
   // Puliamo le collezioni per ripartire da uno stato noto.
-  await Promise.all([User.deleteMany({}), Product.deleteMany({}), Order.deleteMany({})]);
+  await Promise.all([User.deleteMany({}), Book.deleteMany({}), Order.deleteMany({})]);
   console.log('[seed] collezioni svuotate');
 
   // Creiamo l'utente amministratore.
@@ -116,9 +132,9 @@ async function run() {
   });
   console.log('[seed] cliente di prova creato: cliente@nexumshop.it / Cliente#2026!');
 
-  // Inseriamo i prodotti.
-  await Product.insertMany(sampleProducts);
-  console.log(`[seed] ${sampleProducts.length} prodotti inseriti`);
+  // Inseriamo i libri.
+  await Book.insertMany(sampleBooks);
+  console.log(`[seed] ${sampleBooks.length} libri inseriti`);
 
   await mongoose.disconnect();
   console.log('[seed] completato.');
