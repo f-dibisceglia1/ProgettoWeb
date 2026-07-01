@@ -1,8 +1,15 @@
 import {Link} from 'react-router-dom';
 import {useAuth} from "../context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 
 export default function Header({search, handleSearch, handleMenu}){
+    const navigate = useNavigate();
     const{user, logout} = useAuth();
+
+    async function handleLogout(){
+        await logout();
+        navigate("/");
+    }
 
     return(
         <header className="header">
@@ -34,7 +41,7 @@ export default function Header({search, handleSearch, handleMenu}){
                              {/*cliccare su login porta alla LoginPage*/}
                              {
                                  user 
-                                 ? <button onClick={logout} className="header__logout-btn">Logout</button> 
+                                 ? <button onClick={handleLogout} className="header__logout-btn">Logout</button> 
                                  : <Link to="/login" className="header__login-btn">Login</Link>
                              }
                         </li>

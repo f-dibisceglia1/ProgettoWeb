@@ -1,51 +1,76 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import {getCart} from "../utils/cart.js";
-import ProductCard from "../components/BookCard.jsx";
+import { toggleCart } from "../utils/cart.js";
+import { createOrder } from "../services/api";
+import BookCard from "../components/BookCard.jsx";
 
 
-export default function CartPage({mockProducts}){
+export default function CartPage({books}){
+    const navigate = useNavigate();
     const cartIds = getCart();
     //array degli id dei prodotti nel carrello
 
-    const [cartProducts, setCartProducts] = useState(() => {
-        return mockProducts.filter(product => cartIds.includes(String(product.id)));
+    const [cartBooks, setCartBooks] = useState(() => {
+        return books.filter(book => cartIds.includes(String(book._id)));
     });
     //variabile di stato per registrare quali prodotti sono nel carrello
     //(deve essere possibile eliminare i prodotti dal carrello anche dalla CartPage)
     //a useState è passata una callback che restituisce un array con i prodotti nel carrello
 
-    const[myForm, setMyForm] = useState({name:"", address: "", cap: "", payment: "cash", cardNumber: ""});
+    const[myForm, setMyForm] = useState({name:"", address: "", city: "", cap: "", payment: "cash", cardNumber: ""});
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
+
+    const [error, setError] = useState("");
 
     function handleChange(e){
        setMyForm({...myForm, [e.target.name]: e.target.value})
     }
 
-    const subtotal = cartProducts.reduce((sum, product) => sum + product.price, 0);
-    const shipmentCost = 4.90;
+    const subtotal = cartBooks.reduce((sum, book) => sum + book.price, 0);
+    const shipmentCost = subtotal > 0 ? 5 : 0;
     const total = subtotal + shipmentCost;
-    //subtotale e totale dei prodotti nel carrello
     
 
     //funzione per aggiornare lo stato cartProducts quando si clicca il bottone
-    const handleCartProducts = (productId) => {
-        setCartProducts(prev => 
-            prev.filter(product => product.id !== productId)
+    const handleCartBooks = (bookId) => {
+        setCartBooks(prev => 
+            prev.filter(book => book._id !== bookId)
             //lascia in cartProducts solo i prodotti con id diverso dal prodotto
             //che si vuole rimuovere, quindi si aggiorna lo stato cartProducts
         );
     };
+
+     async function handleSubmit(e) {
+        e.preventDefault();
+        setError("");
+        
+        try {
+            const items = cartBooks.map(book => ({ bookId: book._id }));
+            const shippingAddress = {
+                street: myForm.address,
+                city: myForm.city,
+                zip: myForm.cap,
+            };
+            await createOrder(items, shippingAddress);
+
+            // svuota il carrello locale dopo l'acquisto riuscito
+            cartBooks.forEach(book => toggleCart(book._id));
+            navigate("/");
+        } catch (err) {
+            setError(err.message);
+        }
+    }
 
     return (
         <>
         <h1 className="cart__title">Carrello</h1>
         <div className="cart__container">
              <div className="cart-products__container">
-                 {cartProducts.map(product => (
+                 {cartBooks.map(book=> (
                  //fa il rendering solo dei prodotti in cartProducts    
-                    <ProductCard key={product.id} product={product} isCart={true} onCartChange={() => handleCartProducts(product.id)} />
+                    <BookCard key={book._id} book={book} isCart={true} onCartChange={() => handleCartBooks(book._id)} />
                     //non c'è bisogno di mettere di nuovo onClick, perché è già definito nel componente
                     //quindi quando si clicca su Rimuovi dal carrello viene eseguita handleCart che fa tre cose:
                     //1. rimuove il prodotto da localStorage
@@ -55,7 +80,7 @@ export default function CartPage({mockProducts}){
                 ))}            
             </div>
             <div className="cart__shipment-info">
-                <form className="cart__form">
+                <form className="cart__form" onSubmit = {handleSubmit}>
                     <div className="cart__form-field">
                         <label htmlFor="shipment-name">Nome e cognome</label>
                         <input type="text" id="shipment-name" name="name" value={myForm.name} onChange={handleChange} required/>
@@ -63,6 +88,10 @@ export default function CartPage({mockProducts}){
                     <div className="cart__form-field">
                         <label htmlFor="shipment-address">Indirizzo di spedizione</label>
                         <input type="text" id="shipment-address" name="address" value={myForm.address} onChange={handleChange} required/>
+                    </div>
+                    <div className="cart__form-field">
+                        <label htmlFor="shipment-city">Città</label>
+                        <input type="text" id="shipment-city" name="city" value={myForm.city} onChange={handleChange} required/>
                     </div>
                     <div className="cart__form-field">
                         <label htmlFor="shipment-cap">CAP</label>
@@ -94,7 +123,8 @@ export default function CartPage({mockProducts}){
                         <br />
                         Totale: {total.toFixed(2)} €
                     </p>
-                <button type="submit" id="cart__form-btn">Acquista</button>
+                    {error && <p className="cart__error">{error}</p>}
+                <button type="submit" id="cart__form-btn" disabled = {cartBooks.length === 0}>Acquista</button>
                 </form>
             </div>
         </div>

@@ -75,7 +75,7 @@ export default function App(){
                     <LoginPage />
                 } />
                 <Route path="/cart" element={
-                    <CartPage mockProducts={mockProducts}/>
+                    <CartPage books={books}/>
                 } />
                 <Route path="/profile" element={
                    <ProfilePage /> 

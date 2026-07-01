@@ -1,11 +1,11 @@
 :root{
     /*variabili colori*/
-    --primary-color: #2D6A4F;
-    --secondary-color: #52B788;
-    --tertiary-color: #B7E4C7;
-    --background-color: #F5F0E8;
-    --details-color: #FFB740;
-    --font-color: #2C2C2C;
+    --primary-color: #FFFFFF;
+    --secondary-color: #E4E2DD;
+    --background-color: #FAFAF8;
+    --border-color: #E4E2DD;
+    --details-color: #2B4C3F;
+    --font-color: #1A1A18;
 
     /*variabili font*/
     --title-font: 'Lora', serif;
@@ -62,7 +62,7 @@ ul{
     width: 100%; /*prende tutta la larghezza disponibile*/
     height: var(--header-height); 
     
-    border-bottom: 1px solid var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
     /*bordo solo in basso*/
 
     z-index: 100;
@@ -90,7 +90,6 @@ ul{
 
 .header__logo{
     font-family: var(--title-font);
-    color: var(--primary-color);
 
     font-size: 1.6rem;
 
@@ -111,7 +110,7 @@ ul{
     /*allinea gli elementi al centro del box*/
     height: 27px;
     /*assegnata altezza*/    
-    border: 1px solid var(--secondary-color);
+    border: 1px solid var(--border-color);
     /*aggiunto bordo*/
     border-radius: 15px;
     /*reso bordi più tondi*/
@@ -120,7 +119,7 @@ ul{
 }
 
 .header__searchbar-icon{
-    color: var(--secondary-color);
+    color: var(--font-color);
 }
 
 #search-input{ 
@@ -150,7 +149,7 @@ ul{
     /*si prende tutta la larghezza disponibile*/
     height: 40px; 
     /*assegnata altezza*/
-    background-color: var(--tertiary-color);
+    background-color: var(--secondary-color);
     /*assegnato colore background per contrasto*/
     display: flex;
     /*modificato la visualizzazione interna: lo rende un flexbox
@@ -161,7 +160,7 @@ ul{
     dello spazio vuoto intorno ad ognuno*/
     align-items: center;
     /*allinea gli elementi del flexbox al centro*/
-    border-bottom: 1px solid var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
     /*aggiunto bordo in basso*/
 }
 
@@ -188,7 +187,7 @@ ul{
     /*dimensione icona hamburger per il menù*/
     cursor: pointer;
     /*quando il cursore ci passa sopra diventa una manina*/
-    color: var(--primary-color);
+    color: var(--font-color);
 }
 
 .header__menu-btn:focus{
@@ -241,7 +240,7 @@ ul{
 
 .product-card{
     margin: 5px;
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 
@@ -250,7 +249,7 @@ ul{
 }
 
 .product-card__img{
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     
     min-height: 5em;
 }
@@ -274,11 +273,10 @@ ul{
     /*centra il contenitore nella pagina*/
     padding: 20px;
     
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
 
     background-color: var(--secondary-color);
-    color: white;
 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     /*aggiunge un'ombra al contenitore per farlo risaltare*/
@@ -307,7 +305,7 @@ ul{
     width: 50%;
     height: 22px;
 
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
 }
 
@@ -353,8 +351,6 @@ ul{
 /*---------CartPage-------------*/
 .cart__title{
     margin: 1%;
-
-    color: var(--primary-color)
 }
 
 .cart-products__container{
@@ -370,7 +366,7 @@ ul{
 }
 
 .cart__product-card .product-card__info{
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
 
     width: 100%;
 
@@ -388,10 +384,10 @@ ul{
 
     max-height: fit-content;
     
-    border: 1px solid var(--primary-color);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
 
-    background-color: var(--tertiary-color)
+    background-color: var(--secondary-color)
 }
 
 .cart__form-field{
@@ -439,7 +435,7 @@ ul{
 
     font-size: medium;
 
-    background-color: var(--primary-color);
+    background-color: var(--details-color);
     
     color: white;
     font-weight: 700;
@@ -449,7 +445,7 @@ ul{
 
 /*---------ProfilePage-------------*/
 .profile__container{
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     border-radius: 10px;
 
     margin: 2%;
@@ -470,7 +466,7 @@ ul{
 }
 
 .profile__container-info-field{
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--border-color);
 
     display: flex;
     gap: 0.3rem;
@@ -569,13 +565,13 @@ ul{
     }
 
     .header__login-btn, .header__logout-btn{
-        border: 1px solid var(--secondary-color);
+        border: 1px solid var(--border-color);
         /*aggiunto bordo al bottone*/
         border-radius: 15px;
         /*reso bordi più tondi*/
         padding: 9px;
         /*aggiunto dello spazio tra bordo e contenuto(scritta Login)*/
-        background-color: var(--secondary-color);
+        background-color: var(--details-color);
         /*colore di background per dare contrasto*/
         color: white;
         /*cambiato colore per renderlo più leggibile*/

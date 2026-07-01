@@ -123,3 +123,35 @@ export async function deleteBook(id){
         method: "DELETE",
     });
 }
+
+//---------------ORDINI-------------------
+export async function createOrder(items, shippingAddress){
+    return request("/orders", {
+        method: "POST",
+        body: JSON.stringify(
+            {
+                items,
+                shippingAddress,
+            }
+        ),
+    });
+}
+
+export async function myOrders(){
+    return request("/orders/mine", {
+        method: "GET",
+    });
+}
+
+export async function listOrders(){
+    return request("/orders", {
+        method: "GET",
+    });
+}
+
+export async function updateOrderStatus(status, id){
+    return request(`/orders/${id}/status`, {
+        method: "PUT",
+        body: JSON.stringify({status}),
+    });
+}
