@@ -27,7 +27,7 @@ export default function Header({search, handleSearch, handleMenu}){
                      className="header__searchbar-input" 
                      placeholder="Cerca..." 
                      value={search}
-                     onChange={(e) => handleSearch(e.target.value)}/>
+                     onChange={(e) => {handleSearch(e.target.value); navigate("/");}}/>
                 </div>
                 <nav className="nav">
                     <ul className="nav__list">
