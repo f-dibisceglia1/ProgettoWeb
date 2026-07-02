@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {getCart} from "../utils/cart.js";
+import { getCart } from "../utils/cart.js";
 import { toggleCart } from "../utils/cart.js";
 import { createOrder } from "../services/api";
+import { useAuth } from "../context/AuthContext.jsx";
 import BookCard from "../components/BookCard.jsx";
 
 
 export default function CartPage({books}){
     const navigate = useNavigate();
+    const {user} = useAuth();
     const cartIds = getCart();
     //array degli id dei prodotti nel carrello
 
@@ -18,7 +20,7 @@ export default function CartPage({books}){
     //(deve essere possibile eliminare i prodotti dal carrello anche dalla CartPage)
     //a useState è passata una callback che restituisce un array con i prodotti nel carrello
 
-    const[myForm, setMyForm] = useState({name:"", address: "", city: "", cap: "", payment: "cash", cardNumber: ""});
+    const[myForm, setMyForm] = useState({name: "", address: user?.address?.street || "", city: user?.address?.city || "", cap: user?.address?.zip || "", payment: "cash", cardNumber: ""});
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
 
