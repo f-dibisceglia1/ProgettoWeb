@@ -13,7 +13,11 @@ export default defineConfig({
 
         proxy: {
            "/api": "http://localhost:4000",
-           "/assets": "http://localhost:4000"
+           "/assets": "http://localhost:4000",
+            "/socket.io": {
+            target: "http://localhost:4000",
+            ws: true, // dice a vite di fare proxy anche per i websocket
+            }
         },
     }
 })

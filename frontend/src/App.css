@@ -258,10 +258,28 @@ ul{
     padding-left: 3%;
 
     font-size: small;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .product-card__cart-btn{
     margin-top: auto;
+    margin-bottom: 1%;
+
+    padding: 9px;
+
+    width: fit-content;
+
+    align-self: center;
+
+    border-radius: 20px;
+
+    border: 1px solid var(--border-color);
+    background-color: var(--details-color);
+    color: white;
+
     cursor: pointer;
 }
 
@@ -358,6 +376,8 @@ ul{
 }
 
 .cart__product-card {
+    padding: 2%;
+
     display: flex;
 }
 
@@ -366,6 +386,8 @@ ul{
 }
 
 .cart__product-card .product-card__info{
+    padding: 1%;
+
     border: 1px solid var(--border-color);
 
     width: 100%;
@@ -376,6 +398,8 @@ ul{
 }
 
 .cart__product-card .product-card__cart-btn{
+    margin-left: auto;
+
     max-width: fit-content;
 }
 
@@ -459,30 +483,31 @@ ul{
     gap: 2rem;
 }
 
-.profile__container-info{
+.profile__info{
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
 }
 
-.profile__container-info-field{
+.profile__info-field{
     border-bottom: 1px solid var(--border-color);
 
     display: flex;
+    flex-wrap: wrap;
     gap: 0.3rem;
     align-items: center;
 }
 
-.profile__container-info-field i{
+.profile__info-field i{
     font-size: 1.8rem;
     margin: 2%;
 }
 
-.profile__container-info-field label{
+.profile__info-field label{
     font-weight: bold;
 }
 
-.modify-btn{
+.modify-btn, .save-btn{
     margin-left: auto;
     padding: 9px;
 
@@ -498,25 +523,34 @@ ul{
 
 .modify__form{
     margin-left: auto;
+
+    display: flex;
+
+    gap: 0.5rem;
 }
 
 .modify__form input{
-    border-radius: 10px;
-    height: 25px;
-}
-
-
-.modify__form button{
-    padding: 4px;
+    padding: 9px;
 
     border-radius: 20px;
 
-    font-family: var(--body-font);
-    font-size: small;
+    height: 35px;
 
-    background-color: transparent;
+    flex: 1;
+}
 
-    cursor: pointer;
+
+.profile__order-card{
+    margin: 2%;
+    padding: 2%;
+
+    border: 1px solid var(--border-color);
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    gap: 0.8rem;
 }
 
 
@@ -624,4 +658,11 @@ ul{
         display: grid;
         grid-template-columns: 2fr 1fr;
     }
+
+    /*---------ProfilePage-------------*/
+    .profile__order-card{
+    flex-direction: row;
+
+    align-items: center;
+}
 }

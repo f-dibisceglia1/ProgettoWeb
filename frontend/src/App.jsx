@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
+import { io } from 'socket.io-client';
 
 
 import Header from './components/Header';
@@ -47,6 +48,23 @@ export default function App(){
         //ogni volta che si clicca sull'icona hamburger menuOpen assume valore opposto al valore
         //attuale
     }
+
+    useEffect(() => {
+        const socket = io("/", { path: "/socket.io" });
+
+        socket.on("book:update", ({ bookId, available }) => {
+            setBooks(prev => {
+                if (!available) {
+                    // il libro e' stato venduto lo rimuove dal catalogo visibile
+                    return prev.filter(book => book._id !== bookId);
+                }
+            });
+    });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, [])
 
     useEffect(() => {
         async function fetchBooks(){
