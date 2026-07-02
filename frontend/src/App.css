@@ -194,6 +194,28 @@ ul{
     outline: none;
 }
 
+/*---------FilterBar-------------*/
+.filter-bar__container{
+    padding: 2%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    
+}
+
+.filter-bar-btn{
+    padding: 9px;
+    
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+
+    background-color: var(--secondary-color);
+
+    font-family: var(--body-font);
+    font-size: small;
+
+    cursor: pointer;
+}
 
 /*---------main-------------*/
 .main{
@@ -230,17 +252,20 @@ ul{
 
 .products__container{
     min-height: 100vh;
-
+    
     padding: 2%;
+    padding-top: 0;
 
     display: grid;
     grid-template-columns: 50% 50%;
-    /*non definendo un template per le righe si creano da sole*/
+    grid-auto-rows: max-content;
 }
 
 .product-card{
     margin: 5px;
+
     border: 1px solid var(--border-color);
+
     display: flex;
     flex-direction: column;
 

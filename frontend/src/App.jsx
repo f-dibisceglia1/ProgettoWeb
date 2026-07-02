@@ -27,21 +27,7 @@ export default function App(){
     //dove si trova la barra di ricerca.
     const [error, setError] = useState("");
     const[books, setBooks] = useState([]); 
-    
-
-    //!!array di prova per implementare CartPage in attesa di backend!!
-    const mockProducts = [
-    { id: 1, name: "Analisi Matematica", price: 15, image: "/books/analisi1.jpg" },
-    { id: 2, name: "Fisica Generale", price: 20, image: "/books/fisica.jpg" },
-    { id: 3, name: "Chimica Organica", price: 18, image: "/books/chimica.jpg" },
-    { id: 4, name: "Economia Aziendale", price: 12, image: "/books/economia.jpg" },
-    { id: 5, name: "Reti di Telecomunicazioni", price: 15, image: "/books/reti.jpg" },
-    { id: 6, name: "Fondamenti Web", price: 20, image: "/books/web.jpg" },
-    { id: 7, name: "Calcolo Numerico", price: 13, image: "/books/calcolo.jpg" },
-    { id: 8, name: "Metodi di Ottimizzazione", price: 19, image: "/books/metodi.jpg" },
-    { id: 9, name: "Algoritmi e Strutture Dati Java", price: 8, image: "/books/java.jpg" },
-    { id: 10, name: "Controllo Digitale", price: 12, image: "/books/controllo.jpg" }
-];
+    const [category, setCategory] = useState("");
 
     function handleMenu(){
         setMenuOpen(!menuOpen);
@@ -71,14 +57,14 @@ export default function App(){
             setError("");            
             try{
                 const trimmedQ = q.trim();
-                const data = await listBooks({q: trimmedQ});
+                const data = await listBooks({q: trimmedQ, category: category});
                 setBooks(data);
             }catch(err){
                 setError(err.message);
             }
         }
         fetchBooks();
-    }, [q])
+    }, [q, category])
 
     return (
         <>
@@ -87,7 +73,7 @@ export default function App(){
             {menuOpen && <Menu />}
             <Routes>
                 <Route path="/" element={
-                    <HomePage books={books}/>
+                    <HomePage books={books} category={category} onCategoryChange={setCategory}/>
                 } />
                 <Route path="/login" element={
                     <LoginPage />
