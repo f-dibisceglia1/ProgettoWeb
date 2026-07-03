@@ -6,24 +6,37 @@ const API_BASE = "/api/v1";
 //1. l'endpoint
 //2. un oggetto options (può includere method, headers, body, ...)
 //la funzione manda una fetch allo specifico endpoint aggiungendo /api/v1 all'url 
-//e invia il cookie per l'autenticazione tramite credentials: 'include' (i token di accesso sono memorizzati nei cookie)
+//e invia il cookie per l'autenticazione tramite credentials: "include" (i token di accesso sono memorizzati nei cookie)
 async function request(endpoint, options = {}) {
     const headers = { "Content-Type": "application/json", ...options.headers };
     //crea un header Content-Type : application/json per comunicare al server il tipo dei dati
     //(application/json è un MIME type --> application è il tipo principale, json il sottotipo)
     //lo spread operator serve ad aggiungere all'oggetto headers gli options.headers passati come 
     //parametro alla funzione
+    //quindi headers = {
+    //         "Content-Type": "application/json",
+    //          options.headers
+    //       }
 
     const res = await fetch(`${API_BASE}${endpoint}`, { 
     //fetch a /api/v1/url_endpoint
         ...options, 
         headers,
-        credentials: 'include' // invia automaticamente il cookie
+        credentials: "include" // invia automaticamente il cookie
         //con lo spread operator prende tutte le opzioni ricevute e 
         //ci aggiunge headers e credentials
+        //quindi options = {
+        //       headers ={
+        //         "Content-Type": "application/json",
+        //          options.headers
+        //         },
+        //       credentials: "include"
+        //       }
     });
+    //res è una promise
 
-    const data = await res.json();
+
+    const data = await res.json(); //res.json() è un'altra promise
     //trasforma la risposta ricevuta in un oggetto json
     if (!res.ok) throw new Error(data.message || "Errore del server");
     //se la richiesta non è andata a buon fine lancia un errore 

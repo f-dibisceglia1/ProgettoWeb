@@ -11,7 +11,8 @@ import Menu from './components/Menu';
 import LoginPage from './pages/LoginPage';
 import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
-import ProfilePage from "./pages/ProfilePage"
+import ProfilePage from "./pages/ProfilePage";
+import BookDetailPage from "./pages/BookDetailPage";
 import { listBooks } from './services/api';
 
 
@@ -52,6 +53,8 @@ export default function App(){
         };
     }, [])
 
+
+
     useEffect(() => {
         async function fetchBooks(){
             setError("");            
@@ -66,6 +69,7 @@ export default function App(){
         fetchBooks();
     }, [q, category])
 
+
     return (
         <>
         <Header handleMenu={handleMenu} search={q} handleSearch={setQ}/>
@@ -74,6 +78,9 @@ export default function App(){
             <Routes>
                 <Route path="/" element={
                     <HomePage books={books} category={category} onCategoryChange={setCategory}/>
+                } />
+                <Route path="/books/:id" element={
+                    <BookDetailPage />
                 } />
                 <Route path="/login" element={
                     <LoginPage />

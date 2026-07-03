@@ -30,7 +30,7 @@ function setTokenCookie(res, token) {
   });
 }
 
-// POST /api/auth/register
+// POST /api/v1/auth/register
 async function register(req, res) {
   const { name, email, password } = req.body;
   if (!name || !email || !password) {
@@ -54,9 +54,10 @@ async function register(req, res) {
   res.status(201).json({ user});
 }
 
-// POST /api/auth/login
+// POST /api/v1/auth/login
 async function login(req, res) {
-  const { email, password } = req.body;
+  const { email, password } = req.body; 
+  //la richiesta contiene le credenziali nel body
   if (!email || !password) {
     return res.status(400).json({ message: 'Email e password sono obbligatorie.' });
   }

@@ -268,15 +268,39 @@ ul{
 
     display: flex;
     flex-direction: column;
+}
+
+.product-card__link{
+    display: flex;
+    flex-direction: column;
 
     max-width: auto;
     min-height: auto;
 }
 
+.product-card__info{
+    padding: 2%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.product-card__name{
+    font-size: medium;
+    font-weight: 500; 
+}
+
+.product-card__meta{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
 .product-card__img{
     border: 1px solid var(--border-color);
-    
-    min-height: 5em;
+
+    min-height: 120px;
 }
 
 .product-card__info{
@@ -401,19 +425,27 @@ ul{
 }
 
 .cart__product-card {
-    padding: 2%;
+    border: 1px solid var(--border-color);
+
 
     display: flex;
 }
 
-.cart__product-card .product-card__img{
-    min-width: 30%;
+.cart__product-link{
+    display: flex;
+}
+
+.cart__product-card  .cart__product-card__img{
+    border: 1px solid var(--border-color);
+
+    width: 120px;       
+    /* forza una larghezza fissa uguale per tutte */
+    height: 160px;      
+    /* imposta un'altezza per la copertina*/
 }
 
 .cart__product-card .product-card__info{
-    padding: 1%;
-
-    border: 1px solid var(--border-color);
+    padding: 2%;
 
     width: 100%;
 
@@ -579,7 +611,58 @@ ul{
 }
 
 
+/*---------BookDetailPage-------------*/
+.book-details__container{
+    border: 1px solid black;
 
+    display: flex;
+    flex-direction: column;
+}
+
+.book__img{
+    min-height: 35vh;
+}
+
+.book__meta p,div{
+    font-size: large;
+}
+
+.book__meta{
+    padding: 3%;
+
+    min-height: 60vh;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+.book__meta h1{
+    align-self: center;
+}
+
+.first-word{
+    color: #757575;
+}
+
+.book__cart-btn{
+    padding: 9px;
+
+    width: fit-content;
+
+    align-self: center;
+
+    border-radius: 20px;
+
+    border: 1px solid var(--border-color);
+    background-color: var(--details-color);
+
+    color: white;
+    font-size: large;
+
+    cursor: pointer;
+}
 
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------
  stile della pagina in modalità desktop realizzato tramite media query*/
@@ -686,8 +769,19 @@ ul{
 
     /*---------ProfilePage-------------*/
     .profile__order-card{
-    flex-direction: row;
+        flex-direction: row;
 
-    align-items: center;
+        align-items: center;
+    }
+
+    .book-details__container{
+        flex-direction: row;
+    }
+
+    .book__img{
+        width: 50%;
+    }
+
 }
-}
+
+
