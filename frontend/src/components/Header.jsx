@@ -68,6 +68,9 @@ export default function Header({search, handleSearch, handleMenu}){
                         {user && <li id="header__profile"><Link to="/profile">Profilo</Link></li>}
                         {/*se c'è un utente attualmente loggato viene renderizzato il link che porta 
                         alla pagina di profilo*/}
+                        {user?.role === "admin" && <li id="header__dashboard"><Link to="/dashboard">Dashboard</Link></li>}
+                        {/*se c'è un admin attualmente loggato viene renderizzato il link che porta 
+                        alla dashboard*/}
                         <li id="header__cart">
                             <Link to="/cart" className="header__cart-btn">Carrello</Link> 
                             {/*cliccare su carrello porta alla CartPage*/}

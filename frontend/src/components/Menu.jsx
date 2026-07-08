@@ -30,6 +30,9 @@ export default function Menu(){
             {user && <Link to="/profile" className="menu__profile">Profilo</Link>} 
             {/*se c'è un utente attualmente loggato viene renderizzato il link che porta 
             alla pagina di profilo*/}
+            {user?.role === "admin" && <Link to="/dashboard" className="menu__dashboard">Dashboard</Link>}
+            {/*se c'è un admin attualmente loggato viene renderizzato il link che porta 
+            alla dashboard*/}
         </div>  
     );
 }

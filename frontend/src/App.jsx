@@ -13,6 +13,7 @@ import HomePage from "./pages/HomePage";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
 import BookDetailPage from "./pages/BookDetailPage";
+import DashboardPage from "./pages/DashboardPage";
 
 
 import { listBooks } from './services/api';
@@ -150,7 +151,9 @@ export default function App(){
                 } />
 
 
-                
+                <Route path="/dashboard" element={
+                    <DashboardPage />
+                } />
             </Routes>
         </main>
         <footer className="footer">
