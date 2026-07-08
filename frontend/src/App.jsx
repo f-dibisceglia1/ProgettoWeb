@@ -53,21 +53,32 @@ export default function App(){
     useEffect(() => {
         const socket = io("/", { path: "/socket.io" });
 
-        socket.on("book:update", ({ bookId, available }) => {
-        //quando si comprano i libri nel carrello viene chiamata
-        //createOrder che setta la disponibilità di ogni libro 
-        //a false (book.available = false) ed emette per ogni libro 
-        //l'evento book:update (availabilityUpdates.forEach((u) => io.emit('book:update', u)))
-            setBooks(prev => {
-                if (!available) {
-                    // il libro e' stato venduto lo rimuove dal catalogo visibile
-                    return prev.filter(book => book._id !== bookId);
-                }
-                return prev;
-            });
-        //quando viene emesso l'evento book:update si aggiorna lo 
-        //stato books con i libri ancora disponibili
-    });
+        socket.on("book:update", (updatedBook) => {
+          setBooks(prev => {
+            if (!updatedBook.available) {
+            //se non più disponibile lo toglie dal catalogo 
+                return prev.filter(book => book._id !== updatedBook._id);
+            }
+           //se il libro e' ancora disponibile ed è nella lista books attuale     
+           //.filter() scorre tutto l'array e restituisce un nuovo array
+           //contenente solo gli elementi che soddisfano la condizione 
+           //"ha lo stesso id del libro aggiornato"
+           //questo array puo' contenere al massimo un solo elemento 
+           //(perché gli id sono unici) oppure zero
+           const match = prev.filter(book => book._id === updatedBook._id);
+
+            if (match.length > 0) {
+              return prev.map(book => book._id === updatedBook._id ? updatedBook : book);
+              //per ogni libro se il suo _id combacia con quello aggiornato 
+              //lo sostituisce con la nuova versione (updatedBook) 
+              //altrimenti lo lascia invariato
+            }
+
+           return [updatedBook, ...prev];
+            //se il libro non era nella lista attuale (era stato rimosso
+            //poi e' tornato disponibile) lo aggiunge in cima 
+          });
+});
 
     socket.on("book:created", (newBook) => {
         setBooks(prev => [newBook, ...prev]);

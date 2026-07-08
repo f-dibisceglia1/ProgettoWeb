@@ -67,7 +67,7 @@ async function updateBook(req, res) {
 
   // Notifica in tempo reale: la disponibilità potrebbe cambiare quindi available passa a false.
   const io = req.app.get('io');
-  io.emit('book:update', { bookId: book._id.toString(), available: book.available });
+  io.emit('book:update', book);
 
   res.json(book);
 }

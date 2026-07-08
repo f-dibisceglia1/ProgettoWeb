@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { createBook } from "../services/api";
 import { listBooks } from "../services/api";
 import { deleteBook } from "../services/api";
+import { updateBook } from "../services/api";
 
 export default function DashboardPage(){
     const[myForm, setMyForm] = useState({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", image:""});
@@ -13,7 +14,10 @@ export default function DashboardPage(){
     const[error, setError] = useState("");
 
     const[search, setSearch] = useState("");
-   const[books, setBooks] = useState([]);
+    const[books, setBooks] = useState([]);
+    const[editingId, setEditingId] = useState(null);
+
+    const[myUpdateForm, setMyUpdateForm] = useState({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", available: true, image:""});
 
 
     function handleChange(e){
@@ -45,6 +49,12 @@ export default function DashboardPage(){
     useEffect(() => {
         async function findBook(){
         setError("");
+
+        if (!search.trim()) {
+            setBooks([]);
+            return;
+        }
+
         try{
             const data = await listBooks({q: search, category: ""});
             setBooks(data);
@@ -69,6 +79,40 @@ export default function DashboardPage(){
             setError(err.message);
         }
     }
+
+    function handleEditing(book){
+        setEditingId(book._id);
+        setMyUpdateForm({
+        title: book.title,
+        author: book.author,
+        description: book.description,
+        category: book.category,
+        price: book.price,
+        condition: book.condition,
+        available: book.available,
+        image: book.image,
+    });
+    }
+
+    function handleUpdateChange(e){
+        setMyUpdateForm({...myUpdateForm, [e.target.name]: e.target.value});
+    }
+
+    async function handleUpdateSubmit(e, id){
+    e.preventDefault();
+    setError("");
+
+    try{
+        const updated = await updateBook(id, {
+            ...myUpdateForm
+        });
+        // sostituisce il libro modificato nella lista senza rifare la fetch
+        setBooks(prev => prev.map(book => book._id === id ? updated : book));
+        setEditingId(null);
+    }catch(err){
+        setError(err.message);
+    }
+}
     
     return(
         <div className="dashboard__container">
@@ -126,18 +170,79 @@ export default function DashboardPage(){
                 </div>
                 <div>
                     {books.map((book) => {
+                        const isEditingThisBook = editingId === book._id;
+                        //confronta l'id del libro che voglio modificare con 
+                        //l'id del libro che sto renderizzando adesso 
+                        //il risultato è true solo per il libro giusto, false 
+                        //per tutti gli altri
+
                         return(
                         <div key={book._id} className="dashboard__books">
-                            <div className="dashboard__books-info">
-                                <p>{book.title}</p>
-                                <p>{book.author}</p>
-                                <p>{book.price.toFixed(2)} €</p>
-                                <p>{book._id}</p>
+                            <div className="dashboard__books-card">
+                                <div className="dashboard__books-info">
+                                     <p>{book.title}</p>
+                                     <p>{book.author}</p>
+                                     <p>{book.price.toFixed(2)} €</p>
+                                     <p>{book.available ? "Disponibile" : "Non disponibile"}</p>
+                                     <p>{book._id}</p>
+                                </div>
+                                <div className="dashboard__books-actions">
+                                     <button type="button" onClick={() => handleDelete(book._id)}>Elimina</button>
+                                     <button type="button" onClick={() => handleEditing(book)}>Modifica</button>
+                                </div>      
                             </div>
-                            <div className="dashboard__books-actions">
-                                <button type="button" onClick={() => handleDelete(book._id)}>Elimina</button>
-                                <button type="button">Modifica</button>
-                            </div>                            
+                            <div className="update-book__form">
+                                {isEditingThisBook && 
+                                <form onSubmit={(e) => handleUpdateSubmit(e, book._id)}>
+                                  <div className="update-book__form-field">
+                                      <label htmlFor="book-title">Titolo</label>
+                                      <input type="text" id="book-title" name="title" value={myUpdateForm.title} onChange={handleUpdateChange} required/>
+                                  </div>
+                                  <div className="update-book__form-field">
+                                       <label htmlFor="book-author">Autore/i</label>
+                                       <input type="text" id="book-author" name="author" value={myUpdateForm.author} onChange={handleUpdateChange} required/>
+                                  </div>
+                                  <div className="update-book__form-field">
+                                      <label htmlFor="book-description">Descrizione</label>
+                                      <textarea id="book-description" name="description" value={myUpdateForm.description} onChange={handleUpdateChange} required> </textarea>
+                                  </div>
+                                  <div className="update-book__form-field">
+                                      <label htmlFor="book-category">Categoria</label>
+                                      <input type="text" id="book-category" name="category" value={myUpdateForm.category} onChange={handleUpdateChange} required/>
+                                 </div>
+                                 <div className="update-book__form-field">
+                                     <label htmlFor="book-price">Prezzo</label>
+                                     <input type="text" id="book-price" name="price" value={myUpdateForm.price} onChange={handleUpdateChange} pattern="[0-9]{2}" required/>
+                                 </div>
+                                 <div className="update-book__form-field">
+                                     <label htmlFor="book-condition">Condizioni</label>
+                                     <select id="book-condition" name="condition" value={myUpdateForm.condition} onChange={handleUpdateChange} required>
+                                           <option value="come nuovo">come nuovo</option>
+                                           <option value="ottimo">ottimo</option>
+                                           <option value="buono">buono</option>
+                                           <option value="accettabile">accettabile</option>
+                                           <option value="scadente">scadente</option>
+                                     </select>
+                                 </div>
+                                 <div className="update-book__form-field">
+                                       <label htmlFor="book-available">Disponibile</label>
+                                       <input 
+                                          type="checkbox" 
+                                          id="book-available" 
+                                          name="available" 
+                                          checked={myUpdateForm.available} 
+                                          onChange={(e) => setMyUpdateForm({...myUpdateForm, available: e.target.checked})}
+                                        />
+                                 </div>
+                                 <div className="update-book__form-field">
+                                      <label htmlFor="book-image">Immagine</label>
+                                      <input type="text" id="book-image" name="image" value={myUpdateForm.image} onChange={handleUpdateChange} required/>
+                                 </div>
+                                 <button type="submit" id="update-book__form-btn">Salva</button>
+                               </form>
+                                }
+                            </div>
+                                                  
                         </div>
                         )                        
                     })
