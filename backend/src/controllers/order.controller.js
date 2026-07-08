@@ -10,7 +10,7 @@
 const Book = require('../models/Book.js');
 const Order = require('../models/Order.js');
 
-// POST /api/orders  (cliente) -> crea un ordine a partire dal carrello.
+// POST /api/v1/orders  (cliente) -> crea un ordine a partire dal carrello.
 // Il corpo atteso e': { items: [{ booksId }], shippingAddress }
 async function createOrder(req, res) {
   const { items, shippingAddress } = req.body;
@@ -72,13 +72,13 @@ async function createOrder(req, res) {
   res.status(201).json(order);
 }
 
-// GET /api/orders/mine  (cliente) -> gli ordini dell'utente loggato
+// GET /api/v1/orders/mine  (cliente) -> gli ordini dell'utente loggato
 async function myOrders(req, res) {
   const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
   res.json(orders);
 }
 
-// GET /api/orders  (admin) -> tutti gli ordini
+// GET /api/v1/orders  (admin) -> tutti gli ordini
 async function listOrders(req, res) {
   const orders = await Order.find()
     .populate('user', 'name email')
@@ -86,7 +86,7 @@ async function listOrders(req, res) {
   res.json(orders);
 }
 
-// PUT /api/orders/:id/status  (admin) -> aggiorna lo stato di un ordine
+// PUT /api/v1/orders/:id/status  (admin) -> aggiorna lo stato di un ordine
 async function updateOrderStatus(req, res) {
   const { status } = req.body;
   const order = await Order.findById(req.params.id);

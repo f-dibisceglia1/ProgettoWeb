@@ -77,20 +77,20 @@ async function login(req, res) {
   res.json({ user });
 }
 
-// POST /api/auth/logout
+// POST /api/v1/auth/logout
 async function logout(req, res) {
   res.clearCookie('token');
   res.json({ message: 'Logout effettuato.' });
 }
 
-// GET /api/auth/me  (rotta protetta)
+// GET /api/v1/auth/me  (rotta protetta)
 // Restituisce l'utente attualmente autenticato: il frontend la usa all'avvio
 // per capire se esiste gia' una sessione valida.
 async function me(req, res) {
   res.json({ user: req.user });
 }
 
-// PUT /api/auth/profile  (rotta protetta)
+// PUT /api/v1/auth/profile  (rotta protetta)
 // Aggiorna nome e indirizzo dell'utente loggato.
 async function updateProfile(req, res) {
   const { name, address } = req.body;

@@ -7,7 +7,7 @@
 // reale, senza ricaricare la pagina.
 const Book = require('../models/Book.js');
 
-// GET /api/books  -> lista catalogo (con filtro opzionale per categoria/ricerca)
+// GET /api/v1/books  -> lista catalogo (con filtro opzionale per categoria/ricerca)
 async function listBooks(req, res) {
   const { category, q } = req.query;
   const filter = {};
@@ -21,7 +21,7 @@ async function listBooks(req, res) {
   res.json(books);
 }
 
-// GET /api/book/:id -> dettaglio di un singolo prodotto
+// GET /api/v1/book/:id -> dettaglio di un singolo prodotto
 async function getBook(req, res) {
   const book = await Book.findById(req.params.id);
   if (!book) {
@@ -30,7 +30,7 @@ async function getBook(req, res) {
   res.json(book);
 }
 
-// POST /api/books  (admin) -> crea un nuovo prodotto
+// POST /api/v1/books  (admin) -> crea un nuovo prodotto
 async function createBook(req, res) {
   const { title, author, description, category, price, condition, available, image } = req.body;
   if (!title || !category || price == null) {
@@ -49,7 +49,7 @@ async function createBook(req, res) {
   res.status(201).json(book);
 }
 
-// PUT /api/books/:id  (admin) -> modifica un libro esistente
+// PUT /api/v1/books/:id  (admin) -> modifica un libro esistente
 async function updateBook(req, res) {
   const book = await Book.findById(req.params.id);
   if (!book) {
@@ -69,7 +69,7 @@ async function updateBook(req, res) {
   res.json(book);
 }
 
-// DELETE /api/books/:id  (admin) -> elimina un libro
+// DELETE /api/v1/books/:id  (admin) -> elimina un libro
 async function deleteBook(req, res) {
   const book = await Book.findByIdAndDelete(req.params.id);
   if (!book) {
