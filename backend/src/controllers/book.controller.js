@@ -46,6 +46,9 @@ async function createBook(req, res) {
     available,
     image,
   });
+  const io = req.app.get('io');
+  io.emit('book:created', book);
+
   res.status(201).json(book);
 }
 

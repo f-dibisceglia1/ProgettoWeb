@@ -669,7 +669,7 @@ ul{
 
 
 /*---------DashboardPage-------------*/
-.dashboard__create-book{
+.dashboard__create-book, .dashboard__update-book{
     margin: 2%;
     padding: 2%;
 
@@ -728,6 +728,23 @@ ul{
     font-weight: 700;
 
     cursor: pointer;
+}
+
+.dashboard__books{
+    padding: 2%;
+
+    display: flex;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.dashboard__books-actions{
+    margin-left: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
 }
 
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------

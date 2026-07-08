@@ -63,9 +63,16 @@ export default function App(){
                     // il libro e' stato venduto lo rimuove dal catalogo visibile
                     return prev.filter(book => book._id !== bookId);
                 }
+                return prev;
             });
         //quando viene emesso l'evento book:update si aggiorna lo 
         //stato books con i libri ancora disponibili
+    });
+
+    socket.on("book:created", (newBook) => {
+        setBooks(prev => [newBook, ...prev]);
+        //aggiunge il libro appena creato in cima alla lista
+        //senza rifare la fetch
     });
 
         return () => {
