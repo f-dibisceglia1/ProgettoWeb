@@ -200,7 +200,6 @@ ul{
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem;
-    
 }
 
 .filter-bar-btn{
@@ -335,6 +334,7 @@ ul{
     cursor: pointer;
 }
 
+
 /*---------LoginPage-------------*/
 .form__container{
     max-width: 350px;
@@ -382,6 +382,7 @@ ul{
 .form__field > input:focus{
     outline: none;
     /*toglie il contorno giallo*/
+    border-color: var(--details-color);
 }
 
 #form__action-btn{
@@ -461,6 +462,10 @@ ul{
     margin-left: auto;
 
     max-width: fit-content;
+
+    flex-shrink: 0;
+    /* evita che il bottone venga compresso quando il fratello 
+    richiede più spazio */
 }
 
 .cart__shipment-info{
@@ -489,11 +494,17 @@ ul{
 }
 
 .cart__form-field input{
+    padding: 8px 10px;
+
     height: 22px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
 
 .cart__form-field input:focus{
     outline: none;
+    border-color: var(--details-color);
 }
 
 .cart__form-field div{
@@ -673,6 +684,10 @@ ul{
     margin: 2%;
     padding: 2%;
 
+    height: fit-content; 
+
+    border: 1px solid var(--border-color);
+
     display: flex;
     flex-direction: column;
 
@@ -694,6 +709,30 @@ ul{
     gap: 0.8rem;
 }
 
+.create-book__form-field input,
+.create-book__form-field textarea,
+.create-book__form-field select,
+.update-book__form-field input,
+.update-book__form-field textarea,
+.update-book__form-field select {
+    padding: 8px 10px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    background-color: var(--primary-color);
+
+    font-family: var(--body-font);
+}
+
+#dashboard__search-input{
+    padding: 6px 8px;
+
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+
 .create-book__form-field input{
     height: 22px;
 }
@@ -702,9 +741,17 @@ ul{
     height: 60px;
 }
 
-.create-book__form-field input:focus, textarea:focus{
+.create-book__form-field input:focus,
+.create-book__form-field textarea:focus,
+.create-book__form-field select:focus,
+.update-book__form-field input:focus,
+.update-book__form-field textarea:focus,
+.update-book__form-field select:focus {
     outline: none;
+    border-color: var(--details-color);
+    /*il bordo diventa verde quando il campo è attivo*/
 }
+
 
 #book-condition{
     width: fit-content;
@@ -733,6 +780,8 @@ ul{
 .dashboard__books{
     padding: 2%;
 
+    border-bottom: 1px solid var(--border-color);
+
     display: flex;
     flex-direction: column;
 }
@@ -748,6 +797,21 @@ ul{
     flex-direction: column;
 
     gap: 0.5rem;
+}
+
+.dashboard__books-actions button{
+    padding: 10px;
+
+    align-self: center;
+
+    width: fit-content;
+    
+    border: none;
+    border-radius: 20px;
+
+    font-size: small;
+
+    background-color: var(--secondary-color);
 }
 
 
@@ -773,6 +837,14 @@ ul{
     gap: 0.8rem;
 }
 
+.update-book__form-field--checkbox{
+    flex-direction: row;
+    /* sovrascrive la colonna ereditata da .update-book__form-field*/
+    justify-content: flex-start;
+    /*allinea a sinistra*/
+    gap: 0.5rem;
+}
+
 #update-book__form-btn{
     padding: 10px;
 
@@ -793,6 +865,85 @@ ul{
     cursor: pointer;
 }
 
+.dashboard__orders h2{
+    margin: 2%;
+}
+
+.dashboard__order-card{
+    margin: 2%;
+    padding: 2%;
+
+    border: 1px solid var(--border-color);
+}
+
+.dashboard__order-info{
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    gap: 0.8rem;
+}
+
+.dashboard__order-status-change{
+    margin-top: 10px;
+}
+
+.dashboard__order-status-change form{
+    margin-top: 10px;
+
+    display: flex;
+    gap: 0.5rem;
+}
+
+#status-form-select{
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+
+    background-color: var(--primary-color);
+
+    font-family: var(--body-font);
+}
+
+#status-form-select:focus{
+    outline: none;
+    border-color: var(--details-color);
+    /*il bordo diventa verde quando il campo è attivo*/
+}
+
+#status-change-btn{
+    padding: 10px;
+
+    align-self: center;
+
+    width: fit-content;
+    
+    border: none;
+    border-radius: 20px;
+
+    font-size: small;
+
+    background-color: var(--secondary-color);
+}
+
+#status-form-btn{
+    padding: 10px;
+
+    align-self: center;
+
+    width: fit-content;
+    
+    border: none;
+    border-radius: 20px;
+
+    font-size: small;
+
+    background-color: var(--details-color);
+    
+    color: white;
+    font-weight: 700;
+
+    cursor: pointer;
+}
 
 /*----------------------------------MODALITA' DESKTOP-------------------------------------------
  stile della pagina in modalità desktop realizzato tramite media query*/
@@ -812,12 +963,28 @@ ul{
     nell'header al posto del menù*/
     
     .header__searchbar{
-        width: 50%;
+        flex: 1 1 250px;
+        /*equivale a:
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: 250px;
+
+        flex-grow definisce la capacità dell'elemento 
+        di ingrandirsi
+
+        flex-shrink definisce la capacità dell'elemento di 
+        restringersi
+
+        flex-basis definisce la dimensione di partenza 
+        dell'elemento
+        */
+
         height: 35px;
         /*la barra di ricerca diventa più grande*/
+        min-width: 180px;
+        max-width: 500px;
 
-        margin-right: 6rem;
-        margin-left: 6rem;
+        margin: 0 2rem;
     }
 
     #search-input{
@@ -831,9 +998,11 @@ ul{
         logo, barra di ricerca, nav*/
         align-items: center;
         /*allinea gli elementi al centro del box*/
-        justify-content: space-between;
+        justify-content: flex-end;
         /*posiziona gli elementi del flexbox lasciando dello spazio in mezzo*/
-        gap: 6rem;
+        gap: 2rem;
+
+        flex-shrink: 0;
     }
 
     .header__login-btn, .header__logout-btn{
@@ -847,19 +1016,18 @@ ul{
         /*colore di background per dare contrasto*/
         color: white;
         /*cambiato colore per renderlo più leggibile*/
-        font-size: 1.05rem;
+        font-size: 1.15rem;
         /*cambiato dimensione*/
     }
 
-    .header__cart-btn{
+    #header__cart{
         background-color: transparent;
         /*nessun colore di background*/
         border: none;
         /*nessun bordo*/
-        padding: 15px;
+        padding: 9px;
         /*aggiunto dello spazio tra bordo e contenuto(scritta Carrello)*/
-        font-size: 1.05rem;
-        /*cambiato dimensione*/
+        font-size: 1.15rem;
     }
 
     /*---------Menu-------------*/
@@ -918,6 +1086,21 @@ ul{
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+
+    .dashboard__orders{
+        grid-column: span 2;
+        /*gli ordini occupano tutte e 2 le colonne*/
+    }
+
+    .dashboard__order-card{
+        display: flex;
+    }
+
+    .dashboard__order-status-change{
+        margin-top: 0;
+        margin-left: auto;
+    }
+
 
 }
 

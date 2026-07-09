@@ -57,8 +57,9 @@ export default function CartPage({books}){
             };
             await createOrder(items, shippingAddress);
 
-            // svuota il carrello locale dopo l'acquisto riuscito
+            
             cartBooks.forEach(book => toggleCart(book._id));
+            //svuota il carrello locale dopo l'acquisto riuscito
             navigate("/");
         } catch (err) {
             setError(err.message);

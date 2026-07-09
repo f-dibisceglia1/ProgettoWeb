@@ -6,6 +6,8 @@ import { createBook } from "../services/api";
 import { listBooks } from "../services/api";
 import { deleteBook } from "../services/api";
 import { updateBook } from "../services/api";
+import { listOrders } from "../services/api";
+import { updateOrderStatus } from "../services/api";
 
 export default function DashboardPage(){
     const[myForm, setMyForm] = useState({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", image:""});
@@ -15,9 +17,13 @@ export default function DashboardPage(){
 
     const[search, setSearch] = useState("");
     const[books, setBooks] = useState([]);
+    const[orders, setOrders] = useState([]);
+
     const[editingId, setEditingId] = useState(null);
+    const[editingOrderId, setEditingOrderId] = useState(null);
 
     const[myUpdateForm, setMyUpdateForm] = useState({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", available: true, image:""});
+    const[status, setStatus] = useState("in elaborazione");    
 
 
     function handleChange(e){
@@ -113,7 +119,42 @@ export default function DashboardPage(){
         setError(err.message);
     }
 }
-    
+
+useEffect(() => {
+    async function fetchOrders(){
+        setError("");
+
+        try{
+            const data = await listOrders();
+            setOrders(data);
+        }catch(err){
+            setError(err.message)
+        }
+    }
+    fetchOrders();    
+}, []);
+
+function handleEditOrder(order){
+    setEditingOrderId(order._id);
+    setStatus(order.status);
+}
+
+async function handleStatusChange(e, orderId, newStatus){
+    e.preventDefault();
+    setError("");
+
+    try{
+        const updated = await updateOrderStatus(newStatus, orderId);
+        setOrders(prev => prev.map(order => order._id === orderId ? {...order, status: updated.status} : order));
+        setEditingOrderId(null);   
+        //richiude il select dopo il salvataggio
+    }catch(err){
+        setError(err.message);
+    }
+}
+
+
+
     return(
         <div className="dashboard__container">
             <div className="dashboard__create-book">
@@ -163,7 +204,7 @@ export default function DashboardPage(){
                      <input 
                      type="search" 
                      id="dashboard__search-input" 
-                     placeholder="Cerca..." 
+                     placeholder="Cerca il libro..." 
                      value={search}
                      onChange={(e) => setSearch(e.target.value)}
                      />
@@ -224,7 +265,7 @@ export default function DashboardPage(){
                                            <option value="scadente">scadente</option>
                                      </select>
                                  </div>
-                                 <div className="update-book__form-field">
+                                 <div className="update-book__form-field update-book__form-field--checkbox">
                                        <label htmlFor="book-available">Disponibile</label>
                                        <input 
                                           type="checkbox" 
@@ -249,6 +290,49 @@ export default function DashboardPage(){
                     }                
                 </div>
             </div>
+            <div className="dashboard__orders">
+                <h2>Storico ordini</h2>
+                {orders.length === 0 && <p>Nessun ordine effettuato.</p>}
+                {orders.map((order) => {
+                    const isEditingThisOrder = editingOrderId === order._id;
+
+                    return (
+                    <div key={order._id} className="dashboard__order-card">
+                        <div className="dashboard__order-info">
+                        <p className="dashboard__order-date">
+                            {new Date(order.createdAt).toLocaleDateString("it-IT")}
+                        </p>
+                        <p className="dashboard__order-user">
+                         Cliente: {order.user?.name} ({order.user?.email})
+                       </p>
+                        <p className="dashboard__order-status">Stato: {order.status}</p>
+                        <ul className="dashboard__order-items">
+                            {order.items.map((item, idx) => (
+                                <li key={idx}>{item.title}: {item.price.toFixed(2)} €</li>
+                            ))}
+                        </ul>
+                        <p className="dashboard__order-total">Totale: {order.total.toFixed(2)} €</p>
+                       </div>
+
+                       <div className="dashboard__order-status-change">
+                        <button type="button" id="status-change-btn" onClick={() => handleEditOrder(order)}>Aggiorna stato</button>
+                        {
+                         isEditingThisOrder
+                          && (<form onSubmit={(e) => handleStatusChange(e, order._id, status)}> 
+                            <select name="status" id="status-form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+                                <option value="in elaborazione">in elaborazione</option>
+                                <option value="spedito">spedito</option>
+                                <option value="consegnato">consegnato</option>
+                                <option value="annullato">annullato</option>
+                            </select>
+                            <button type="submit" id="status-form-btn">Salva</button>
+                        </form>)
+                        }                  
+                       </div>
+                    </div>
+                    );
+                })}
+                </div>
         </div>
     )
 }

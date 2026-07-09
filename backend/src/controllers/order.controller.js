@@ -49,7 +49,7 @@ async function createOrder(req, res) {
     const book = await Book.findById(item.book);
     book.available = false;
     await book.save();
-    availabilityUpdates.push({ bookId: book._id.toString(), available: book.available });
+    availabilityUpdates.push(book);
   }
 
   const order = await Order.create({

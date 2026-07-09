@@ -43,6 +43,12 @@ export default function BookDetailPage(){
                 //tramite getBook si riceve dal server il libro
                 setBook(data);
                 //lo stato book è aggiornato 
+                setInCart(isInList(id));
+                //sincronizza con lo stato reale del carrello
+                //in questo modo se il libro è stato aggiunto al
+                //carrello dalla HomePage quando ci si clicca sopra
+                //il bottone che viene renderizzato è Rimuovi dal carrello
+                //e non Aggiungi al carrello
             }catch(err){
                 setError(err.message)
             }
