@@ -158,7 +158,7 @@ export default function App(){
 
                 {/*il path "/cart" porta alla CartPage*/}
                 <Route path="/cart" element={
-                    <CartPage books={books}/>
+                    <CartPage />
                 } />
 
 

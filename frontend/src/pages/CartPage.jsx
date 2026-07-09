@@ -1,34 +1,61 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext.jsx";
+
 import { getCart } from "../utils/cart.js";
 import { toggleCart } from "../utils/cart.js";
+
 import { createOrder } from "../services/api";
-import { useAuth } from "../context/AuthContext.jsx";
+import { getBook } from "../services/api";
+import { listBooks } from "../services/api";
+
 import BookCard from "../components/BookCard.jsx";
 
 
-export default function CartPage({books}){
+export default function CartPage(){
     const navigate = useNavigate();
     const {user} = useAuth();
     const cartIds = getCart();
     //array degli id dei prodotti nel carrello
 
-    const [cartBooks, setCartBooks] = useState(() => {
-        return books.filter(book => cartIds.includes(String(book._id)));
-    });
+    const [cartBooks, setCartBooks] = useState([]);
     //variabile di stato per registrare quali prodotti sono nel carrello
-    //(deve essere possibile eliminare i prodotti dal carrello anche dalla CartPage)
-    //a useState è passata una callback che restituisce un array con i prodotti nel carrello
 
     const[myForm, setMyForm] = useState({name: "", address: user?.address?.street || "", city: user?.address?.city || "", cap: user?.address?.zip || "", payment: "cash", cardNumber: ""});
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
-
+    
     const [error, setError] = useState("");
 
     function handleChange(e){
        setMyForm({...myForm, [e.target.name]: e.target.value})
     }
+
+    useEffect(() => {
+        async function fetchCartBooks(){
+            setError("");
+            
+            const cartIds = getCart();
+            //recupera dal local storage gli id di ogni libro nel carrello
+            if(cartIds.length === 0){
+                setCartBooks([]);
+                return;
+            }
+            //se non sono stati aggiunti libri al carrello non fa la fetch
+
+            try{
+                const allBooks = await listBooks();
+                //recupera tutti i libri dal server
+                const filteredBooks = allBooks.filter(book => cartIds.includes(book._id));
+                //estrae solo i libri che sono nel carrello
+                setCartBooks(filteredBooks);
+            }catch(err){
+                setError(err.message);
+            }
+        }
+        fetchCartBooks();
+    }, []);
 
     const subtotal = cartBooks.reduce((sum, book) => sum + book.price, 0);
     const shipmentCost = subtotal > 0 ? 5 : 0;
