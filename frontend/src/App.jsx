@@ -106,7 +106,7 @@ export default function App(){
                 const data = await listBooks({q: trimmedQ, category: category});
                 //chiama listBooks passando filter = {q: trimmedQ, category: category}
                 //listBooks crea una query string con filter e manda una GET al server
-                setBooks(data);
+                setBooks(data.filter(book => book.available));
             }catch(err){
                 setError(err.message);
             }
