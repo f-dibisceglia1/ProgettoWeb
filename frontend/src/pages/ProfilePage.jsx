@@ -27,10 +27,9 @@ export default function ProfilePage(){
 
     async function handleSubmitAddress(e){
       e.preventDefault();
-      newAddress.street = newStreet;
-      newAddress.city = newCity;
-      newAddress.zip = newZip;
-      await updateProfile(newName, newAddress)
+      const updatedAddress = { street: newStreet, city: newCity, zip: newZip }
+      setNewAddress(updatedAddress);
+      await updateProfile(newName, updatedAddress);
     }
     
     useEffect(() => {

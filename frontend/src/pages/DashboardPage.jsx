@@ -178,7 +178,7 @@ async function handleStatusChange(e, orderId, newStatus){
                     </div>
                     <div className="create-book__form-field">
                         <label htmlFor="book-price">Prezzo</label>
-                        <input type="text" id="book-price" name="price" value={myForm.price} onChange={handleChange} pattern="[0-9]{2}" required/>
+                        <input type="number" id="book-price" name="price" min="0" step="0.01" value={myForm.price} onChange={handleChange} required/>
                     </div>
                     <div className="create-book__form-field">
                         <label htmlFor="book-condition">Condizioni</label>
@@ -253,7 +253,7 @@ async function handleStatusChange(e, orderId, newStatus){
                                  </div>
                                  <div className="update-book__form-field">
                                      <label htmlFor="book-price">Prezzo</label>
-                                     <input type="text" id="book-price" name="price" value={myUpdateForm.price} onChange={handleUpdateChange} pattern="[0-9]{2}" required/>
+                                     <input type="number" id="book-price" name="price" min="0" step="0.01" value={myUpdateForm.price} onChange={handleUpdateChange} pattern="[0-9]{2}" required/>
                                  </div>
                                  <div className="update-book__form-field">
                                      <label htmlFor="book-condition">Condizioni</label>

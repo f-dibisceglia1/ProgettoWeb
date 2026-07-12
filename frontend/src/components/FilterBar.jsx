@@ -24,7 +24,7 @@ export default function FilterBar({ category, onCategoryChange }) {
                     //un attributo key univoco
                     //Questo aiuta React a fare più velocemente i confronti 
                     //tra due alberi quando deve aggiornare la UI
-                    className="filter-bar-btn"
+                    className={cat === category ? "filter-bar-btn--active" : "filter-bar-btn"}
                     onClick={() => onCategoryChange(cat)}
                     //cliccando su una categoria si chiama onCategoryChange 
                     //passando il nome di quella categoria 

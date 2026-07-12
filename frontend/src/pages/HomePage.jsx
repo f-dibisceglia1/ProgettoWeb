@@ -21,7 +21,7 @@ export default function HomePage({books, category, onCategoryChange}){
     return (
         <>
              <div className="main__banner"> 
-             <h2 className="main__banner-text">Il mercato dei libri universitari</h2>
+             <h2 className="main__banner-text">Trova i tuoi libri universitari usati in un click</h2>
              </div>
              <FilterBar category={category} onCategoryChange={onCategoryChange} />
              {/*a FilterBar sono passati come props category e onCategoryChange*/}

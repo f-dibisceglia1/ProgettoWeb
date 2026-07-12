@@ -202,19 +202,27 @@ ul{
     gap: 0.6rem;
 }
 
-.filter-bar-btn{
+.filter-bar-btn, .filter-bar-btn--active{
     padding: 9px;
     
     border: 1px solid var(--border-color);
     border-radius: 20px;
-
-    background-color: var(--secondary-color);
 
     font-family: var(--body-font);
     font-size: small;
 
     cursor: pointer;
 }
+
+.filter-bar-btn{
+    background-color: var(--secondary-color);
+}
+
+.filter-bar-btn--active{
+    background-color: var(--details-color);
+    color: white;
+}
+
 
 /*---------main-------------*/
 .main{
@@ -231,11 +239,18 @@ ul{
     /*messo immagine di background*/
     background-position: center;
     /*centra l'immagine*/
+    display: flex;
 }
 
 .main__banner-text{
     margin: 0;
     /*eliminati margini*/
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background-color: rgba(0, 0, 0, 0.607);
     /*assegnato colore background scuro per rendere testo più leggibile
     ma trasparente in modo da poter ancora vedere l'immagine*/
@@ -245,8 +260,6 @@ ul{
     /*aggiunto ombra al testo per aumentare contrasto*/
     text-align: center;
     /*pone il testo al centro*/
-    line-height: 200px;
-    /*pone il testo al centro anche verticalmente*/
 }
 
 .products__container{
@@ -1038,15 +1051,10 @@ ul{
 
     /*---------main-------------*/
     .main__banner{
-        height: 400px;
+        height: 300px;
         /*assegnata altezza maggiore*/ 
         background-image: url('../ed-robertson-eeSdJfLfx1A-unsplash\ \(2\).jpg');
         /*messo immagine di background più grande*/
-    }
-
-    .main__banner-text{
-        line-height: 400px;
-        /*pone il testo al centro anche verticalmente*/
     }
 
     /*---------LoginPage-------------*/
@@ -1078,6 +1086,11 @@ ul{
 
     .book__img{
         width: 50%;
+    }
+
+    /*---------BookDetailPage-------------*/
+    .book__img{
+        max-height: 80vh;
     }
 
 
