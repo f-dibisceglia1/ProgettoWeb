@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Menu(){ 
     const{user, logout} = useAuth();
+    const navigate = useNavigate();
 
     async function handleLogout(){
         await logout();
