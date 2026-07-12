@@ -2,7 +2,7 @@ import {isInList, toggleCart} from '../utils/cart.js';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function ProductCard({book, onCartChange, isCart = false}){
+export default function BookCard({book, onCartChange, isCart = false}){
     const [inCart, setInCart] = useState(() => isInList(book._id));
     //variabile di stato che registra se un prodotto è nel carrello o no
     //a useState è passata una callback che verifica se il prodotto è nel carrello

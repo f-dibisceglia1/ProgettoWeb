@@ -16,20 +16,35 @@ export default function DashboardPage(){
     const[error, setError] = useState("");
 
     const[search, setSearch] = useState("");
+    //variabile di stato per registrare l'input di ricerca 
+    //dell'admin per trovare il libro che vuole modificare
     const[books, setBooks] = useState([]);
+    //variabile di stato per registrare i libri che soddisfano
+    //la ricerca
     const[orders, setOrders] = useState([]);
+    //variabile di stato per registrare tutti gli ordini
+    //di tutti gli utenti
 
     const[editingId, setEditingId] = useState(null);
     const[editingOrderId, setEditingOrderId] = useState(null);
+    //variabili di stato per registrare il libro e l'ordine
+    //che si sta attualmente modificando e gestire quindi
+    //il rendering del form 
 
     const[myUpdateForm, setMyUpdateForm] = useState({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", available: true, image:""});
-    const[status, setStatus] = useState("in elaborazione");    
+    //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
+    //all'interno di uno stato => Single Source of Truth.
+    const[status, setStatus] = useState("in elaborazione"); 
+    //variabile di stato per l'unico campo del form per modificare
+    //lo stato dell'ordine  
 
 
     function handleChange(e){
        setMyForm({...myForm, [e.target.name]: e.target.value})
+       //copia myForm e sovrascrive solo la proprietà interessata
     }
 
+    //funzione per aggiungere un libro
     async function handleSubmit(e){
         e.preventDefault();
         setError("");
@@ -45,13 +60,24 @@ export default function DashboardPage(){
                 available: true,
                 image: myForm.image
             };
+            //crea un oggetto bookData con i campi del form
             await createBook(bookData);
+            //crea il libro 
             setMyForm({title: "", author:"", description:"", category:"", price: "", condition: "come nuovo", image:""});
+            //il form si svuota
         }catch(err){
             setError(err.message);
         }
     }
     
+    //alcuni componenti hanno necessità di sincronizzazione con sistemi esterni 
+    //(ad esempio con un server per ricevere dati o inviare un log) 
+    //quando il componente appare sullo schermo 
+    //gli Effect permettono di eseguire codice subito dopo il primo 
+    //rendering e dopo il re-rendering relativo ad alcune dipendenze
+    //cioè useEffect(callback, dependencies) dice a React di
+    //eseguire la callback dopo il render e di rieseguirla solo se uno 
+    //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
     useEffect(() => {
         async function findBook(){
         setError("");
@@ -59,35 +85,47 @@ export default function DashboardPage(){
         if (!search.trim()) {
             setBooks([]);
             return;
+            //se search è vuota books è una stringa vuota e
+            //non procede con la fetch
         }
 
         try{
             const data = await listBooks({q: search, category: ""});
+            //fa la fetch dei libri che soddisfano i parametri di ricerca
+            //listBooks riceve anche category che in questo caso è una stringa
+            //vuota 
             setBooks(data);
+            //aggiorna books con i libri restituiti
         }catch(e){
             setError(e.message);
         }
     }
     findBook();
     }, [search]);
-    
+
+
+    //funzione per eliminare libri dal catalogo (available = false)
     async function handleDelete(id) {
         setError("");
 
         try {
             await deleteBook(id); 
             
-            //aggiorna lo stato rimuovendo il libro eliminato dal display
             setBooks(books.filter(book => book._id !== id));
+            //aggiorna lo stato rimuovendo il libro eliminato 
+            //dai risultati della ricerca
 
             setSearch("");
+            //il campo torna vuoto
         } catch(err) {
             setError(err.message);
         }
     }
 
+    //funzione per gestire il form per la modifica del libro
     function handleEditing(book){
         setEditingId(book._id);
+        //setta editingId con l'id del libro da modificare
         setMyUpdateForm({
         title: book.title,
         author: book.author,
@@ -98,26 +136,28 @@ export default function DashboardPage(){
         available: book.available,
         image: book.image,
     });
+    //riempie il form con i dati del libro così si può andare a modificare
+    //direttamente il campo che si vuole cambiare e lasciare gli 
+    //altri inalterati
     }
 
     function handleUpdateChange(e){
         setMyUpdateForm({...myUpdateForm, [e.target.name]: e.target.value});
+        //copia myForm e sovrascrive solo la proprietà interessata
     }
 
     async function handleUpdateSubmit(e, id){
-    e.preventDefault();
-    setError("");
+        e.preventDefault();
+        setError("");
 
-    try{
-        const updated = await updateBook(id, {
-            ...myUpdateForm
-        });
-        // sostituisce il libro modificato nella lista senza rifare la fetch
-        setBooks(prev => prev.map(book => book._id === id ? updated : book));
-        setEditingId(null);
-    }catch(err){
-        setError(err.message);
-    }
+        try{
+            const updated = await updateBook(id, {...myUpdateForm});
+            setBooks(prev => prev.map(book => book._id === id ? updated : book));
+            //sostituisce il libro modificato nella lista senza rifare la fetch
+            setEditingId(null);
+        }catch(err){
+            setError(err.message);
+        }
 }
 
 useEffect(() => {
@@ -126,6 +166,7 @@ useEffect(() => {
 
         try{
             const data = await listOrders();
+            //ottiene la lista di tutti gli ordini
             setOrders(data);
         }catch(err){
             setError(err.message)
@@ -134,18 +175,27 @@ useEffect(() => {
     fetchOrders();    
 }, []);
 
+//funzione per gestire il form per la modifica dello stato
+//dell'ordine
 function handleEditOrder(order){
     setEditingOrderId(order._id);
+    //setta orderId con l'id dell'ordine il cui stato
+    //si vuole modificare
     setStatus(order.status);
+    //setta la variabile di stato status con lo stato dell'ordine
 }
 
+//funzione per aggiornare lo stato dell'ordine
 async function handleStatusChange(e, orderId, newStatus){
     e.preventDefault();
     setError("");
 
     try{
         const updated = await updateOrderStatus(newStatus, orderId);
+        //aggiorna lo stato dell'ordine e riceve l'ordine 
+        //aggiornato
         setOrders(prev => prev.map(order => order._id === orderId ? {...order, status: updated.status} : order));
+        //aggiorna la lista degli ordini visualizzata dall'admin
         setEditingOrderId(null);   
         //richiude il select dopo il salvataggio
     }catch(err){
@@ -212,10 +262,14 @@ async function handleStatusChange(e, orderId, newStatus){
                 <div>
                     {books.map((book) => {
                         const isEditingThisBook = editingId === book._id;
-                        //confronta l'id del libro che voglio modificare con 
-                        //l'id del libro che sto renderizzando adesso 
-                        //il risultato è true solo per il libro giusto, false 
-                        //per tutti gli altri
+                        //quando si clicca su modifica su un certo libro 
+                        //handleEditing setta editingId all'id di quel libro
+                        //(l'id del libro che voglio modificare)
+                        //quando con map vengono renderizzati i libri, 
+                        //per ogni libro editingId è confrontato con l'id
+                        //e se il confronto restituisce true per quel libro 
+                        //e solo per quel libro isEditingThisBook è true e 
+                        //quindi si apre il form per aggiornarlo
 
                         return(
                         <div key={book._id} className="dashboard__books">
@@ -295,6 +349,7 @@ async function handleStatusChange(e, orderId, newStatus){
                 {orders.length === 0 && <p>Nessun ordine effettuato.</p>}
                 {orders.map((order) => {
                     const isEditingThisOrder = editingOrderId === order._id;
+                    //stessa cosa di isEditingThisBook
 
                     return (
                     <div key={order._id} className="dashboard__order-card">

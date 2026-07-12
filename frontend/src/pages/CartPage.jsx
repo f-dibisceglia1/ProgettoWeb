@@ -16,11 +16,12 @@ import BookCard from "../components/BookCard.jsx";
 export default function CartPage(){
     const navigate = useNavigate();
     const {user} = useAuth();
+
     const cartIds = getCart();
-    //array degli id dei prodotti nel carrello
+    //array degli id dei libri nel carrello
 
     const [cartBooks, setCartBooks] = useState([]);
-    //variabile di stato per registrare quali prodotti sono nel carrello
+    //variabile di stato per registrare quali libri sono nel carrello
 
     const[myForm, setMyForm] = useState({name: "", address: user?.address?.street || "", city: user?.address?.city || "", cap: user?.address?.zip || "", payment: "cash", cardNumber: ""});
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
@@ -30,8 +31,17 @@ export default function CartPage(){
 
     function handleChange(e){
        setMyForm({...myForm, [e.target.name]: e.target.value})
+       //copia myForm e sovrascrive solo la proprietà interessata
     }
 
+    //alcuni componenti hanno necessità di sincronizzazione con sistemi esterni 
+    //(ad esempio con un server per ricevere dati o inviare un log) 
+    //quando il componente appare sullo schermo 
+    //gli Effect permettono di eseguire codice subito dopo il primo 
+    //rendering e dopo il re-rendering relativo ad alcune dipendenze
+    //cioè useEffect(callback, dependencies) dice a React di
+    //eseguire la callback dopo il render e di rieseguirla solo se uno 
+    //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
     useEffect(() => {
         async function fetchCartBooks(){
             setError("");
@@ -40,9 +50,10 @@ export default function CartPage(){
             //recupera dal local storage gli id di ogni libro nel carrello
             if(cartIds.length === 0){
                 setCartBooks([]);
+                //se non ci sono libri nel carrello cartBooks è un array vuoto
                 return;
+                //e non fa la fetch
             }
-            //se non sono stati aggiunti libri al carrello non fa la fetch
 
             try{
                 const allBooks = await listBooks();
@@ -57,7 +68,9 @@ export default function CartPage(){
         fetchCartBooks();
     }, []);
 
-    const subtotal = cartBooks.reduce((sum, book) => sum + book.price, 0);
+
+    //funzioni per calcolare il totale 
+    const subtotal = cartBooks.reduce((acc, book) => acc + book.price, 0);
     const shipmentCost = subtotal > 0 ? 5 : 0;
     const total = subtotal + shipmentCost;
     
@@ -71,23 +84,30 @@ export default function CartPage(){
         );
     };
 
+
+    //funzione per effettuare l'"acquisto" e creare l'ordine
      async function handleSubmit(e) {
         e.preventDefault();
         setError("");
         
         try {
             const items = cartBooks.map(book => ({ bookId: book._id }));
+            //crea un array items contenente i libri nel carrello
             const shippingAddress = {
                 street: myForm.address,
                 city: myForm.city,
                 zip: myForm.cap,
             };
+            //crea un oggetto shippingAddress utilizzando le informazioni
+            //di spedizione inserite nel form
             await createOrder(items, shippingAddress);
+            //crea l'ordine 
 
             
             cartBooks.forEach(book => toggleCart(book._id));
-            //svuota il carrello locale dopo l'acquisto riuscito
+            //svuota il local storage dopo l'acquisto riuscito
             navigate("/");
+            //torna alla HomePage
         } catch (err) {
             setError(err.message);
         }

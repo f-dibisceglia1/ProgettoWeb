@@ -16,6 +16,7 @@ const AuthContext = createContext(null);
 //in index.jsx, cioè l'intera app (<App />), che potrà quindi accedere al contesto
 export function AuthProvider({ children }){
     const[user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
     
 
     //alcuni componenti hanno necessità di sincronizzazione con sistemi esterni 
@@ -41,6 +42,8 @@ export function AuthProvider({ children }){
         } catch {
             setUser(null); 
             //nessuna sessione attiva
+        } finally {
+            setLoading(false);
         }
     }
     checkAuth();
@@ -83,7 +86,7 @@ export function AuthProvider({ children }){
      }
 
      return (
-        <AuthContext.Provider value={{ user, login, register, logout, updateProfile }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, updateProfile }}>
             {children}
         </AuthContext.Provider>
     );

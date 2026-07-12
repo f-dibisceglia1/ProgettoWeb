@@ -3,31 +3,32 @@ const KEY = "unishelf_cart";
 //localStorage salva solo stringhe
 
 
-//funzione per leggere i prodotti salvati nel carrello
+//funzione per leggere i libri salvati nel carrello
 export function getCart(){
     const storedItem = localStorage.getItem(KEY);
     //localStorage salva solo stringhe, quindi 
     //localStorage.getItem(KEY) restituisce una stringa
+    //degli id dei libri nel carrello
     return storedItem ? JSON.parse(storedItem) : [];
     //ternario: se storedItem è "true", cioè non è null,
     //esegue JSON.parse che trasforma la stringa in un array.
     //altrimenti se storedItem è null restituisce un array vuoto
 }
 
-//funzione che controlla se un prodotto è già nel carrello
+//funzione che controlla se un libro è già nel carrello
 export function isInList(productId){
     return getCart().includes(String(productId));
-    //chiama getCart per ottenere l'array degli id dei prodotti 
+    //chiama getCart per ottenere l'array degli id dei libri 
     //(getCart restituisce un array di id per come è stata definita toggleCart)
     //presenti nel carrello e poi usa includes per cercare il
-    //prodotto nell'array tramite l'id. l'id viene prima trasformato
+    //libro nell'array tramite l'id. l'id viene prima trasformato
     //in stringa. 
 }
 
 
 export function toggleCart(productId){
     const cartList = getCart();
-    //prende l'array degli id dei prodotti nel carrello
+    //prende l'array degli id dei libri nel carrello
     const id = String(productId);
     //trasforma productId in una stringa
     const listId = cartList.indexOf(id);
@@ -36,12 +37,12 @@ export function toggleCart(productId){
     //-1 se non lo trova
     if(listId === -1){
         cartList.push(id);
-        //se il prodotto non è nel carrello lo aggiunge
-        //cioè aggiunge l'id del prodotto, quindi quando si 
+        //se il libro non è nel carrello lo aggiunge
+        //cioè aggiunge l'id del libro, quindi quando si 
         //chiamerà getCart verrà restituito un'array di id
     } else {
         cartList.splice(listId, 1);
-        //se il prodotto è nel carrello lo rimuove con il
+        //se il libro è nel carrello lo rimuove con il
         //metodo splice(posizione, numero elementi da rimuovere)
     }
     localStorage.setItem(KEY, JSON.stringify(cartList));
@@ -50,9 +51,9 @@ export function toggleCart(productId){
 
     window.dispatchEvent(new Event("unishelf:cart"));
     //crea un evento custom per notificare a tutta l'applicazione che 
-    //la lista di prodotti nel carrello è cambiata
+    //la lista di libri nel carrello è cambiata
     return cartList;
-    //restituisce la lista degli id dei prodotti aggiornata, così
-    //se si aggiunge/rimuove un prodotto non bisogna chiamare
+    //restituisce la lista degli id dei libri aggiornata, così
+    //se si aggiunge/rimuove un libro non bisogna chiamare
     //dopo toggleCart anche getCart per avere la lista
 }

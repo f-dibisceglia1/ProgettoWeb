@@ -18,6 +18,8 @@ import DashboardPage from "./pages/DashboardPage";
 
 import { listBooks } from './services/api';
 
+import { useAuth } from './context/AuthContext';
+
 
 
 
@@ -112,8 +114,32 @@ export default function App(){
             }
         }
         fetchBooks();
-    }, [q, category])
+    }, [q, category]);
 
+    function ProtectedRoute({children}){
+        const{user, loading} = useAuth();
+        
+        if(loading) return <p className="loading">Caricamento...</p>;
+        //se sta caricando mostra il messaggio "Caricamento..."
+        return user ? children : <Navigate to="/login" />;
+        //quando ha finito di caricare se l'utente è loggato 
+        //renderizza i componenti passati come children a ProtectedRoute
+        //altrimenti porta alla pagina di login
+    }
+
+    function AdminRoute({ children }) {
+        const { user, loading } = useAuth();
+
+        if (loading) return <p className="empty-state">Caricamento...</p>;
+        //se sta caricando mostra il messaggio "Caricamento..."
+        if(!user) return <Navigate to="/login" />;
+        //quando ha finito di caricare 
+        //se l'utente non è loggato lo porta alla pagina di login
+        return user.role === "admin" ? children : <Navigate to="/" />;
+        //se l'utente è loggato e il suo ruolo è admin 
+        //renderizza i componenti passati come children a AdminRoute
+        //altrimenti porta alla HomePage
+    }
 
     return (
         <>
@@ -165,12 +191,12 @@ export default function App(){
 
                 {/*il path "/profile" porta alla ProfilePage*/}
                 <Route path="/profile" element={
-                   <ProfilePage /> 
+                   <ProtectedRoute><ProfilePage /></ProtectedRoute> 
                 } />
 
 
                 <Route path="/dashboard" element={
-                    <DashboardPage />
+                    <AdminRoute><DashboardPage /></AdminRoute>
                 } />
             </Routes>
         </main>
