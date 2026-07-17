@@ -1078,6 +1078,23 @@ ul{
         align-items: center;
     }
 
+    .profile__order-date, 
+    .profile__order-status,
+    .profile__order-total{
+        flex-shrink: 0;
+        flex-grow: 0;
+        /*non crescono e non si restringono*/
+        flex-basis: 160px;
+        /*partono da una larghezza fissa di 160px*/
+    }
+
+    .profile__order-items{
+        flex-shrink: 1;
+        flex-grow: 1;
+        /*prende tutto lo spazio disponibile*/
+        flex-basis: auto;
+    }
+
     .book-details__container{
         flex-direction: row;
     }

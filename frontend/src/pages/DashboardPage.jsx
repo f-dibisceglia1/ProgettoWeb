@@ -21,9 +21,11 @@ export default function DashboardPage(){
     const[books, setBooks] = useState([]);
     //variabile di stato per registrare i libri che soddisfano
     //la ricerca
+    const [booksLoading, setBooksLoading] = useState(false);
     const[orders, setOrders] = useState([]);
     //variabile di stato per registrare tutti gli ordini
     //di tutti gli utenti
+    const [ordersLoading, setOrdersLoading] = useState(true);
 
     const[editingId, setEditingId] = useState(null);
     const[editingOrderId, setEditingOrderId] = useState(null);
@@ -80,25 +82,28 @@ export default function DashboardPage(){
     //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
     useEffect(() => {
         async function findBook(){
-        setError("");
+            setBooksLoading(true);
+            setError("");
 
-        if (!search.trim()) {
-            setBooks([]);
-            return;
-            //se search è vuota books è una stringa vuota e
-            //non procede con la fetch
-        }
+            if (!search.trim()) {
+                setBooks([]);
+                return;
+                //se search è vuota books è una stringa vuota
+                //non procede con la fetch
+           }
 
-        try{
-            const data = await listBooks({q: search, category: ""});
+            try{
+                const data = await listBooks({q: search, category: ""});
             //fa la fetch dei libri che soddisfano i parametri di ricerca
             //listBooks riceve anche category che in questo caso è una stringa
             //vuota 
-            setBooks(data);
+                setBooks(data);
             //aggiorna books con i libri restituiti
-        }catch(e){
-            setError(e.message);
-        }
+            }catch(e){
+                setError(e.message);
+            }finally{
+                setBooksLoading(false);
+            }
     }
     findBook();
     }, [search]);
@@ -162,6 +167,7 @@ export default function DashboardPage(){
 
 useEffect(() => {
     async function fetchOrders(){
+        setOrdersLoading(true);
         setError("");
 
         try{
@@ -170,6 +176,8 @@ useEffect(() => {
             setOrders(data);
         }catch(err){
             setError(err.message)
+        }finally{
+            setOrdersLoading(false);
         }
     }
     fetchOrders();    
@@ -207,6 +215,7 @@ async function handleStatusChange(e, orderId, newStatus){
 
     return(
         <div className="dashboard__container">
+            {error && <p className="cart__error">{error}</p>}
             <div className="dashboard__create-book">
                 <h2>Aggiungi un libro al catalogo</h2>
                 <form onSubmit={handleSubmit}>
@@ -220,7 +229,7 @@ async function handleStatusChange(e, orderId, newStatus){
                     </div>
                     <div className="create-book__form-field">
                         <label htmlFor="book-description">Descrizione</label>
-                        <textarea id="book-description" name="description" value={myForm.description} onChange={handleChange} required> </textarea>
+                        <textarea id="book-description" name="description" value={myForm.description} onChange={handleChange} required></textarea>
                     </div>
                     <div className="create-book__form-field">
                         <label htmlFor="book-category">Categoria</label>
@@ -260,7 +269,8 @@ async function handleStatusChange(e, orderId, newStatus){
                      />
                 </div>
                 <div>
-                    {books.map((book) => {
+                    {booksLoading && <p>Ricerca in corso...</p>}
+                    {!booksLoading && books.map((book) => {
                         const isEditingThisBook = editingId === book._id;
                         //quando si clicca su modifica su un certo libro 
                         //handleEditing setta editingId all'id di quel libro
@@ -299,7 +309,7 @@ async function handleStatusChange(e, orderId, newStatus){
                                   </div>
                                   <div className="update-book__form-field">
                                       <label htmlFor="book-description">Descrizione</label>
-                                      <textarea id="book-description" name="description" value={myUpdateForm.description} onChange={handleUpdateChange} required> </textarea>
+                                      <textarea id="book-description" name="description" value={myUpdateForm.description} onChange={handleUpdateChange} required></textarea>
                                   </div>
                                   <div className="update-book__form-field">
                                       <label htmlFor="book-category">Categoria</label>
@@ -307,7 +317,7 @@ async function handleStatusChange(e, orderId, newStatus){
                                  </div>
                                  <div className="update-book__form-field">
                                      <label htmlFor="book-price">Prezzo</label>
-                                     <input type="number" id="book-price" name="price" min="0" step="0.01" value={myUpdateForm.price} onChange={handleUpdateChange} pattern="[0-9]{2}" required/>
+                                     <input type="number" id="book-price" name="price" min="0" step="0.01" value={myUpdateForm.price} onChange={handleUpdateChange} required/>
                                  </div>
                                  <div className="update-book__form-field">
                                      <label htmlFor="book-condition">Condizioni</label>
@@ -346,8 +356,9 @@ async function handleStatusChange(e, orderId, newStatus){
             </div>
             <div className="dashboard__orders">
                 <h2>Storico ordini</h2>
-                {orders.length === 0 && <p>Nessun ordine effettuato.</p>}
-                {orders.map((order) => {
+                {ordersLoading && <p>Caricamento...</p>}
+                {!ordersLoading && orders.length === 0 && <p>Nessun ordine effettuato.</p>}
+                {!ordersLoading && orders.map((order) => {
                     const isEditingThisOrder = editingOrderId === order._id;
                     //stessa cosa di isEditingThisBook
 

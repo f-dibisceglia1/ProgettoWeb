@@ -7,6 +7,7 @@ export default function ProfilePage(){
     const{user, updateProfile} = useAuth();
     const[orders, setOrders] = useState([]);
     //stato per registrare gli ordini dell'utente
+    const [ordersLoading, setOrdersLoading] = useState(true);
     const[error, setError] = useState("");
 
     const[isEditingName, setIsEditingName] = useState(false);
@@ -23,18 +24,28 @@ export default function ProfilePage(){
     const[newZip, setNewZip] = useState(user?.address?.zip || "");
     //stati per registrare i valori immessi nel form
 
-    async function handleSubmitName(e){
-        e.preventDefault();
-         await updateProfile(newName, newAddress);
-         setIsEditingName(!isEditingName);
-    }
-
-    async function handleSubmitAddress(e){
+   async function handleSubmitName(e){
       e.preventDefault();
-      const updatedAddress = { street: newStreet, city: newCity, zip: newZip }
-      setNewAddress(updatedAddress);
-      await updateProfile(newName, updatedAddress);
-    }
+      setError("");
+      try{
+        await updateProfile(newName, newAddress);
+        setIsEditingName(false);
+      }catch(err){
+        setError(err.message);
+      }
+   }
+
+   async function handleSubmitAddress(e){
+      e.preventDefault();
+      setError("");
+      try{
+        const updatedAddress = { street: newStreet, city: newCity, zip: newZip };
+        setNewAddress(updatedAddress);
+        await updateProfile(newName, updatedAddress);
+      }catch(err){
+        setError(err.message);
+      }
+   }
 
     //alcuni componenti hanno necessità di sincronizzazione con sistemi esterni 
     //(ad esempio con un server per ricevere dati o inviare un log) 
@@ -46,13 +57,18 @@ export default function ProfilePage(){
     //dei valori nell'array dependencies è cambiato rispetto all'ultima volta    
     useEffect(() => {
         async function fetchOrders() {
-            try {
+         setOrdersLoading(true);
+         setError("");
+
+            try{
                 const data = await myOrders();
                 //fa il fetch di tutti gli ordini dell'utente
                 setOrders(data);
                 //e li salva in orders
-            } catch (err) {
+            }catch(err){
                 setError(err.message);
+            }finally{
+               setOrdersLoading(false);
             }
         }
         fetchOrders();
@@ -61,6 +77,7 @@ export default function ProfilePage(){
     return(
         <div className="profile__container">
              <h1 className="profile__greeting">Bentornato {user.name}!</h1>
+             {error && <p className="profile__error">{error}</p>}
              <div className="profile__info">
                  <h2>Dati personali</h2>
                  <div className="profile__info-field">
@@ -132,9 +149,10 @@ export default function ProfilePage(){
             </div>
             <div className="profile__orders">
                <h2>Storico ordini</h2>
-                {orders.length === 0 && <p>Nessun ordine effettuato.</p>}
+                {ordersLoading && <p>Caricamento ordini...</p>}
+                {!ordersLoading && orders.length === 0 && <p>Nessun ordine effettuato.</p>}
                 {/*se orders è vuoto apparirà "Nessun ordine effettuato"*/}
-                {orders.map(order => (
+                {!ordersLoading && orders.map(order => (
                     <div key={order._id} className="profile__order-card">
                      {/*È buona pratica associare ad ogni componente
                     un attributo key univoco

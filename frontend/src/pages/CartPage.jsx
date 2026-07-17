@@ -27,6 +27,7 @@ export default function CartPage(){
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
     
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     function handleChange(e){
@@ -44,6 +45,7 @@ export default function CartPage(){
     //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
     useEffect(() => {
         async function fetchCartBooks(){
+            setLoading(true);
             setError("");
             
             const cartIds = getCart();
@@ -63,6 +65,8 @@ export default function CartPage(){
                 setCartBooks(filteredBooks);
             }catch(err){
                 setError(err.message);
+            }finally{
+                setLoading(false);
             }
         }
         fetchCartBooks();
@@ -118,7 +122,8 @@ export default function CartPage(){
         <h1 className="cart__title">Carrello</h1>
         <div className="cart__container">
              <div className="cart-products__container">
-                 {cartBooks.map(book=> (
+                 {loading && <p className="empty-state">Caricamento...</p>}
+                 {!loading && cartBooks.map(book=> (
                  //fa il rendering solo dei prodotti in cartProducts    
                     <BookCard key={book._id} book={book} isCart={true} onCartChange={() => handleCartBooks(book._id)} />
                     //non c'è bisogno di mettere di nuovo onClick, perché è già definito nel componente

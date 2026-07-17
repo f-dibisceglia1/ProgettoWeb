@@ -156,7 +156,7 @@ export default function App(){
 
                 {/*il path "/" porta alla HomePage*/}
                 <Route path="/" element={
-                    <HomePage books={books} category={category} onCategoryChange={setCategory}/>
+                    <HomePage books={books} error={error} category={category} onCategoryChange={setCategory} />
                 } />
                 {/*alla HomePage sono passati come props i libri da mostrare, 
                 category e setCategory come category e onCategoryChange perché 

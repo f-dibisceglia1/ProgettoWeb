@@ -14,12 +14,16 @@ export default function LoginPage(){
     //variabili di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
 
+    const [loading, setLoading] = useState(false);
     const[error, setError] = useState("");
 
     const {login, register} = useAuth();
 
     async function handleSubmit(e){
         e.preventDefault();
+        setLoading(true);
+        setError("");
+
         try{
             if(isRegister){
                 await register(name, email, password);
@@ -27,8 +31,10 @@ export default function LoginPage(){
                 await login(email, password);
             }
             navigate("/");
-        }catch (error) {
-            setError(error.message);
+        }catch(err){
+            setError(err.message);
+        }finally{
+            setLoading(false);
         }
     }
     
@@ -36,6 +42,7 @@ export default function LoginPage(){
         <div className="form__container">
             <h1>{isRegister ? "Registrati" : "Accedi"} </h1>
             {/*se isRegister = true il titolo sarà "Registrati" altrimenti "Accedi"*/}
+            {error && <p className="login__error">{error}</p>}
             <form onSubmit={handleSubmit}>
                 {isRegister &&
                   <div className="form__field">
@@ -53,11 +60,12 @@ export default function LoginPage(){
                     <input type="password" id="password-input" minLength={8} value={password} required onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <div className="form__action">
-                    <button type="submit" id="form__action-btn">
+                    <button type="submit" id="form__action-btn" disabled={loading}>
                         {isRegister ? "Registrati" : "Accedi"}
                     </button>
                 </div>
             </form>
+            {loading && <p>Attendere...</p>}
 
             <p className="form__switch">
                 {isRegister ? "Hai già un account?" : "Non hai un account?"}

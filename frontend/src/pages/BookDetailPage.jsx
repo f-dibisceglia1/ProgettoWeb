@@ -25,6 +25,7 @@ export default function BookDetailPage(){
     //del libro dal path dell'URL
     const [book, setBook] = useState(null);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
     const [inCart, setInCart] = useState(false);
 
 
@@ -38,6 +39,9 @@ export default function BookDetailPage(){
     //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
     useEffect(() => {
         async function fetchBook(){
+            setLoading(true);
+            setError("");
+
             try{
                 const data = await getBook(id);
                 //tramite getBook si riceve dal server il libro
@@ -51,6 +55,8 @@ export default function BookDetailPage(){
                 //e non Aggiungi al carrello
             }catch(err){
                 setError(err.message)
+            }finally{
+                setLoading(false);
             }
         }
         fetchBook();
@@ -64,6 +70,8 @@ export default function BookDetailPage(){
         setInCart(prev => !prev);
     }
 
+     if (loading) return <p className="empty-state">Caricamento...</p>;
+     if (error) return <p className="empty-state">{error}</p>;
      if (!book) return <p className="empty-state">Libro non trovato.</p>;
 
     return (
