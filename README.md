@@ -87,6 +87,7 @@ cd backend
 npm install
 ```
 script disponibili: 
+| Comandi | Descrizione |
 |---|---|
 | npm start | Avvia il server con node src/server.js |
 | npm run dev | Avvia con auto-restart ad ogni modifica  |
