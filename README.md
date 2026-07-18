@@ -6,7 +6,6 @@ Gli utenti possono sfogliare il catalogo, cercare e filtrare per categoria, aggi
 L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) e lo stato degli ordini da una dashboard dedicata.
 
 ##1. Stack Tecnologico 
-```
 | Layer | Technology | Role |
 |---|---|---|
 | **Frontend** | React + React Router | Interfaccia utente (SPA) |
@@ -20,6 +19,7 @@ L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) 
 | **Database** | MongoDB | Persistenza dei dati (NoSQL) |
 
 ##2. Struttura del progetto
+```
 unishelf/
 ├── backend/                     # API REST (Node.js + Express)
 │   ├── src/
