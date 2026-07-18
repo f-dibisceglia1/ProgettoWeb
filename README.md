@@ -21,6 +21,8 @@ L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) 
 ##2. Struttura del progetto
 ```
 ProgettoWeb/
+├── .gitignore                   # File/cartelle esclusi dal repository (.env, node_modules, ...)
+├── README.md                    # Questo file
 ├── backend/                     # API REST (Node.js + Express)
 │   ├── src/
 │   │   ├── server.js            # Entry point: middleware, rotte, avvio server
