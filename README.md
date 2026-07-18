@@ -110,7 +110,11 @@ script disponibili:
 | npm run build | Compila la SPA per la produzione nella cartella dist/ |
 | npm run preview | Serve in locale la build di produzione, per un'anteprima |
 
-##6. Documentazione API (Swagger)
+##6. Credenziali per l'accesso
+- email: cliente@unishelf.it, password: Cliente#2026
+- email: admin@unishelf.it, password: Admin#2026
+
+##7. Documentazione API (Swagger)
 
 Con il backend avviato, la documentazione è disponibile su:
 http://localhost:4000/api/v1/docs
