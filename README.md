@@ -5,7 +5,7 @@ UniShelf è SPA (Single Page Application) che permette agli studenti di acquista
 Gli utenti possono sfogliare il catalogo, cercare e filtrare per categoria, aggiungere libri al carrello ed effettuare ordini. 
 L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) e lo stato degli ordini da una dashboard dedicata.
 
-##Stack Tecnologico 
+##1. Stack Tecnologico 
 | Layer | Technology | Role |
 |---|---|---|
 | **Frontend** | React + React Router | Interfaccia utente (SPA) |
@@ -17,3 +17,47 @@ L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) 
 | | Socket.IO | Comunicazione in tempo reale |
 | | swagger-jsdoc + swagger-ui-express | Documentazione API interattiva |
 | **Database** | MongoDB | Persistenza dei dati (NoSQL) |
+
+##2. Struttura del progetto
+unishelf/
+├── backend/                     # API REST (Node.js + Express)
+│   ├── src/
+│   │   ├── server.js            # Entry point: middleware, rotte, avvio server
+│   │   ├── swagger.js           # Specifica OpenAPI per Swagger UI
+│   │   ├── seed.js              # Popola il database con dati di prova
+│   │   ├── config/
+│   │   │   └── db.js            # Connessione a MongoDB
+│   │   ├── sockets/
+│   │   │   └── index.js         # Gestione eventi Socket.IO
+│   │   ├── models/              # Schemi Mongoose
+│   │   │   ├── User.js
+│   │   │   ├── Book.js
+│   │   │   └── Order.js
+│   │   ├── controllers/         # Controller
+│   │   │   ├── auth.controller.js
+│   │   │   ├── book.controller.js
+│   │   │   └── order.controller.js
+│   │   ├── routes/               # Definizione degli endpoint delle api
+│   │   │   ├── auth.routes.js
+│   │   │   ├── book.routes.js
+│   │   │   └── order.routes.js
+│   │   └── middleware/
+│   │       └── auth.js          # Verifica del token JWT
+│   ├── test/
+│   │   └── integration.mjs      # Test end-to-end automatici
+│   ├── package.json
+│
+└── frontend/                    # SPA (React + Vite)
+    ├── src/
+    │   ├── App.jsx               # Routing e layout principale
+    │   ├── index.jsx             # Entry point React 
+    │   ├── App.css
+    │   ├── context/
+    │   │   └── AuthContext.jsx   # Stato globale di autenticazione
+    │   ├── services/
+    │   │   └── api.js            # Richieste HTTP verso il backend
+    │   ├── utils/
+    │   │   └── cart.js           # Gestione carrello in localStorage
+    │   ├── pages/                # Pagine (HomePage, LoginPage, BookDetailPage, CartPage, ProfilePage, DashboardPage)
+    │   └── components/           # Componenti riusabili (Header, Menu, BookCard, FilterBar)
+    └── package.json
