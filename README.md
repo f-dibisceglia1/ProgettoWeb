@@ -86,8 +86,7 @@ Nella cartella backend/, creare un file .env
 
 ```bash
 cd backend
-# 1. Installa le dipendenze
-npm install
+npm install # Installa le dipendenze
 ```
 script disponibili: 
 | Comandi | Descrizione |
@@ -100,8 +99,7 @@ script disponibili:
 ##5. Avvio del frontend
 ```bash
 cd frontend
-# 1. Installa le dipendenze
-npm install
+npm install # Installa le dipendenze
 ```
 
 script disponibili: 
