@@ -1,8 +1,5 @@
 // Script di "seed": popola il database con un utente amministratore e un
 // catalogo di libri usati d'esempio. Si esegue con:  npm run seed
-//
-// E' utile per avere subito dati con cui provare l'applicazione (e per la
-// commissione d'esame che testera' le funzionalita').
 require('dotenv').config();
 const mongoose = require ('mongoose');
 const { connectDB } = require ('./config/db.js');
@@ -106,12 +103,12 @@ const sampleBooks = [
 async function run() {
   await connectDB(process.env.MONGODB_URI);
 
-  // Puliamo le collezioni per ripartire da uno stato noto.
+  // Pulisce le collezioni per ripartire da uno stato noto.
   await Promise.all([User.deleteMany({}), Book.deleteMany({}), Order.deleteMany({})]);
   console.log('[seed] collezioni svuotate');
 
-  // Creiamo l'utente amministratore.
-  const adminEmail = process.env.ADMIN_EMAIL || 'admin@nexumshop.it';
+  // Crea l'utente amministratore.
+  const adminEmail = process.env.ADMIN_EMAIL || 'admin@unishelf.it';
   const adminPassword = process.env.ADMIN_PASSWORD || 'Admin#2026!';
   const passwordHash = await User.hashPassword(adminPassword);
   await User.create({
@@ -122,17 +119,17 @@ async function run() {
   });
   console.log(`[seed] admin creato: ${adminEmail} / ${adminPassword}`);
 
-  // Creiamo un cliente di prova.
+  // Cre un cliente di prova.
   const customerHash = await User.hashPassword('Cliente#2026!');
   await User.create({
     name: 'Cliente Demo',
-    email: 'cliente@nexumshop.it',
+    email: 'cliente@unishelf.it',
     passwordHash: customerHash,
     role: 'customer',
   });
-  console.log('[seed] cliente di prova creato: cliente@nexumshop.it / Cliente#2026!');
+  console.log('[seed] cliente di prova creato: cliente@unishelf.it / Cliente#2026!');
 
-  // Inseriamo i libri.
+  // Inserisce i libri.
   await Book.insertMany(sampleBooks);
   console.log(`[seed] ${sampleBooks.length} libri inseriti`);
 

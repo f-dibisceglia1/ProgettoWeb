@@ -1,7 +1,7 @@
 {
-  "name": "nexum-shop-backend",
+  "name": "unishelf-backend",
   "version": "1.0.0",
-  "description": "Backend Express dell'e-commerce Nexum Shop (progetto Fondamenti del Web)",
+  "description": "Backend Express dell'e-commerce Unishelf (progetto Fondamenti del Web)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

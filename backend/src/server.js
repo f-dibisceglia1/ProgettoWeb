@@ -1,5 +1,5 @@
 // Punto di ingresso del backend.
-// Qui mettiamo insieme tutti i pezzi: Express (API REST), il server HTTP,
+// Qui abbiamo: Express (API REST), il server HTTP,
 // Socket.IO (real-time), la connessione al database e Swagger.
 require('dotenv').config();
 const express = require('express');
@@ -18,7 +18,7 @@ const orderRoutes = require('./routes/order.routes.js');
 
 const PORT = process.env.PORT || 4000;
 const CLIENT_ORIGIN = process.env.CLIENT_ORIGIN || 'http://localhost:5173';
-// Percorso pubblico ("/" in sviluppo, "/nexumshop" in produzione).
+// Percorso pubblico ("/" in sviluppo, "/unishelf" in produzione).
 const PUBLIC_PATH = (process.env.PUBLIC_PATH || '/').replace(/\/$/, ''); // senza slash finale
 
 const app = express();
@@ -47,7 +47,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/books', bookRoutes);
 app.use('/api/v1/orders', orderRoutes);
 
-// Documentazione Swagger interattiva.
+// Documentazione Swagger 
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Endpoint di "salute" per verificare che il server risponda.
@@ -55,7 +55,6 @@ app.get('/api/v1/health', (req, res) => res.json({ status: 'ok' }));
 
 // --- Gestione errori centralizzata ---------------------------------------
 // Se un controller (async) lancia un'eccezione, Express la passa qui.
-// Nota: con Express 5 le funzioni async sono gestite automaticamente.
 app.use((err, req, res, next) => {
   console.error('[errore]', err.message);
   res.status(500).json({ message: 'Errore interno del server.' });

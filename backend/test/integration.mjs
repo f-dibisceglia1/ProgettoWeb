@@ -50,7 +50,7 @@ let server;
 try {
   console.log('\n[1] Avvio MongoDB in memoria...');
   mongod = await MongoMemoryServer.create();
-  const uri = mongod.getUri('nexumshop');
+  const uri = mongod.getUri('unishelf');
   const env = { ...process.env, MONGODB_URI: uri, JWT_SECRET: 'test-secret', PORT: String(PORT), NODE_ENV: 'development' };
   console.log('    MongoDB pronto.');
 
@@ -79,7 +79,7 @@ try {
   res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'admin@nexumshop.it', password: 'Admin#2026!' }),
+    body: JSON.stringify({ email: 'admin@unishelf.it', password: 'Admin#2026!' }),
   });
   const adminData = await res.json();
   const adminCookie = getCookie(res);
@@ -89,7 +89,7 @@ try {
   // /auth/me con cookie
   res = await fetch(`${API}/auth/me`, { headers: { Cookie: adminCookie } });
   const meData = await res.json();
-  check('GET /auth/me riconosce la sessione', res.status === 200 && meData.user.email === 'admin@nexumshop.it');
+  check('GET /auth/me riconosce la sessione', res.status === 200 && meData.user.email === 'admin@unishelf.it');
 
   // /auth/me senza cookie -> 401
   res = await fetch(`${API}/auth/me`);
@@ -99,7 +99,7 @@ try {
   res = await fetch(`${API}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'cliente@nexumshop.it', password: 'Cliente#2026!' }),
+    body: JSON.stringify({ email: 'cliente@unishelf.it', password: 'Cliente#2026!' }),
   });
   const customerCookie = getCookie(res);
   check('Login cliente riuscito', res.status === 200);

@@ -53,7 +53,7 @@ router.post('/register', register);
  *             type: object
  *             required: [email, password]
  *             properties:
- *               email: { type: string, example: admin@nexumshop.it }
+ *               email: { type: string, example: admin@unishelf.it }
  *               password: { type: string, example: Admin#2026! }
  *     responses:
  *       200: { description: Login riuscito }
