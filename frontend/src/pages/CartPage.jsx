@@ -7,7 +7,6 @@ import { getCart } from "../utils/cart.js";
 import { toggleCart } from "../utils/cart.js";
 
 import { createOrder } from "../services/api";
-import { getBook } from "../services/api";
 import { listBooks } from "../services/api";
 
 import BookCard from "../components/BookCard.jsx";
@@ -16,9 +15,6 @@ import BookCard from "../components/BookCard.jsx";
 export default function CartPage(){
     const navigate = useNavigate();
     const {user} = useAuth();
-
-    const cartIds = getCart();
-    //array degli id dei libri nel carrello
 
     const [cartBooks, setCartBooks] = useState([]);
     //variabile di stato per registrare quali libri sono nel carrello

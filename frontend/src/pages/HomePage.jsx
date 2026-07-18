@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import BookCard from "../components/BookCard";
 import FilterBar from "../components/FilterBar";
 

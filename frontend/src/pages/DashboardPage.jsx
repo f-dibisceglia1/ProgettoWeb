@@ -109,7 +109,7 @@ export default function DashboardPage(){
     }, [search]);
 
 
-    //funzione per eliminare libri dal catalogo (available = false)
+    //funzione per eliminare libri dal catalogo
     async function handleDelete(id) {
         setError("");
 
