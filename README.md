@@ -79,3 +79,18 @@ Nella cartella backend/, creare un file .env
 | ADMIN_EMAIL | Email dell'amministratore creato dal seed | admin@unishelf.it |
 | ADMIN_PASSWORD | Password dell'amministratore creato dal seed | una password sicura |
 
+##4. Avvio del backend
+
+```bash
+cd backend
+# 1. Installa le dipendenze
+npm install
+```
+script disponibili: 
+|---|---|
+| npm start | Avvia il server con node src/server.js |
+| npm run dev | Avvia con auto-restart ad ogni modifica  |
+| npm run seed | Svuota e ripopola il database con utenti e libri di prova |
+| npm test | Esegue i test di integrazione end-to-end |
+
+
