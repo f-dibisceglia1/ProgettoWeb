@@ -63,3 +63,18 @@ unishelf/
     │   └── components/           # Componenti riusabili (Header, Menu, BookCard, FilterBar)
     └── package.json
 ```
+##3. Variabili d'ambiente
+Nella cartella backend/, creare un file .env
+
+| Variabile | Descrizione | Esempio |
+|---|---|---|
+| PORT | Porta su cui ascolta il backend | 4000 |
+| MONGODB_URI | Stringa di connessione a MongoDB Atlas | mongodb+srv://utente:password@cluster.mongodb.net/unishelf |
+| JWT_SECRET | Chiave segreta per firmare i token JWT | una stringa lunga e casuale |
+| JWT_EXPIRES_IN | Durata del token di sessione | 1h |
+| CLIENT_ORIGIN | Origine consentita per il frontend (CORS) | [4000](http://localhost:5173) |
+| PUBLIC_PATH | Percorso pubblico dell'app (per deploy sotto sottocartella) | / |
+| NODE_ENV | Ambiente di esecuzione | development |
+| ADMIN_EMAIL | Email dell'amministratore creato dal seed | admin@unishelf.it |
+| ADMIN_PASSWORD | Password dell'amministratore creato dal seed | una password sicura |
+
