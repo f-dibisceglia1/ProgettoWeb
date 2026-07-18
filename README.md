@@ -1,11 +1,11 @@
-#UniShelf — Libreria online di libri universitari usati
+#**UniShelf — Libreria online di libri universitari usati**
 
 Progetto realizzato per l'esame di Fondamenti del Web (Politecnico di Bari, A.A. 2025/2026).
 UniShelf è una SPA (Single Page Application) che permette agli studenti di acquistare libri universitari usati. 
 Gli utenti possono sfogliare il catalogo, cercare e filtrare per categoria, aggiungere libri al carrello ed effettuare ordini. 
 L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) e lo stato degli ordini da una dashboard dedicata.
 
-##1. Stack Tecnologico 
+##**1. Stack Tecnologico**
 | Layer | Technology | Role |
 |---|---|---|
 | **Frontend** | React + React Router | Interfaccia utente (SPA) |
@@ -18,7 +18,7 @@ L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) 
 | | swagger-jsdoc + swagger-ui-express | Documentazione API interattiva |
 | **Database** | MongoDB | Persistenza dei dati (NoSQL) |
 
-##2. Struttura del progetto
+##**2. Struttura del progetto**
 ```
 ProgettoWeb/
 ├── .gitignore                   # File/cartelle esclusi dal repository (.env, node_modules, ...)
@@ -66,7 +66,7 @@ ProgettoWeb/
     │   └── components/           # Componenti riusabili (Header, Menu, BookCard, FilterBar)
     └── package.json
 ```
-##3. Variabili d'ambiente
+##**3. Variabili d'ambiente**
 
 Nella cartella backend/, creare un file .env
 
@@ -82,7 +82,7 @@ Nella cartella backend/, creare un file .env
 | ADMIN_EMAIL | Email dell'amministratore creato dal seed | admin@unishelf.it |
 | ADMIN_PASSWORD | Password dell'amministratore creato dal seed | una password sicura |
 
-##4. Avvio del backend
+##**4. Avvio del backend**
 
 ```bash
 cd backend
@@ -96,7 +96,7 @@ script disponibili:
 | npm run seed | Svuota e ripopola il database con utenti e libri di prova |
 | npm test | Esegue i test di integrazione end-to-end |
 
-##5. Avvio del frontend
+##**5. Avvio del frontend**
 ```bash
 cd frontend
 npm install # Installa le dipendenze
@@ -110,11 +110,11 @@ script disponibili:
 | npm run build | Compila la SPA per la produzione nella cartella dist/ |
 | npm run preview | Serve in locale la build di produzione, per un'anteprima |
 
-##6. Credenziali per l'accesso
+##**6. Credenziali per l'accesso**
 - email: cliente@unishelf.it, password: Cliente#2026
 - email: admin@unishelf.it, password: Admin#2026
 
-##7. Documentazione API (Swagger)
+##**7. Documentazione API (Swagger)**
 
 Con il backend avviato, la documentazione è disponibile su:
 http://localhost:4000/api/v1/docs
