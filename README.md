@@ -20,7 +20,7 @@ L'amministratore gestisce il catalogo (aggiunta, modifica, rimozione dei libri) 
 
 ##2. Struttura del progetto
 ```
-unishelf/
+ProgettoWeb/
 ├── backend/                     # API REST (Node.js + Express)
 │   ├── src/
 │   │   ├── server.js            # Entry point: middleware, rotte, avvio server
