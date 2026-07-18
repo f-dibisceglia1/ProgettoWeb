@@ -109,3 +109,8 @@ script disponibili:
 | npm run build | Compila la SPA per la produzione nella cartella dist/ |
 | npm run preview | Serve in locale la build di produzione, per un'anteprima |
 
+##6. Documentazione API (Swagger)
+
+Con il backend avviato, la documentazione è disponibile su:
+http://localhost:4000/api/v1/docs
+
