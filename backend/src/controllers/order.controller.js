@@ -11,7 +11,7 @@ const Book = require('../models/Book.js');
 const Order = require('../models/Order.js');
 
 // POST /api/v1/orders  (cliente) -> crea un ordine a partire dal carrello.
-// Il corpo atteso e': { items: [{ booksId }], shippingAddress }
+// Il corpo atteso e': { items: [{ bookId }], shippingAddress }
 async function createOrder(req, res) {
   const { items, shippingAddress } = req.body;
   if (!Array.isArray(items) || items.length === 0) {

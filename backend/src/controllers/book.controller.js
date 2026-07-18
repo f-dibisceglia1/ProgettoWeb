@@ -1,10 +1,10 @@
 // Controller dei libri.
 // - Le rotte di lettura (lista, dettaglio) sono pubbliche.
 // - Le rotte di scrittura (crea, modifica, elimina) sono riservate all'admin.
-//
-// Quando lo stock cambia, emettiamo un evento Socket.IO "stock:update" cosi'
-// che TUTTI i client connessi vedano la disponibilita' aggiornata in tempo
-// reale, senza ricaricare la pagina.
+// Quando la disponibilita' di un libro cambia, viene emesso un evento
+// Socket.IO ("book:update" o "book:created") cosi' che TUTTI i client
+// connessi vedano il catalogo aggiornato in tempo reale, senza ricaricare
+// la pagina.
 const Book = require('../models/Book.js');
 
 // GET /api/v1/books  -> lista catalogo (con filtro opzionale per categoria/ricerca)
@@ -21,7 +21,7 @@ async function listBooks(req, res) {
   res.json(books);
 }
 
-// GET /api/v1/book/:id -> dettaglio di un singolo prodotto
+// GET /api/v1/books/:id -> dettaglio di un singolo prodotto
 async function getBook(req, res) {
   const book = await Book.findById(req.params.id);
   if (!book) {

@@ -8,6 +8,7 @@
 //     il middleware requireAuth lo verifica.
 const jwt = require('jsonwebtoken'); 
 const User = require('../models/User.js');
+const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
 
 // Crea il token JWT a partire dall'utente.
@@ -15,7 +16,7 @@ function signToken(user) {
   return jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: '1h' }
+    { expiresIn: JWT_EXPIRES_IN }
   );
 }
 
@@ -24,7 +25,7 @@ function setTokenCookie(res, token) {
   res.cookie('token', token, {
     httpOnly: true, // non accessibile da document.cookie -> anti-XSS
     sameSite: 'strict', // mitigazione CSRF per richieste cross-site
-    secure: true,
+    secure: process.env.NODE_ENV === 'production',
     path: '/', 
     maxAge: 60 * 60 * 1000, // 1 ora in millisecondi
   });

@@ -43,15 +43,15 @@ registerSocketHandlers(io);
 app.set('io', io);
 
 // --- Rotte API ------------------------------------------------------------
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/books', bookRoutes);
-app.use('/api/v1/orders', orderRoutes);
+app.use(`${PUBLIC_PATH}/api/v1/auth`, authRoutes); 
+app.use(`${PUBLIC_PATH}/api/v1/books`, bookRoutes);
+app.use(`${PUBLIC_PATH}/api/v1/orders`, orderRoutes);
 
 // Documentazione Swagger 
-app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use(`${PUBLIC_PATH}/api/v1/docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Endpoint di "salute" per verificare che il server risponda.
-app.get('/api/v1/health', (req, res) => res.json({ status: 'ok' }));
+app.get(`${PUBLIC_PATH}/api/v1/health`, (req, res) => res.json({ status: 'ok' }));
 
 // --- Gestione errori centralizzata ---------------------------------------
 // Se un controller (async) lancia un'eccezione, Express la passa qui.
@@ -65,7 +65,7 @@ async function start() {
   await connectDB(process.env.MONGODB_URI);
   server.listen(PORT, () => {
     console.log(`[server] in ascolto su http://localhost:${PORT}`);
-    console.log(`[server] Swagger su http://localhost:${PORT}/api/v1/docs`);
+    console.log(`[server] Swagger su http://localhost:${PORT}${PUBLIC_PATH}/api/v1/docs`);
   });
 }
 

@@ -148,7 +148,7 @@ try {
   check('Libro segnato come non disponibile dopo l acquisto', updated.available === false);
 
   await sleep(400); // tempo di propagazione degli eventi
-  check('Evento book:update ricevuto dal client', gotBookUpdate && gotBookUpdate.bookId === book._id && gotBookUpdate.available === false);
+  check('Evento book:update ricevuto dal client', gotBookUpdate && gotBookUpdate._id === book._id && gotBookUpdate.available === false);
   check('Evento order:new ricevuto dall admin', gotOrderNew && gotOrderNew.total === order.total);
 
   // Libro gia venduto -> 409
