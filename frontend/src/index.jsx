@@ -8,6 +8,8 @@ import {BrowserRouter} from "react-router-dom";
 import App from './App';
 import './App.css';
 
+import { AuthProvider } from "./context/AuthContext";
+
 
 //Il metodo ReactDOM.createRoot crea una root per l'applicazione React e 
 //accetta come parametro un elemento del DOM. In questo caso il div con id
@@ -22,7 +24,9 @@ import './App.css';
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <BrowserRouter>
-        <App />
+          <AuthProvider>
+             <App />
+          </AuthProvider>
         </BrowserRouter>
     </React.StrictMode>
 )

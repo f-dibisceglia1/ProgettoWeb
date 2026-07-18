@@ -12,8 +12,12 @@ export default defineConfig({
         port: 5173,
 
         proxy: {
-           "/api": "http://localhost:3000",
-           "/assets": "http://localhost:3000"
+           "/api": "http://localhost:4000",
+           "/assets": "http://localhost:4000",
+            "/socket.io": {
+            target: "http://localhost:4000",
+            ws: true, // dice a vite di fare proxy anche per i websocket
+            }
         },
     }
 })

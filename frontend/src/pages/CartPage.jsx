@@ -1,51 +1,127 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {getCart} from "../utils/cart.js";
-import ProductCard from "../components/ProductCard.jsx";
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext.jsx";
+
+import { getCart } from "../utils/cart.js";
+import { toggleCart } from "../utils/cart.js";
+
+import { createOrder } from "../services/api";
+import { listBooks } from "../services/api";
+
+import BookCard from "../components/BookCard.jsx";
 
 
-export default function CartPage({mockProducts}){
-    const cartIds = getCart();
-    //array degli id dei prodotti nel carrello
+export default function CartPage(){
+    const navigate = useNavigate();
+    const {user} = useAuth();
 
-    const [cartProducts, setCartProducts] = useState(() => {
-        return mockProducts.filter(product => cartIds.includes(String(product.id)));
-    });
-    //variabile di stato per registrare quali prodotti sono nel carrello
-    //(deve essere possibile eliminare i prodotti dal carrello anche dalla CartPage)
-    //a useState è passata una callback che restituisce un array con i prodotti nel carrello
+    const [cartBooks, setCartBooks] = useState([]);
+    //variabile di stato per registrare quali libri sono nel carrello
 
-    const[myForm, setMyForm] = useState({name:"", address: "", cap: "", payment: "cash", cardNumber: ""});
+    const[myForm, setMyForm] = useState({name: "", address: user?.address?.street || "", city: user?.address?.city || "", cap: user?.address?.zip || "", payment: "cash", cardNumber: ""});
     //variabile di stato per i campi del form: in react il valore dei form viene mantenuto 
     //all'interno di uno stato => Single Source of Truth.
+    
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
     function handleChange(e){
        setMyForm({...myForm, [e.target.name]: e.target.value})
+       //copia myForm e sovrascrive solo la proprietà interessata
     }
 
-    const subtotal = cartProducts.reduce((sum, product) => sum + product.price, 0);
-    const shipmentCost = 4.90;
+    //alcuni componenti hanno necessità di sincronizzazione con sistemi esterni 
+    //(ad esempio con un server per ricevere dati o inviare un log) 
+    //quando il componente appare sullo schermo 
+    //gli Effect permettono di eseguire codice subito dopo il primo 
+    //rendering e dopo il re-rendering relativo ad alcune dipendenze
+    //cioè useEffect(callback, dependencies) dice a React di
+    //eseguire la callback dopo il render e di rieseguirla solo se uno 
+    //dei valori nell'array dependencies è cambiato rispetto all'ultima volta
+    useEffect(() => {
+        async function fetchCartBooks(){
+            setLoading(true);
+            setError("");
+            
+            const cartIds = getCart();
+            //recupera dal local storage gli id di ogni libro nel carrello
+            if(cartIds.length === 0){
+                setCartBooks([]);
+                //se non ci sono libri nel carrello cartBooks è un array vuoto
+                return;
+                //e non fa la fetch
+            }
+
+            try{
+                const allBooks = await listBooks();
+                //recupera tutti i libri dal server
+                const filteredBooks = allBooks.filter(book => cartIds.includes(book._id));
+                //estrae solo i libri che sono nel carrello
+                setCartBooks(filteredBooks);
+            }catch(err){
+                setError(err.message);
+            }finally{
+                setLoading(false);
+            }
+        }
+        fetchCartBooks();
+    }, []);
+
+
+    //funzioni per calcolare il totale 
+    const subtotal = cartBooks.reduce((acc, book) => acc + book.price, 0);
+    const shipmentCost = subtotal > 0 ? 5 : 0;
     const total = subtotal + shipmentCost;
-    //subtotale e totale dei prodotti nel carrello
     
 
     //funzione per aggiornare lo stato cartProducts quando si clicca il bottone
-    const handleCartProducts = (productId) => {
-        setCartProducts(prev => 
-            prev.filter(product => product.id !== productId)
+    const handleCartBooks = (bookId) => {
+        setCartBooks(prev => 
+            prev.filter(book => book._id !== bookId)
             //lascia in cartProducts solo i prodotti con id diverso dal prodotto
             //che si vuole rimuovere, quindi si aggiorna lo stato cartProducts
         );
     };
+
+
+    //funzione per effettuare l'"acquisto" e creare l'ordine
+     async function handleSubmit(e) {
+        e.preventDefault();
+        setError("");
+        
+        try {
+            const items = cartBooks.map(book => ({ bookId: book._id }));
+            //crea un array items contenente i libri nel carrello
+            const shippingAddress = {
+                street: myForm.address,
+                city: myForm.city,
+                zip: myForm.cap,
+            };
+            //crea un oggetto shippingAddress utilizzando le informazioni
+            //di spedizione inserite nel form
+            await createOrder(items, shippingAddress);
+            //crea l'ordine 
+
+            
+            cartBooks.forEach(book => toggleCart(book._id));
+            //svuota il local storage dopo l'acquisto riuscito
+            navigate("/");
+            //torna alla HomePage
+        } catch (err) {
+            setError(err.message);
+        }
+    }
 
     return (
         <>
         <h1 className="cart__title">Carrello</h1>
         <div className="cart__container">
              <div className="cart-products__container">
-                 {cartProducts.map(product => (
+                 {loading && <p className="empty-state">Caricamento...</p>}
+                 {!loading && cartBooks.map(book=> (
                  //fa il rendering solo dei prodotti in cartProducts    
-                    <ProductCard key={product.id} product={product} isCart={true} onCartChange={() => handleCartProducts(product.id)} />
+                    <BookCard key={book._id} book={book} isCart={true} onCartChange={() => handleCartBooks(book._id)} />
                     //non c'è bisogno di mettere di nuovo onClick, perché è già definito nel componente
                     //quindi quando si clicca su Rimuovi dal carrello viene eseguita handleCart che fa tre cose:
                     //1. rimuove il prodotto da localStorage
@@ -55,7 +131,7 @@ export default function CartPage({mockProducts}){
                 ))}            
             </div>
             <div className="cart__shipment-info">
-                <form className="cart__form">
+                <form className="cart__form" onSubmit = {handleSubmit}>
                     <div className="cart__form-field">
                         <label htmlFor="shipment-name">Nome e cognome</label>
                         <input type="text" id="shipment-name" name="name" value={myForm.name} onChange={handleChange} required/>
@@ -63,6 +139,10 @@ export default function CartPage({mockProducts}){
                     <div className="cart__form-field">
                         <label htmlFor="shipment-address">Indirizzo di spedizione</label>
                         <input type="text" id="shipment-address" name="address" value={myForm.address} onChange={handleChange} required/>
+                    </div>
+                    <div className="cart__form-field">
+                        <label htmlFor="shipment-city">Città</label>
+                        <input type="text" id="shipment-city" name="city" value={myForm.city} onChange={handleChange} required/>
                     </div>
                     <div className="cart__form-field">
                         <label htmlFor="shipment-cap">CAP</label>
@@ -94,7 +174,8 @@ export default function CartPage({mockProducts}){
                         <br />
                         Totale: {total.toFixed(2)} €
                     </p>
-                <button type="submit" id="cart__form-btn">Acquista</button>
+                    {error && <p className="cart__error">{error}</p>}
+                <button type="submit" id="cart__form-btn" disabled = {cartBooks.length === 0}>Acquista</button>
                 </form>
             </div>
         </div>
