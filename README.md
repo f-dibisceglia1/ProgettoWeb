@@ -51,6 +51,7 @@ ProgettoWeb/
 │   ├── package.json
 │
 └── frontend/                    # SPA (React + Vite)
+    ├── public/                   # Asset statici serviti direttamente
     ├── src/
     │   ├── App.jsx               # Routing e layout principale
     │   ├── index.jsx             # Entry point React 
