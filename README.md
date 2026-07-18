@@ -64,6 +64,7 @@ unishelf/
     └── package.json
 ```
 ##3. Variabili d'ambiente
+
 Nella cartella backend/, creare un file .env
 
 | Variabile | Descrizione | Esempio |
