@@ -94,4 +94,18 @@ script disponibili:
 | npm run seed | Svuota e ripopola il database con utenti e libri di prova |
 | npm test | Esegue i test di integrazione end-to-end |
 
+##5. Avvio del frontend
+```bash
+cd frontend
+# 1. Installa le dipendenze
+npm install
+```
+
+script disponibili: 
+| Comandi | Descrizione |
+|---|---|
+| npm run dev | Avvia il dev server di Vite sulla porta 5173  |
+| npm start | avvia il dev server allo stesso modo di npm run dev |
+| npm run build | Compila la SPA per la produzione nella cartella dist/ |
+| npm run preview | Serve in locale la build di produzione, per un'anteprima |
 
