@@ -146,18 +146,6 @@ Le variabili d'ambiente non vengono salvate nel repository perché il file `.env
 
 Nella cartella `backend/` creare un file denominato `.env`:
 
-```env
-PORT=4000
-MONGODB_URI=mongodb+srv://utente:password@cluster.mongodb.net/unishelf
-JWT_SECRET=una_chiave_segreta_lunga_e_casuale
-JWT_EXPIRES_IN=1h
-CLIENT_ORIGIN=http://localhost:5173
-PUBLIC_PATH=/
-NODE_ENV=development
-ADMIN_EMAIL=admin@unishelf.it
-ADMIN_PASSWORD=una_password_sicura
-```
-
 | Variabile | Descrizione | Esempio |
 |---|---|---|
 | `PORT` | Porta sulla quale viene avviato il backend | `4000` |
