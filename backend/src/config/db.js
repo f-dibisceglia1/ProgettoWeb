@@ -11,7 +11,7 @@ async function connectDB(uri) {
   }
 
   // Con strictQuery a true, Mongoose ignora i campi non dichiarati nello schema
-  // durante le query: comportamento prevedibile e "scolastico".
+  // durante le query
   mongoose.set('strictQuery', true);
 
   await mongoose.connect(uri);

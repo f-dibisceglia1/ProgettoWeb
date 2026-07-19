@@ -56,11 +56,15 @@ export default function App(){
         const socket = io("/", { path: "/socket.io" });
 
         socket.on("book:update", (updatedBook) => {
-          setBooks(prev => {
-            if (!updatedBook.available) {
-            //se non più disponibile lo toglie dal catalogo 
-                return prev.filter(book => book._id !== updatedBook._id);
-            }
+            //1. Un libro del catalogo non è più disponibile
+            setBooks(prev => {
+                if (!updatedBook.available) {
+                //se non più disponibile lo toglie dal catalogo 
+                   return prev.filter(book => book._id !== updatedBook._id);
+                }
+
+           //2. Un libro del catalogo è stato aggiornato
+
            //se il libro e' ancora disponibile ed è nella lista books attuale     
            //.filter() scorre tutto l'array e restituisce un nuovo array
            //contenente solo gli elementi che soddisfano la condizione 
@@ -75,18 +79,19 @@ export default function App(){
               //lo sostituisce con la nuova versione (updatedBook) 
               //altrimenti lo lascia invariato
             }
-
+           
+           //3. Un libro è tornato disponibile
            return [updatedBook, ...prev];
             //se il libro non era nella lista attuale (era stato rimosso
             //poi e' tornato disponibile) lo aggiunge in cima 
           });
-});
+        });
 
-    socket.on("book:created", (newBook) => {
-        setBooks(prev => [newBook, ...prev]);
-        //aggiunge il libro appena creato in cima alla lista
-        //senza rifare la fetch
-    });
+        socket.on("book:created", (newBook) => {
+            setBooks(prev => [newBook, ...prev]);
+            //aggiunge il libro appena creato in cima alla lista
+            //senza rifare la fetch
+        });
 
         return () => {
             socket.disconnect();
