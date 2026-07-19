@@ -53,8 +53,12 @@ export default function App(){
 
     
     useEffect(() => {
-        const socket = io("/", { path: "/socket.io" });
+       const socketUrl = import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/, "");
 
+const socket = io(socketUrl, {
+    path: "/socket.io",
+    withCredentials: true
+});
         socket.on("book:update", (updatedBook) => {
           setBooks(prev => {
             if (!updatedBook.available) {
