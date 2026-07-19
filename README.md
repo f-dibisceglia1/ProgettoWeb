@@ -410,5 +410,5 @@ Socket.IO viene utilizzato per gli aggiornamenti in tempo reale tra server e cli
 ---
 
 ## **11. Autori**
-
+Alessandro Fumai , Federica Dibisceglia e Roberto infantino
 Progetto realizzato per l'esame di **Fondamenti del Web**, A.A. 2025/2026.
