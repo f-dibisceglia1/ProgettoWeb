@@ -22,13 +22,15 @@ function signToken(user) {
 
 // Imposta il cookie httpOnly con il token.
 function setTokenCookie(res, token) {
-  res.cookie('token', token, {
-    httpOnly: true, // non accessibile da document.cookie -> anti-XSS
-    sameSite: 'strict', // mitigazione CSRF per richieste cross-site
-    secure: process.env.NODE_ENV === 'production',
-    path: '/', 
-    maxAge: 60 * 60 * 1000, // 1 ora in millisecondi
-  });
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: isProduction ? 'none' : 'lax',
+        secure: isProduction,
+        path: '/',
+        maxAge: 60 * 60 * 1000,
+    });
 }
 
 // POST /api/v1/auth/register
@@ -80,8 +82,16 @@ async function login(req, res) {
 
 // POST /api/v1/auth/logout
 async function logout(req, res) {
-  res.clearCookie('token');
-  res.json({ message: 'Logout effettuato.' });
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.clearCookie('token', {
+        httpOnly: true,
+        sameSite: isProduction ? 'none' : 'lax',
+        secure: isProduction,
+        path: '/',
+    });
+
+    res.json({ message: 'Logout effettuato.' });
 }
 
 // GET /api/v1/auth/me  (rotta protetta)
