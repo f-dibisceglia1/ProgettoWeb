@@ -202,6 +202,7 @@ http://localhost:4000
 | `npm start` | Avvia il server con `node src/server.js` |
 | `npm run dev` | Avvia il server in modalità sviluppo con riavvio automatico |
 | `npm run seed` | Svuota e ripopola il database con utenti e libri di prova |
+
 > Attenzione: il comando `npm run seed` elimina i dati presenti nelle collezioni interessate e inserisce nuovamente i dati di prova.
 
 ---
