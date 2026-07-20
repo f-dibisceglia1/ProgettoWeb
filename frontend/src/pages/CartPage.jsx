@@ -49,6 +49,7 @@ export default function CartPage(){
             if(cartIds.length === 0){
                 setCartBooks([]);
                 //se non ci sono libri nel carrello cartBooks è un array vuoto
+                setLoading(false);
                 return;
                 //e non fa la fetch
             }
@@ -119,6 +120,7 @@ export default function CartPage(){
         <div className="cart__container">
              <div className="cart-products__container">
                  {loading && <p className="empty-state">Caricamento...</p>}
+                 {!loading && cartBooks.length === 0 && <p>Il carrello è vuoto.</p>}
                  {!loading && cartBooks.map(book=> (
                  //fa il rendering solo dei prodotti in cartProducts    
                     <BookCard key={book._id} book={book} isCart={true} onCartChange={() => handleCartBooks(book._id)} />

@@ -17,6 +17,7 @@ async function requireAuth(req, res, next) {
     }
 
     // jwt.verify lancia un'eccezione se il token e' scaduto o manomesso.
+    // se lo è l'errore è catturato dal catch
     const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findById(payload.id);

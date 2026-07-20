@@ -87,6 +87,7 @@ export default function DashboardPage(){
 
             if (!search.trim()) {
                 setBooks([]);
+                setLoading(false);
                 return;
                 //se search è vuota books è una stringa vuota
                 //non procede con la fetch
