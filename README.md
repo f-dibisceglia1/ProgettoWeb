@@ -108,8 +108,6 @@ ProgettoWeb/
 │   │   └── middleware/
 │   │       └── auth.js          # Autenticazione e autorizzazione
 │   │
-│   ├── test/
-│   │   └── integration.mjs      # Test di integrazione end-to-end
 │   │
 │   └── package.json
 │
@@ -204,7 +202,6 @@ http://localhost:4000
 | `npm start` | Avvia il server con `node src/server.js` |
 | `npm run dev` | Avvia il server in modalità sviluppo con riavvio automatico |
 | `npm run seed` | Svuota e ripopola il database con utenti e libri di prova |
-| `npm test` | Esegue i test di integrazione end-to-end |
 
 > Attenzione: il comando `npm run seed` elimina i dati presenti nelle collezioni interessate e inserisce nuovamente i dati di prova.
 
