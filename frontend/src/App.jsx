@@ -33,6 +33,7 @@ export default function App(){
     //q e setQ sono passati ad Header dove si trova la barra di ricerca.
     const [category, setCategory] = useState("");
     const [error, setError] = useState("");
+    const [booksLoading, setBooksLoading] = useState(true);
     const [books, setBooks] = useState([]); 
     
 
@@ -55,10 +56,10 @@ export default function App(){
     useEffect(() => {
        const socketUrl = import.meta.env.VITE_API_URL.replace(/\/api\/v1\/?$/, "");
 
-const socket = io(socketUrl, {
-    path: "/socket.io",
-    withCredentials: true
-});
+       const socket = io(socketUrl, {
+            path: "/socket.io",
+            withCredentials: true
+       });
         socket.on("book:update", (updatedBook) => {
             //1. Un libro del catalogo non è più disponibile
             setBooks(prev => {
@@ -97,6 +98,10 @@ const socket = io(socketUrl, {
             //senza rifare la fetch
         });
 
+        socket.on("book:deleted", ({ id }) => {
+            setBooks(prev => prev.filter(book => book._id !== id));
+        });
+
         return () => {
             socket.disconnect();
         };
@@ -106,6 +111,7 @@ const socket = io(socketUrl, {
 
     useEffect(() => {
         async function fetchBooks(){
+            setBooksLoading(true);
             setError(""); 
             //resetta eventuali errori precedenti prima di ogni nuova richiesta
             //altrimenti un vecchio messaggio d'errore rimarrebbe visibile 
@@ -120,6 +126,8 @@ const socket = io(socketUrl, {
                 setBooks(data.filter(book => book.available));
             }catch(err){
                 setError(err.message);
+            }finally{
+                setBooksLoading(false);
             }
         }
         fetchBooks();
@@ -165,7 +173,7 @@ const socket = io(socketUrl, {
 
                 {/*il path "/" porta alla HomePage*/}
                 <Route path="/" element={
-                    <HomePage books={books} error={error} category={category} onCategoryChange={setCategory} />
+                    <HomePage books={books} error={error} loading={booksLoading} category={category} onCategoryChange={setCategory} />
                 } />
                 {/*alla HomePage sono passati come props i libri da mostrare, 
                 category e setCategory come category e onCategoryChange perché 

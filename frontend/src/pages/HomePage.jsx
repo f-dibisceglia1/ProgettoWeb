@@ -9,7 +9,7 @@ import FilterBar from "../components/FilterBar";
 //desktop (width > 800px, gestito tramite media query))
 
 
-export default function HomePage({books, error, category, onCategoryChange}){
+export default function HomePage({books, error, loading, category, onCategoryChange}){
 //alla HomePage sono passati da App.jsx come props i libri da mostrare, 
 //category e setCategory come category e onCategoryChange perché 
 //nella HomePage c'è la FilterBar che permette all'utente di 
@@ -24,7 +24,8 @@ export default function HomePage({books, error, category, onCategoryChange}){
              </div>
              <FilterBar category={category} onCategoryChange={onCategoryChange} />
              {/*a FilterBar sono passati come props category e onCategoryChange*/}
-             {error && <p className="home__error">{error}</p>}
+              {loading && <p className="empty-state">Caricamento...</p>}
+             {!loading && error && <p className="home__error">{error}</p>}
              <div className="products__container">
                 {books.map(book => (
                     <BookCard key={book._id} book={book} />
