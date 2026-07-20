@@ -78,6 +78,9 @@ async function deleteBook(req, res) {
   if (!book) {
     return res.status(404).json({ message: 'Libro non trovato.' });
   }
+  const io = req.app.get('io');
+  io.emit('book:deleted', { id: book._id });
+  
   res.json({ message: 'Libro eliminato.' });
 }
 
